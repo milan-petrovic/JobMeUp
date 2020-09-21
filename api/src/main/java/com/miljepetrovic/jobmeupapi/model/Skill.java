@@ -1,6 +1,5 @@
 package com.miljepetrovic.jobmeupapi.model;
 
-
 import java.util.List;
 
 import javax.persistence.Column;
@@ -45,5 +44,14 @@ public class Skill {
 
     public void setEmployees(List<Employee> employees) {
         this.employees = employees;
+    }
+
+    @Override
+    public String toString() {
+        return "Skill{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", employees=" + employees +
+                '}';
     }
 }

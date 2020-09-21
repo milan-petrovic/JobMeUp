@@ -47,4 +47,22 @@ public class EmployeeDto {
     public List<ProjectDto> projects;
 
     public List<EducationDto> educations;
+
+    @Override
+    public String toString() {
+        return "EmployeeDto{" +
+                "id=" + id +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", about='" + about + '\'' +
+                ", category=" + category +
+                ", expectedSalary='" + expectedSalary + '\'' +
+                ", skills=" + skills +
+                ", benefits=" + benefits +
+                ", projects=" + projects +
+                ", educations=" + educations +
+                '}';
+    }
 }

@@ -65,4 +65,15 @@ public class Project {
     public void setEmployee(Employee employee) {
         this.employee = employee;
     }
+
+    @Override
+    public String toString() {
+        return "Project{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", technicalStack='" + technicalStack + '\'' +
+                ", employee=" + employee +
+                '}';
+    }
 }

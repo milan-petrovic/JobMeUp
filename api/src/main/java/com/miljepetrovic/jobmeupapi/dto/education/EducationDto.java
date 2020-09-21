@@ -23,4 +23,15 @@ public class EducationDto {
     @NotEmpty()
     @Size(min = 4, max = 4)
     public String endYear;
+
+    @Override
+    public String toString() {
+        return "EducationDto{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", startYear='" + startYear + '\'' +
+                ", endYear='" + endYear + '\'' +
+                '}';
+    }
 }

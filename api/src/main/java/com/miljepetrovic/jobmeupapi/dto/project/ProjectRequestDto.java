@@ -4,7 +4,9 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
-public class ProjectDto {
+import com.miljepetrovic.jobmeupapi.model.Employee;
+
+public class ProjectRequestDto {
     @Min(value = 0)
     public int id;
 
@@ -20,13 +22,5 @@ public class ProjectDto {
     @Size(min = 5, max= 255)
     public String technicalStack;
 
-    @Override
-    public String toString() {
-        return "ProjectDto{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", technicalStack='" + technicalStack + '\'' +
-                '}';
-    }
+    public Employee employee;
 }

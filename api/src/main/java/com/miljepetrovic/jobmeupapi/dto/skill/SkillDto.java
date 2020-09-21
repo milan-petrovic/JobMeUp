@@ -11,4 +11,12 @@ public class SkillDto {
     @NotEmpty()
     @Size(min = 1, max = 255)
     public String name;
+
+    @Override
+    public String toString() {
+        return "SkillDto{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }

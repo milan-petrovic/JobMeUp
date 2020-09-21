@@ -144,4 +144,22 @@ public class Employee {
     public void setEducations(List<Education> educations) {
         this.educations = educations;
     }
+
+    @Override
+    public String toString() {
+        return "Employee{" +
+                "id=" + id +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", about='" + about + '\'' +
+                ", category=" + category +
+                ", expectedSalary='" + expectedSalary + '\'' +
+                ", skills=" + skills +
+                ", benefits=" + benefits +
+                ", projects=" + projects +
+                ", educations=" + educations +
+                '}';
+    }
 }

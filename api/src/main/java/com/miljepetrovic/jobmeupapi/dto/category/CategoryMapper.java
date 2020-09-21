@@ -10,7 +10,6 @@ import com.miljepetrovic.jobmeupapi.model.Category;
 public abstract class CategoryMapper {
 
     @Named("categoryDto")
-    @Mapping(target = "employees", ignore = true)
     public abstract CategoryDto entityToDto(Category category);
     public abstract Category dtoToEntity(CategoryDto categoryDto);
 }

@@ -8,4 +8,5 @@ import com.miljepetrovic.jobmeupapi.model.Project;
 public interface ProjectMapper {
     ProjectDto entityToDto(Project entity);
     Project dtoToEntity(ProjectDto dto);
+    Project requestDtoToEntity(ProjectRequestDto requestDto);
 }

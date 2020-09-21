@@ -75,4 +75,16 @@ public class Education {
     public void setEmployee(Employee employee) {
         this.employee = employee;
     }
+
+    @Override
+    public String toString() {
+        return "Education{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", startYear='" + startYear + '\'' +
+                ", endYear='" + endYear + '\'' +
+                ", employee=" + employee +
+                '}';
+    }
 }
