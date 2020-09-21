@@ -9,6 +9,7 @@ import javax.validation.constraints.Size;
 import com.miljepetrovic.jobmeupapi.dto.benefit.BenefitDto;
 import com.miljepetrovic.jobmeupapi.dto.category.CategoryDto;
 import com.miljepetrovic.jobmeupapi.dto.education.EducationDto;
+import com.miljepetrovic.jobmeupapi.dto.employment.EmploymentDto;
 import com.miljepetrovic.jobmeupapi.dto.project.ProjectDto;
 import com.miljepetrovic.jobmeupapi.dto.skill.SkillDto;
 
@@ -48,6 +49,8 @@ public class EmployeeDto {
 
     public List<EducationDto> educations;
 
+    public List<EmploymentDto> employments;
+
     @Override
     public String toString() {
         return "EmployeeDto{" +
@@ -63,6 +66,7 @@ public class EmployeeDto {
                 ", benefits=" + benefits +
                 ", projects=" + projects +
                 ", educations=" + educations +
+                ", employments=" + employments +
                 '}';
     }
 }

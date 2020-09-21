@@ -19,7 +19,8 @@ public abstract class EmployeeMapper {
         @Mapping(target = "skills", ignore = true),
         @Mapping(target = "benefits", ignore = true),
         @Mapping(target = "projects", ignore = true),
-        @Mapping(target = "educations", ignore = true)
+        @Mapping(target = "educations", ignore = true),
+        @Mapping(target = "employments", ignore = true)
     })
     public abstract Employee dtoToEntity(EmployeeDto employeeDto);
 }

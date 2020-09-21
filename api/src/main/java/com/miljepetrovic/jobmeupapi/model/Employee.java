@@ -31,6 +31,7 @@ public class Employee {
     private List<Benefit> benefits;
     private List<Project> projects;
     private List<Education> educations;
+    private List<Employment> employments;
 
     @Id()
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -145,6 +146,15 @@ public class Employee {
         this.educations = educations;
     }
 
+    @OneToMany(mappedBy = "employee",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    public List<Employment> getEmployments() {
+        return employments;
+    }
+
+    public void setEmployments(List<Employment> employments) {
+        this.employments = employments;
+    }
+
     @Override
     public String toString() {
         return "Employee{" +
@@ -160,6 +170,7 @@ public class Employee {
                 ", benefits=" + benefits +
                 ", projects=" + projects +
                 ", educations=" + educations +
+                ", employments=" + employments +
                 '}';
     }
 }
