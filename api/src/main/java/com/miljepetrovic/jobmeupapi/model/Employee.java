@@ -29,6 +29,8 @@ public class Employee {
     private String expectedSalary;
     private List<Skill> skills;
     private List<Benefit> benefits;
+    private List<Project> projects;
+    private List<Education> educations;
 
     @Id()
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -123,5 +125,23 @@ public class Employee {
 
     public void setBenefits(List<Benefit> benefits) {
         this.benefits = benefits;
+    }
+
+    @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    public List<Project> getProjects() {
+        return projects;
+    }
+
+    public void setProjects(List<Project> projects) {
+        this.projects = projects;
+    }
+
+    @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    public List<Education> getEducations() {
+        return educations;
+    }
+
+    public void setEducations(List<Education> educations) {
+        this.educations = educations;
     }
 }

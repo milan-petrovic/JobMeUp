@@ -8,6 +8,8 @@ import javax.validation.constraints.Size;
 
 import com.miljepetrovic.jobmeupapi.dto.benefit.BenefitDto;
 import com.miljepetrovic.jobmeupapi.dto.category.CategoryDto;
+import com.miljepetrovic.jobmeupapi.dto.education.EducationDto;
+import com.miljepetrovic.jobmeupapi.dto.project.ProjectDto;
 import com.miljepetrovic.jobmeupapi.dto.skill.SkillDto;
 
 public class EmployeeDto {
@@ -41,4 +43,8 @@ public class EmployeeDto {
     public List<SkillDto> skills;
 
     public List<BenefitDto> benefits;
+
+    public List<ProjectDto> projects;
+
+    public List<EducationDto> educations;
 }

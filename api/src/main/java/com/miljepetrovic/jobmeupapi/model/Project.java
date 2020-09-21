@@ -10,18 +10,17 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "educations")
-public class Education {
+@Table(name = "projects")
+public class Project {
     private int id;
     private String name;
     private String description;
-    private String startYear;
-    private String endYear;
+    private String technicalStack;
     private Employee employee;
 
     @Id()
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "education_id", nullable = false, unique = true)
+    @Column(name = "project_id", nullable = false, unique = true)
     public int getId() {
         return id;
     }
@@ -48,25 +47,16 @@ public class Education {
         this.description = description;
     }
 
-    @Column(name = "start_year", nullable = false)
-    public String getStartYear() {
-        return startYear;
+    @Column(name = "technical_stack", nullable = false)
+    public String getTechnicalStack() {
+        return technicalStack;
     }
 
-    public void setStartYear(String startYear) {
-        this.startYear = startYear;
+    public void setTechnicalStack(String technicalStack) {
+        this.technicalStack = technicalStack;
     }
 
-    @Column(name = "end_year", nullable = false)
-    public String getEndYear() {
-        return endYear;
-    }
-
-    public void setEndYear(String endYear) {
-        this.endYear = endYear;
-    }
-
-    @ManyToOne
+    @ManyToOne()
     @JoinColumn(name = "employee")
     public Employee getEmployee() {
         return employee;

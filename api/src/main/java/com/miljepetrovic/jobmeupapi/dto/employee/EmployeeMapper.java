@@ -14,9 +14,12 @@ public abstract class EmployeeMapper {
     @Named("employeeDto")
     @Mappings({@Mapping(target = "category", qualifiedByName = "categoryDto")})
     public abstract  EmployeeDto entityToDto(Employee employee);
+
     @Mappings({
         @Mapping(target = "skills", ignore = true),
-        @Mapping(target = "benefits", ignore = true)
+        @Mapping(target = "benefits", ignore = true),
+        @Mapping(target = "projects", ignore = true),
+        @Mapping(target = "educations", ignore = true)
     })
     public abstract Employee dtoToEntity(EmployeeDto employeeDto);
 }
