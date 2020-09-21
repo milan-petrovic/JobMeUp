@@ -1,10 +1,14 @@
 package com.miljepetrovic.jobmeupapi.dto.employee;
 
+import java.util.List;
+
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
+import com.miljepetrovic.jobmeupapi.dto.benefit.BenefitDto;
 import com.miljepetrovic.jobmeupapi.dto.category.CategoryDto;
+import com.miljepetrovic.jobmeupapi.dto.skill.SkillDto;
 
 public class EmployeeDto {
 
@@ -33,4 +37,8 @@ public class EmployeeDto {
     public CategoryDto category;
 
     public String expectedSalary;
+
+    public List<SkillDto> skills;
+
+    public List<BenefitDto> benefits;
 }

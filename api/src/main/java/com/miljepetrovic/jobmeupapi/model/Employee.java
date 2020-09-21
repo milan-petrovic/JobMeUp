@@ -1,11 +1,19 @@
 package com.miljepetrovic.jobmeupapi.model;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -19,8 +27,11 @@ public class Employee {
     private String about;
     private Category category;
     private String expectedSalary;
+    private List<Skill> skills;
+    private List<Benefit> benefits;
 
     @Id()
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "employee_id", nullable = false, unique = true)
     public int getId() {
         return id;
@@ -92,5 +103,25 @@ public class Employee {
 
     public void setExpectedSalary(String expectedSalary) {
         this.expectedSalary = expectedSalary;
+    }
+
+    @ManyToMany
+    @JoinTable(name = "employees_skills", joinColumns = @JoinColumn(name = "employee_id"), inverseJoinColumns = @JoinColumn(name = "skill_id"))
+    public List<Skill> getSkills() {
+        return skills;
+    }
+
+    public void setSkills(List<Skill> skills) {
+        this.skills = skills;
+    }
+
+    @ManyToMany
+    @JoinTable(name = "employee_benefits", joinColumns = @JoinColumn(name = "employee_id"), inverseJoinColumns = @JoinColumn(name = "benefit_id"))
+    public List<Benefit> getBenefits() {
+        return benefits;
+    }
+
+    public void setBenefits(List<Benefit> benefits) {
+        this.benefits = benefits;
     }
 }
