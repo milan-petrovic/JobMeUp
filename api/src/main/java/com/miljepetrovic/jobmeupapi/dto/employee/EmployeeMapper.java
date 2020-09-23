@@ -12,7 +12,11 @@ import com.miljepetrovic.jobmeupapi.model.Employee;
 public abstract class EmployeeMapper {
 
     @Named("employeeDto")
-    @Mappings({@Mapping(target = "category", qualifiedByName = "categoryDto")})
+    @Mappings({
+        @Mapping(target = "category", qualifiedByName = "categoryDto"),
+        @Mapping(target = "receivedVotes", expression = "java( employee.getReceivedVotes().size() )"),
+        @Mapping(target = "givenVotes", expression = "java( employee.getGivenVotes().size() )")
+    })
     public abstract  EmployeeDto entityToDto(Employee employee);
 
     @Mappings({
@@ -20,7 +24,9 @@ public abstract class EmployeeMapper {
         @Mapping(target = "benefits", ignore = true),
         @Mapping(target = "projects", ignore = true),
         @Mapping(target = "educations", ignore = true),
-        @Mapping(target = "employments", ignore = true)
+        @Mapping(target = "employments", ignore = true),
+        @Mapping(target = "receivedVotes", ignore = true),
+        @Mapping(target = "givenVotes", ignore = true)
     })
     public abstract Employee dtoToEntity(EmployeeDto employeeDto);
 }

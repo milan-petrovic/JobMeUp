@@ -51,6 +51,10 @@ public class EmployeeDto {
 
     public List<EmploymentDto> employments;
 
+    public int receivedVotes;
+
+    public int givenVotes;
+
     @Override
     public String toString() {
         return "EmployeeDto{" +
@@ -67,6 +71,8 @@ public class EmployeeDto {
                 ", projects=" + projects +
                 ", educations=" + educations +
                 ", employments=" + employments +
+                ", receivedVotes=" + receivedVotes +
+                ", givenVotes=" + givenVotes +
                 '}';
     }
 }
