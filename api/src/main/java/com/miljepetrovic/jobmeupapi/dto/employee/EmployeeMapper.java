@@ -26,7 +26,8 @@ public abstract class EmployeeMapper {
         @Mapping(target = "educations", ignore = true),
         @Mapping(target = "employments", ignore = true),
         @Mapping(target = "receivedVotes", ignore = true),
-        @Mapping(target = "givenVotes", ignore = true)
+        @Mapping(target = "givenVotes", ignore = true),
+        @Mapping(target = "jobOffers", ignore = true)
     })
     public abstract Employee dtoToEntity(EmployeeDto employeeDto);
 }
