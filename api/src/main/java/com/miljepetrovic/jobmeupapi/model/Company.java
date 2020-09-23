@@ -26,6 +26,7 @@ public class Company {
     private String address;
     private String phoneNumber;
     private List<JobOffer> jobOffers;
+    private List<Contract> contracts;
 
     @Id()
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -126,5 +127,14 @@ public class Company {
 
     public void setJobOffers(List<JobOffer> jobOffers) {
         this.jobOffers = jobOffers;
+    }
+
+    @OneToMany(mappedBy = "company", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    public List<Contract> getContracts() {
+        return contracts;
+    }
+
+    public void setContracts(List<Contract> contracts) {
+        this.contracts = contracts;
     }
 }

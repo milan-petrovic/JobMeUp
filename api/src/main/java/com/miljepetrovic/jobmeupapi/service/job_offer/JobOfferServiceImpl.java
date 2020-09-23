@@ -30,4 +30,12 @@ public class JobOfferServiceImpl implements JobOfferService {
         List<JobOffer> jobOffers = jobOfferRepository.findAll();
         return jobOffers.stream().map(jobOfferMapper::entityToDto).collect(Collectors.toList());
     }
+
+    @Override
+    public List<JobOfferDto> findActiveEmployeesJobOffers(int employeeId) {
+        logger.debug("Fetching active job offers for employee with id {}", employeeId);
+        List<JobOffer> activeEmployeesJobOffers = jobOfferRepository.findAllByActiveTrueAndEmployeeId(employeeId);
+
+        return activeEmployeesJobOffers.stream().map(jobOfferMapper::entityToDto).collect(Collectors.toList());
+    }
 }

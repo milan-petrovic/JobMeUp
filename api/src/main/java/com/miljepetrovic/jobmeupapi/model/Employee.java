@@ -35,6 +35,7 @@ public class Employee {
     private List<Vote> receivedVotes;
     private List<Vote> givenVotes;
     private List<JobOffer> jobOffers;
+    private List<Contract> contracts;
 
     @Id()
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -185,6 +186,15 @@ public class Employee {
         this.jobOffers = jobOffers;
     }
 
+    @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    public List<Contract> getContracts() {
+        return contracts;
+    }
+
+    public void setContracts(List<Contract> contracts) {
+        this.contracts = contracts;
+    }
+
     @Override
     public String toString() {
         return "Employee{" +
@@ -201,6 +211,10 @@ public class Employee {
                 ", projects=" + projects +
                 ", educations=" + educations +
                 ", employments=" + employments +
+                ", receivedVotes=" + receivedVotes +
+                ", givenVotes=" + givenVotes +
+                ", jobOffers=" + jobOffers +
+                ", contracts=" + contracts +
                 '}';
     }
 }
