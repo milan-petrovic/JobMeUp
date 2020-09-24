@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.miljepetrovic.jobmeupapi.dto.joboffer.JobOfferDto;
-import com.miljepetrovic.jobmeupapi.model.JobOffer;
 import com.miljepetrovic.jobmeupapi.service.job_offer.JobOfferService;
 
 @RestController

@@ -1,6 +1,7 @@
 package com.miljepetrovic.jobmeupapi.service.project;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.miljepetrovic.jobmeupapi.dto.project.ProjectDto;
 import com.miljepetrovic.jobmeupapi.dto.project.ProjectMapper;
 import com.miljepetrovic.jobmeupapi.dto.project.ProjectRequestDto;
+import com.miljepetrovic.jobmeupapi.exception.NonExistingException;
 import com.miljepetrovic.jobmeupapi.model.Project;
 import com.miljepetrovic.jobmeupapi.repository.ProjectRepository;
 
@@ -39,5 +41,15 @@ public class ProjectServiceImpl implements ProjectService{
         Project savedEntity = projectRepository.save(project);
 
         return projectMapper.entityToDto(savedEntity);
+    }
+
+    @Override
+    public void deleteProject(int projectId) throws NonExistingException {
+        logger.debug("Deleting project with id {}", projectId);
+        Optional<Project> projectById = projectRepository.findById(projectId);
+        if (projectById.isEmpty()) {
+            throw new NonExistingException("Non existing project with id " + projectId);
+        }
+        projectRepository.deleteById(projectId);
     }
 }
