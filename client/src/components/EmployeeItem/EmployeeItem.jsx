@@ -44,6 +44,7 @@ export const EmployeeItem = ( { employee }) => (
             <div className="employee-description__about">
                 ekqowekpqwkepowqkpeoq
             </div>
+            <p>View profile</p>
         </div>
     </div>
 );  

@@ -31,7 +31,7 @@ export const EmployeeAccountInfo = ({ user }) => {
                         </div>
                     </div>
 
-                    <div class="sidebar__user-details__view-profile">
+                    <div className="sidebar__user-details__view-profile">
                         <FontAwesomeIcon className="sidebar__user-details_view-profile__icon" icon={faEye}/>
                         <div className="sidebar__user-details__view-profile__text ">
                             View profile
