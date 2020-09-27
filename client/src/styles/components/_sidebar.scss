@@ -15,7 +15,7 @@
         flex-direction: column;
         border-radius: $smallPadding;
         margin-top: $normalPadding;
-        box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.34);
+        box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.34);
 
         .sidebar__user-details__header {
             width: 100%;
@@ -46,7 +46,7 @@
         .sidebar__user-details__info {
             display: flex;
             flex-direction: column;
-            align-items: center; 
+            align-items: center;
             margin-bottom: 16px;
 
             h3 {
@@ -62,7 +62,7 @@
         }
 
         .sidebar__user-details__data {
-            border-top: 1px solid $lightGrey; 
+            border-top: 1px solid $lightGrey;
 
             .sidebar__user-details__data__row {
                 padding: 8px 16px;
@@ -95,7 +95,7 @@
             .sidebar__user-details_view-profile__icon {
                 color: $darkBlue;
                 width: 12px;
-                height:12px;
+                height: 12px;
             }
 
             .sidebar__user-details__view-profile__text {
@@ -118,8 +118,8 @@
         display: flex;
         flex-direction: column;
         border-radius: $smallPadding;
-        margin-top  : $normalPadding;
-        box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.34);
+        margin-top: $normalPadding;
+        box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.34);
         padding: $normalPadding;
 
         h4 {
@@ -129,7 +129,7 @@
             font-size: 16px;
             font-weight: bold;
         }
-        
+
         .sidebar_menu_items__item {
             margin: $verySmallPadding 0;
             font-size: 14px;

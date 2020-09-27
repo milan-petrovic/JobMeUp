@@ -8,7 +8,8 @@
     font-weight: bold;
     color: $white;
     cursor: pointer;
-    &:hover,:active {
+    &:hover,
+    :active {
         background-color: $darkGreen;
     }
 }

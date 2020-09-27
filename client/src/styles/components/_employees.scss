@@ -27,7 +27,7 @@
     background-color: #fafafa;
     display: flex;
     flex-direction: row;
-    box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.34);
+    box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.34);
     padding: 8px 0;
 
     .employee-details {
@@ -60,27 +60,27 @@
                 display: flex;
                 flex-direction: column;
 
-                .employee-details__main__name { 
+                .employee-details__main__name {
                     font-weight: 500;
                     letter-spacing: 1.5px;
                     font-size: 16px;
                     color: $black;
                 }
 
-                .employee-details__main__location { 
+                .employee-details__main__location {
                     display: flex;
                     flex-direction: row;
                     align-items: center;
                     margin-top: 4px;
 
-                    .employee-details__main__location__icon { 
-                        width:14px;
-                        height:14px;
+                    .employee-details__main__location__icon {
+                        width: 14px;
+                        height: 14px;
                         color: $lightGrey;
                         margin-right: 6px;
                     }
 
-                    .employee-details__main__location__text { 
+                    .employee-details__main__location__text {
                         font-weight: 500;
                         font-size: 12px;
                         color: $black;
@@ -108,8 +108,8 @@
 
         .employee-details__salary {
             font-size: 16px;
-                color: $lightGrey;
-                font-weight: 500;
+            color: $lightGrey;
+            font-weight: 500;
         }
 
         .employee-details__voteup_button {
@@ -123,7 +123,7 @@
                 width: 18px;
                 height: 18px;
                 color: $darkBlue;
-                margin-right: 8px; 
+                margin-right: 8px;
             }
 
             .employee-details__voteup_button__text {
@@ -144,13 +144,13 @@
         border-left: 1px solid $lightGrey;
 
         .employee-description__about-placeholder {
-            font-size: 16.0;
+            font-size: 16;
             font-weight: bold;
             color: grey;
         }
 
         .employee-description__about {
-            font-size: 14.0;
+            font-size: 14;
             color: $lightGrey;
         }
 
@@ -169,10 +169,6 @@
         cursor: pointer;
     }
 
-    .employee-description:hover div {
-        visibility: hidden;
-    }
-
     .employee-description:hover p {
         visibility: visible;
     }
@@ -182,7 +178,7 @@
     margin-top: 8px;
     display: flex;
     flex-wrap: wrap;
-    
+
     .skill-item {
         display: inline-block;
         margin-right: 4px;
@@ -193,7 +189,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        border: 1px solid #1b6ca8; 
+        border: 1px solid #1b6ca8;
         background-color: #5f98c2;
         font-size: 11px;
         border-radius: 16px;

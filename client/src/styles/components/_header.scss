@@ -4,7 +4,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.34);
+    box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.34);
     height: $navbarMaterialHeight;
     padding: 0 10%;
 
@@ -16,7 +16,8 @@
             padding: 0 $normalPadding;
         }
 
-        li, a {
+        li,
+        a {
             transition: all 0.3s ease 0s;
             text-decoration: none;
             color: grey;
@@ -34,7 +35,8 @@
         font-weight: bold;
         color: $white;
         cursor: pointer;
-        &:hover,:active {
+        &:hover,
+        :active {
             background-color: $darkGreen;
         }
     }
@@ -49,7 +51,7 @@
         color: #1b6ca8;
         font-weight: bold;
     }
-    
+
     .logo__jobme {
         color: black;
     }
