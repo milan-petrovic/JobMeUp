@@ -1,0 +1,14 @@
+@import './variables';
+
+.header__button--green {
+    background-color: $lightGreen;
+    padding: 12px;
+    border: transparent;
+    border-radius: 4px;
+    font-weight: bold;
+    color: $white;
+    cursor: pointer;
+    &:hover,:active {
+        background-color: $darkGreen;
+    }
+}

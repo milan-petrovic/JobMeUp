@@ -1,0 +1,151 @@
+@import '../components/variables';
+
+.sidebar {
+    flex: 0.5;
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    padding-right: $normalPadding;
+
+    .sidebar__user-details {
+        box-sizing: border-box;
+        width: 100%;
+        height: 230px;
+        display: flex;
+        flex-direction: column;
+        border-radius: $smallPadding;
+        margin-top: $normalPadding;
+        box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.34);
+
+        .sidebar__user-details__header {
+            width: 100%;
+            height: 50px;
+            border-top-left-radius: $smallPadding;
+            border-top-right-radius: $smallPadding;
+            background-color: $lightBlue;
+
+            .sidebar__user-details__header__indicator-circle {
+                height: 45px;
+                width: 45px;
+                font-weight: bold;
+                font-size: 10px;
+                background-color: $darkBlue;
+                border: 2px solid $white;
+                border-radius: 25px;
+                color: $white;
+                margin-left: auto;
+                margin-right: auto;
+                margin-top: 20px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                padding: 0;
+            }
+        }
+
+        .sidebar__user-details__info {
+            display: flex;
+            flex-direction: column;
+            align-items: center; 
+            margin-bottom: 16px;
+
+            h3 {
+                color: $darkBlue;
+                margin: 0;
+                font-size: 16px;
+            }
+
+            p {
+                margin: 0;
+                font-size: 10px;
+            }
+        }
+
+        .sidebar__user-details__data {
+            border-top: 1px solid $lightGrey; 
+
+            .sidebar__user-details__data__row {
+                padding: 8px 16px;
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                border-bottom: 1px solid $lightGrey;
+
+                .sidebar__user-details__data_row__left-side {
+                    font-weight: 500;
+                    color: $black;
+                    font-size: 10px;
+                }
+
+                .sidebar__user-details__data_row__right-side {
+                    color: $darkBlue;
+                    font-weight: bold;
+                    font-size: 10px;
+                }
+            }
+        }
+
+        .sidebar__user-details__view-profile {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            margin-top: 24px;
+
+            .sidebar__user-details_view-profile__icon {
+                color: $darkBlue;
+                width: 12px;
+                height:12px;
+            }
+
+            .sidebar__user-details__view-profile__text {
+                margin-left: 4px;
+                font-size: 10px;
+                letter-spacing: 0.75px;
+                font-weight: 500;
+                color: $black;
+            }
+        }
+
+        .sidebar__user-details__view-profile:hover {
+            cursor: pointer;
+        }
+    }
+
+    .sidebar__menu_items {
+        box-sizing: border-box;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        border-radius: $smallPadding;
+        margin-top  : $normalPadding;
+        box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.34);
+        padding: $normalPadding;
+
+        h4 {
+            color: $darkBlue;
+            margin: 0;
+            margin-bottom: $mediumPadding;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        
+        .sidebar_menu_items__item {
+            margin: $verySmallPadding 0;
+            font-size: 14px;
+            font-weight: 500;
+            color: grey;
+        }
+
+        .sidebar_menu_items__item:hover {
+            color: $darkBlue;
+            cursor: pointer;
+        }
+    }
+}
+
+.line-spacer {
+    background-color: $lightGrey;
+    height: 1px;
+    margin: 8px 0;
+}

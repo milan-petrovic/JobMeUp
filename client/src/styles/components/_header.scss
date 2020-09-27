@@ -1,0 +1,56 @@
+@import 'variables';
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.34);
+    height: $navbarMaterialHeight;
+    padding: 0 10%;
+
+    .header__links {
+        list-style: none;
+
+        li {
+            display: inline;
+            padding: 0 $normalPadding;
+        }
+
+        li, a {
+            transition: all 0.3s ease 0s;
+            text-decoration: none;
+            color: grey;
+            &:hover {
+                color: $darkBlue;
+            }
+        }
+    }
+
+    .header__button {
+        background-color: $lightGreen;
+        padding: $mediumPadding;
+        border: transparent;
+        border-radius: $verySmallPadding;
+        font-weight: bold;
+        color: $white;
+        cursor: pointer;
+        &:hover,:active {
+            background-color: $darkGreen;
+        }
+    }
+}
+
+.logo {
+    text-decoration: none;
+    font-weight: 500;
+    font-size: larger;
+
+    .logo__up {
+        color: #1b6ca8;
+        font-weight: bold;
+    }
+    
+    .logo__jobme {
+        color: black;
+    }
+}

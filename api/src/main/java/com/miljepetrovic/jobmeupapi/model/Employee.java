@@ -25,6 +25,7 @@ public class Employee {
     private String firstName;
     private String lastName;
     private String about;
+    private String country;
     private Category category;
     private String expectedSalary;
     private List<Skill> skills;
@@ -82,6 +83,15 @@ public class Employee {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    @Column(name = "country", nullable = false)
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
     }
 
     @Column(name = "about", nullable = false)
