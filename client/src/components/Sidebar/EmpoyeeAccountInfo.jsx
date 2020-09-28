@@ -1,14 +1,17 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye } from '@fortawesome/free-solid-svg-icons';
+import { getIndicatorsOfFirstAndLastName } from '../../utils/Utils';
 
 export const EmployeeAccountInfo = ({ user }) => {
     return (
         <div className="sidebar__user-details">
             <div className="sidebar__user-details__header">
-                <div className="sidebar__user-details__header__indicator-circle">M P</div>
+                <div className="sidebar__user-details__header__indicator-circle">
+                    {getIndicatorsOfFirstAndLastName(user.firstName, user.lastName)}
+                </div>
                 <div className="sidebar__user-details__info">
-                    <h3> {user.name}</h3>
+                    <h3> {user.firstName + ' ' + user.lastName}</h3>
                     <p>{user.email}</p>
                 </div>
                 <div className="sidebar__user-details__data">
