@@ -7,3 +7,7 @@ export const getAllEmployees = () => {
 export const getAllEmployeesByCategory = (categoryId) => {
     return axiosInstance.get(`/employees/category/${categoryId}`);
 };
+
+export const getEmployeeById = (employeeId) => {
+    return axiosInstance.get(`/employees/${employeeId}`);
+};

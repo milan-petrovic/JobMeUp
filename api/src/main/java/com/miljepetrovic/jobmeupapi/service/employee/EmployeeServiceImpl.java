@@ -3,6 +3,7 @@ package com.miljepetrovic.jobmeupapi.service.employee;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.miljepetrovic.jobmeupapi.dto.employee.EmployeeDto;
 import com.miljepetrovic.jobmeupapi.dto.employee.EmployeeMapper;
+import com.miljepetrovic.jobmeupapi.exception.NonExistingException;
 import com.miljepetrovic.jobmeupapi.model.Employee;
 import com.miljepetrovic.jobmeupapi.repository.EmployeeRepository;
 
@@ -61,5 +63,16 @@ public class EmployeeServiceImpl implements EmployeeService {
         Collections.reverse(employees);
 
         return employees.stream().map(employeeMapper::entityToDto).collect(Collectors.toList());
+    }
+
+    @Override
+    public EmployeeDto findEmployeeById(int employeeId) throws NonExistingException {
+        logger.debug("Fetching employee by id");
+        Optional<Employee> employeeById = employeeRepository.findEmployeeById(employeeId);
+        if (employeeById.isEmpty()) {
+            throw new NonExistingException("Couldn't find employee with id " + employeeById);
+        }
+
+        return employeeMapper.entityToDto(employeeById.get());
     }
 }
