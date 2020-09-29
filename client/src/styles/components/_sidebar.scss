@@ -10,7 +10,7 @@
     .sidebar__user-details {
         box-sizing: border-box;
         width: 100%;
-        height: 230px;
+        height: 300px;
         display: flex;
         flex-direction: column;
         border-radius: $smallPadding;
@@ -85,20 +85,20 @@
             }
         }
 
-        .sidebar__user-details__view-profile {
+        .sidebar__user-details__edit-profile {
             display: flex;
             flex-direction: row;
             justify-content: center;
             align-items: center;
-            margin-top: 24px;
+            margin-top: 18px;
 
-            .sidebar__user-details_view-profile__icon {
+            .sidebar__user-details_edit-profile__icon {
                 color: $darkBlue;
                 width: 12px;
                 height: 12px;
             }
 
-            .sidebar__user-details__view-profile__text {
+            .sidebar__user-details__edit-profile__text {
                 margin-left: 4px;
                 font-size: 10px;
                 letter-spacing: 0.75px;
@@ -107,7 +107,7 @@
             }
         }
 
-        .sidebar__user-details__view-profile:hover {
+        .sidebar__user-details__edit-profile:hover {
             cursor: pointer;
         }
     }

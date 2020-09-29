@@ -6,6 +6,7 @@ import { HomePage } from './containers/HomePages/HomePage';
 import { EmployeeHomePage } from './containers/HomePages/EmployeeHomePage';
 import { EmployeeProfile } from './containers/EmployeeProfile/EmployeeProfile';
 import { EmployeeById } from './utils/Constants';
+import { LoginPage } from './containers/LoginPage/LoginPage';
 
 function App() {
     return (
@@ -15,6 +16,7 @@ function App() {
                 <Switch>
                     <Route path="/" component={EmployeeHomePage} exact />
                     <Route path={EmployeeById} component={EmployeeProfile} exact />
+                    <Route path={'/login'} component={LoginPage} exact />
                 </Switch>
             </div>
         </BrowserRouter>

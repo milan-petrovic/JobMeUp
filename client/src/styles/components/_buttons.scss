@@ -13,3 +13,20 @@
         background-color: $darkGreen;
     }
 }
+
+.button--submit {
+    padding: 12px;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    background-color: $darkBlue;
+    align-self: center;
+    width: 100%;
+    color: white;
+    font-weight: bold;
+    margin: 8px 0;
+}
+
+.button--submit:hover {
+    background-color: $lightBlue;
+    cursor: pointer;
+}
