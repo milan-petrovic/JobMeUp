@@ -12,7 +12,8 @@
         padding-bottom: 8px;
     }
 
-    input {
+    input,
+    textarea {
         padding: 16px;
         border: 2px solid $darkBlue;
         border-radius: 4px;
@@ -22,4 +23,14 @@
         color: red;
         font-size: 12px;
     }
+}
+
+.input-form__container {
+    box-sizing: border-box;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    background-color: #fafafa;
+    box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.34);
+    padding: 16px;
 }

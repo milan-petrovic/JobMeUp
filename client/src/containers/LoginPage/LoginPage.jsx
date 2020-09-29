@@ -5,6 +5,7 @@ import * as Yup from 'yup';
 import { Logo } from '../../components/Logo/Logo';
 import { LineSpacer } from '../../components/LineSpacer';
 import { SubmitButton } from '../../components/Buttons/SubmitButton';
+import { InputFormContainer } from '../../components/InputFields/InputFormContainer';
 
 export const LoginPage = () => {
     const formInitialValues = {
@@ -34,7 +35,7 @@ export const LoginPage = () => {
                 <div className="login-page__heading__quote">Hire best employee and raise your bussiness</div>
             </div>
             <div className="login-page__form">
-                <div className="login-page__form__container">
+                <InputFormContainer width="400px">
                     <Formik
                         initialValues={formInitialValues}
                         validateOnChange={false}
@@ -49,7 +50,7 @@ export const LoginPage = () => {
                             </Form>
                         )}
                     </Formik>
-                </div>
+                </InputFormContainer>
             </div>
         </div>
     );

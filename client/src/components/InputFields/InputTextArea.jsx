@@ -1,13 +1,13 @@
 import { useField } from 'formik';
 import React from 'react';
 
-export const InputField = (props) => {
+export const InputTextArea = (props) => {
     const [field, meta] = useField(props);
 
     return (
         <div className="inputfield">
             <label htmlFor={props.name}>{props.labelName}</label>
-            <input {...props} {...field} />
+            <textarea {...props} {...field} />
             <div style={{ color: 'red' }}>{meta.error && meta.touched && meta.error}</div>
         </div>
     );

@@ -32,16 +32,16 @@
         align-items: center;
         justify-content: center;
         flex-direction: column;
+    }
 
-        .login-page__form__container {
-            width: 400px;
-            box-sizing: border-box;
-            border-radius: 8px;
-            display: flex;
-            flex-direction: column;
-            background-color: #fafafa;
-            box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.34);
-            padding: 16px;
-        }
+    .input-form__container {
+        width: 400px;
+        box-sizing: border-box;
+        border-radius: 8px;
+        display: flex;
+        flex-direction: column;
+        background-color: #fafafa;
+        box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.34);
+        padding: 16px;
     }
 }

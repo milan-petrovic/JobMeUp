@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.miljepetrovic.jobmeupapi.dto.company.CompanyDto;
 import com.miljepetrovic.jobmeupapi.dto.company.CompanyMapper;
+import com.miljepetrovic.jobmeupapi.exception.ExistingException;
 import com.miljepetrovic.jobmeupapi.model.Company;
 import com.miljepetrovic.jobmeupapi.repository.CompanyRepository;
 
@@ -29,5 +30,20 @@ public class CompanyServiceImpl implements CompanyService {
         logger.debug("Fetching all companies {}");
         List<Company> companies = companyRepository.findAll();
         return companies.stream().map(companyMapper::entityToDto).collect(Collectors.toList());
+    }
+
+    @Override
+    public CompanyDto saveCompany(CompanyDto companyDto) throws ExistingException {
+        if (companyRepository.findByName(companyDto.name).isPresent()) {
+            throw new ExistingException("Company with name " + companyDto.name + " already exists.");
+        }
+
+        if (companyRepository.findByEmail(companyDto.email).isPresent()) {
+            throw new ExistingException("Company with email " + companyDto.email + " already exists.");
+        }
+
+        Company company = companyMapper.dtoToEntity(companyDto);
+        Company persistedCompany = companyRepository.save(company);
+        return companyMapper.entityToDto(persistedCompany);
     }
 }

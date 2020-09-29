@@ -29,7 +29,7 @@ export const EmployeeAccountInfo = ({ user }) => {
                     </div>
                     <div className="sidebar__user-details__data__row">
                         <div className="sidebar__user-details__data_row__left-side">Add education</div>
-                        <div className="sidebar__user-details__data_row__right-side">></div>
+                        <div className="sidebar__user-details__data_row__right-side"></div>
                     </div>
                     <div className="sidebar__user-details__edit-profile">
                         <FontAwesomeIcon className="sidebar__user-details_edit-profile__icon" icon={faPencilAlt} />
