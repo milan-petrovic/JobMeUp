@@ -1,12 +1,14 @@
 import { Field, Form, Formik } from 'formik';
 import React from 'react';
-import { InputFormContainer } from '../../components/InputFields/InputFormContainer';
+import { InputFormContainer } from '../../components/InputForm/InputFormContainer';
 import { Logo } from '../../components/Logo/Logo';
 import * as Yup from 'yup';
-import { InputField } from '../../components/InputFields/InputField';
+import { InputField } from '../../components/InputForm/InputField';
 import { SubmitButton } from '../../components/Buttons/SubmitButton';
-import { InputTextArea } from '../../components/InputFields/InputTextArea';
+import { InputTextArea } from '../../components/InputForm/InputTextArea';
 import { postCompany } from '../../services/CompanyService';
+import { InputFormHeading } from '../../components/InputForm/InputFormHeading';
+import { getConstraintLengthMinMessage, invalidEmailMessage, requriedMessage } from '../../utils/Constants';
 
 export const CompanyForm = () => {
     const initialValues = {
@@ -23,17 +25,17 @@ export const CompanyForm = () => {
 
     const ValidationSchema = Yup.object().shape({
         email: Yup.string()
-            .required('Required field')
-            .min(6, 'It must be at least 6 characters long')
-            .email('Invalid e-mail'),
-        password: Yup.string().required('Required'),
-        name: Yup.string().required('Required'),
-        about: Yup.string().required('Required'),
-        country: Yup.string().required('Required'),
-        size: Yup.number().required('Requried'),
-        foundedYear: Yup.number().required('Required '),
-        address: Yup.string().required('Required'),
-        phoneNumber: Yup.string().required('Required'),
+            .required(requriedMessage)
+            .min(6, getConstraintLengthMinMessage('Email', 6))
+            .email(invalidEmailMessage),
+        password: Yup.string().required(requriedMessage),
+        name: Yup.string().required(requriedMessage),
+        about: Yup.string().required(requriedMessage),
+        country: Yup.string().required(requriedMessage),
+        size: Yup.number().required(requriedMessage),
+        foundedYear: Yup.number().required(requriedMessage),
+        address: Yup.string().required(requriedMessage),
+        phoneNumber: Yup.string().required(requriedMessage),
     });
 
     const handleOnSubmit = (values, formikHelpers) => {
@@ -52,9 +54,9 @@ export const CompanyForm = () => {
     };
 
     return (
-        <div className="company-form">
+        <div className="input-form">
             <Logo fontSize="36px" />
-            <h1 className="company-form__heading ">Apply as company</h1>
+            <InputFormHeading>Apply as company</InputFormHeading>
             <InputFormContainer width="500px">
                 <Formik
                     initialValues={initialValues}

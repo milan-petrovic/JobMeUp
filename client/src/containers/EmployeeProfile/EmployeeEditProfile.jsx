@@ -1,16 +1,20 @@
 import { Field, Form, Formik, setVa } from 'formik';
 import React, { useEffect, useState } from 'react';
-import { InputFormContainer } from '../../components/InputFields/InputFormContainer';
+import { InputFormContainer } from '../../components/InputForm/InputFormContainer';
 import * as Yup from 'yup';
-import { InputField } from '../../components/InputFields/InputField';
-import { InputTextArea } from '../../components/InputFields/InputTextArea';
+import { InputField } from '../../components/InputForm/InputField';
+import { InputTextArea } from '../../components/InputForm/InputTextArea';
 import { SubmitButton } from '../../components/Buttons/SubmitButton';
 import { getEmployeeById } from '../../services/EmployeeService';
 import { DeleteButton } from '../../components/Buttons/DeleteButton';
 import { EditButton } from '../../components/Buttons/EditButton';
 import { AddButton } from '../../components/Buttons/AddButton';
+import { invalidEmailMessage, requriedMessage } from '../../utils/Constants';
+import { useHistory } from 'react-router-dom';
 
 export const EmployeeEditProfile = () => {
+    const history = useHistory();
+
     const employee = {
         id: 1,
         email: 'milan@gmail.com',
@@ -111,12 +115,12 @@ export const EmployeeEditProfile = () => {
     };
 
     const ValidationSchema = Yup.object().shape({
-        email: Yup.string().email('Invalid email').required('Required'),
-        firstName: Yup.string().required('Requried'),
-        lastName: Yup.string().required('Requried'),
-        password: Yup.string().required('Required'),
-        about: Yup.string().required('Required'),
-        expectedSalary: Yup.string().required('Required'),
+        email: Yup.string().email(invalidEmailMessage).required(requriedMessage),
+        firstName: Yup.string().required(requriedMessage),
+        lastName: Yup.string().required(requriedMessage),
+        password: Yup.string().required(requriedMessage),
+        about: Yup.string().required(requriedMessage),
+        expectedSalary: Yup.string().required(requriedMessage),
     });
 
     return (
@@ -131,19 +135,28 @@ export const EmployeeEditProfile = () => {
             </div>
             <div className="my-profile-container__sections">
                 <Section>
-                    <SectionTitle name="Employments" onClick={() => console.log('click')} />
+                    <SectionTitle
+                        name="Employments"
+                        onClick={() => history.push(`/employee/${employee.id}/employments/new`)}
+                    />
                     {employee.employments.map((employment, index) => (
                         <EmploymentSectionItem employment={employment} key={index} />
                     ))}
                 </Section>
                 <Section>
-                    <SectionTitle name="Projects" onClick={() => console.log('pr click')} />
+                    <SectionTitle
+                        name="Projects"
+                        onClick={() => history.push(`/employee/${employee.id}/projects/new`)}
+                    />
                     {employee.projects.map((project, index) => (
                         <ProjectSectionItem project={project} key={index} />
                     ))}
                 </Section>
                 <Section>
-                    <SectionTitle name="Educations" onClick={() => console.log('ed click')} />
+                    <SectionTitle
+                        name="Educations"
+                        onClick={() => history.push(`/employee/${employee.id}/educations/new`)}
+                    />
                     {employee.educations.map((education, index) => (
                         <EducationSectionItem education={education} key={index} />
                     ))}

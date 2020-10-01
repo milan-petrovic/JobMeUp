@@ -8,6 +8,9 @@ import { EmployeeById } from './utils/Constants';
 import { LoginPage } from './containers/LoginPage/LoginPage';
 import { CompanyForm } from './containers/Company/CompanyForm';
 import { EmployeeEditProfile } from './containers/EmployeeProfile/EmployeeEditProfile';
+import { EmploymentForm } from './containers/Employment/EmploymentForm';
+import { ProjectForm } from './containers/Project/ProjectForm';
+import { EducationForm } from './containers/Education/EducationForm';
 
 function App() {
     return (
@@ -20,6 +23,9 @@ function App() {
                     <Route path={'/login'} component={LoginPage} exact />
                     <Route path={'/companies/new'} component={CompanyForm} exact />
                     <Route path={'/edit-profile'} component={EmployeeEditProfile} exact />
+                    <Route path={'/employee/:id/employments/new'} component={EmploymentForm} exact />
+                    <Route path={'/employee/:id/projects/new'} component={ProjectForm} exact />
+                    <Route path={'/employee/:id/educations/new'} component={EducationForm} exact />
                 </Switch>
             </div>
         </BrowserRouter>

@@ -1,11 +1,17 @@
 import React from 'react';
-import { InputField } from '../../components/InputFields/InputField';
+import { InputField } from '../../components/InputForm/InputField';
 import { Field, Form, Formik, FormikHelpers, FormikProps } from 'formik';
 import * as Yup from 'yup';
 import { Logo } from '../../components/Logo/Logo';
 import { LineSpacer } from '../../components/LineSpacer';
 import { SubmitButton } from '../../components/Buttons/SubmitButton';
-import { InputFormContainer } from '../../components/InputFields/InputFormContainer';
+import { InputFormContainer } from '../../components/InputForm/InputFormContainer';
+import {
+    getConstraingLengthMaxMessage,
+    getConstraintLengthMinMessage,
+    invalidEmailMessage,
+    requriedMessage,
+} from '../../utils/Constants';
 
 export const LoginPage = () => {
     const formInitialValues = {
@@ -15,13 +21,13 @@ export const LoginPage = () => {
 
     const ValidationSchema = Yup.object().shape({
         email: Yup.string()
-            .email('Invalid e-mail address')
-            .min(4, 'It must be at least 6 characters long')
-            .required('Required field'),
+            .email(invalidEmailMessage)
+            .min(4, getConstraintLengthMinMessage('Email', 4))
+            .required(requriedMessage),
         password: Yup.string()
-            .min(6, 'It must be at least 6 characters long')
-            .max(32, 'It could be at most 32 characters long')
-            .required('Required field'),
+            .min(6, getConstraintLengthMinMessage('Password', 6))
+            .max(32, getConstraingLengthMaxMessage('Password', 32))
+            .required(requriedMessage),
     });
 
     const handleOnSubmit = (values, formikHelpers) => {

@@ -3,8 +3,9 @@ package com.miljepetrovic.jobmeupapi.dto.employment;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 
-public class EmploymentDto {
+import com.miljepetrovic.jobmeupapi.dto.employee.EmployeeDto;
 
+public class EmploymentRequestDto {
     @Min(value = 0)
     public int id;
 
@@ -22,17 +23,19 @@ public class EmploymentDto {
     @NotEmpty()
     public String endDate;
 
-
+    @NotEmpty()
+    public EmployeeDto employee;
 
     @Override
     public String toString() {
-        return "EmploymentDto{" +
+        return "EmploymentRequestDto{" +
                 "id=" + id +
                 ", client='" + client + '\'' +
                 ", description='" + description + '\'' +
                 ", position='" + position + '\'' +
                 ", startDate='" + startDate + '\'' +
                 ", endDate='" + endDate + '\'' +
+                ", employee=" + employee +
                 '}';
     }
 }

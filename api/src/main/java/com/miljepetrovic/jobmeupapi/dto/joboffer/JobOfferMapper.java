@@ -16,5 +16,7 @@ public abstract class JobOfferMapper {
             @Mapping(target = "company", qualifiedByName = "companyDto")
     })
     public abstract JobOfferDto entityToDto(JobOffer entity);
+
+    @Mapping(target = "employee", qualifiedByName = "employeeDtoInsert")
     public abstract JobOffer dtoToEntity(JobOfferDto dto);
 }

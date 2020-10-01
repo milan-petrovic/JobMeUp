@@ -31,7 +31,7 @@ export const EmployeeAccountInfo = ({ user }) => {
                         <FontAwesomeIcon className="sidebar__user-details_edit-profile__icon" icon={faPencilAlt} />
                         <div
                             className="sidebar__user-details__edit-profile__text"
-                            onClick={() => history.push('/my-profile')}>
+                            onClick={() => history.push('/edit-profile')}>
                             Edit profile
                         </div>
                     </div>

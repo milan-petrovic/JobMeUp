@@ -19,6 +19,7 @@ public abstract class EmployeeMapper {
     })
     public abstract  EmployeeDto entityToDto(Employee employee);
 
+    @Named("employeeDtoInsert")
     @Mappings({
         @Mapping(target = "skills", ignore = true),
         @Mapping(target = "benefits", ignore = true),
