@@ -2,8 +2,11 @@ import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPencilAlt } from '@fortawesome/free-solid-svg-icons';
 import { getIndicatorsOfFirstAndLastName } from '../../utils/Utils';
+import { useHistory } from 'react-router-dom';
 
 export const EmployeeAccountInfo = ({ user }) => {
+    const history = useHistory();
+
     return (
         <div className="sidebar__user-details">
             <div className="sidebar__user-details__header">
@@ -23,17 +26,14 @@ export const EmployeeAccountInfo = ({ user }) => {
                         <div className="sidebar__user-details__data_row__left-side">Given votes</div>
                         <div className="sidebar__user-details__data_row__right-side">{user.givenVotes}</div>
                     </div>
-                    <div className="sidebar__user-details__data__row">
-                        <div className="sidebar__user-details__data_row__left-side">Add projects</div>
-                        <div className="sidebar__user-details__data_row__right-side"></div>
-                    </div>
-                    <div className="sidebar__user-details__data__row">
-                        <div className="sidebar__user-details__data_row__left-side">Add education</div>
-                        <div className="sidebar__user-details__data_row__right-side"></div>
-                    </div>
+
                     <div className="sidebar__user-details__edit-profile">
                         <FontAwesomeIcon className="sidebar__user-details_edit-profile__icon" icon={faPencilAlt} />
-                        <div className="sidebar__user-details__edit-profile__text ">Edit profile</div>
+                        <div
+                            className="sidebar__user-details__edit-profile__text"
+                            onClick={() => history.push('/my-profile')}>
+                            Edit profile
+                        </div>
                     </div>
                 </div>
             </div>

@@ -13,6 +13,18 @@ export const Navbar = () => {
                     <Link><button className="header__button">Hire Best Employee</button></Link>
                     <li><Link path="/">Log In</Link></li> */}
                     <li>
+                        <Link to="/top">Projects</Link>
+                    </li>{' '}
+                    <li>
+                        <Link to="/top">Education</Link>
+                    </li>{' '}
+                    <li>
+                        <Link to="/top">Benefits</Link>
+                    </li>
+                    <li>
+                        <Link to="/top">Skills</Link>
+                    </li>
+                    <li>
                         <Link to="/top">Job offers</Link>
                     </li>
                     <li>

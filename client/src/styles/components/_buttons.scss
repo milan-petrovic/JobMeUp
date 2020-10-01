@@ -24,9 +24,37 @@
     color: white;
     font-weight: bold;
     margin: 8px 0;
+
+    &:hover {
+        background-color: $lightBlue;
+        cursor: pointer;
+    }
 }
 
-.button--submit:hover {
-    background-color: $lightBlue;
-    cursor: pointer;
+.button--edit {
+    color: $darkBlue;
+    height: 16px;
+    width: 16px;
+    margin-right: 16px;
+    &:hover {
+        cursor: pointer;
+    }
+}
+
+.button--add {
+    color: $darkBlue;
+    height: 48px;
+    width: 48px;
+    &:hover {
+        cursor: pointer;
+    }
+}
+
+.button--delete {
+    color: $lightGrey;
+    height: 16px;
+    width: 16px;
+    &:hover {
+        cursor: pointer;
+    }
 }
