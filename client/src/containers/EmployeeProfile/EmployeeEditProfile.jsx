@@ -1,11 +1,10 @@
-import { Field, Form, Formik, setVa } from 'formik';
-import React, { useEffect, useState } from 'react';
+import { Field, Form, Formik } from 'formik';
+import React, { useEffect } from 'react';
 import { InputFormContainer } from '../../components/InputForm/InputFormContainer';
 import * as Yup from 'yup';
 import { InputField } from '../../components/InputForm/InputField';
 import { InputTextArea } from '../../components/InputForm/InputTextArea';
 import { SubmitButton } from '../../components/Buttons/SubmitButton';
-import { getEmployeeById } from '../../services/EmployeeService';
 import { DeleteButton } from '../../components/Buttons/DeleteButton';
 import { EditButton } from '../../components/Buttons/EditButton';
 import { AddButton } from '../../components/Buttons/AddButton';
