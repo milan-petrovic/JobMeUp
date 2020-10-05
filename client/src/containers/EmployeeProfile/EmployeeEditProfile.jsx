@@ -16,17 +16,19 @@ import { Spinner } from '../../components/Spinner/Spinner';
 
 export const EmployeeEditProfile = () => {
     const history = useHistory();
-    const { user } = useContext(UserContext);
+    const { user, authenticated } = useContext(UserContext);
     const [employee, setEmploye] = useState(null);
     const [isLoading, setLoading] = useState(true);
 
     useEffect(() => {
-        getEmployeeById(user.employeeId)
-            .then((response) => {
-                setEmploye(response.data);
-                setLoading(false);
-            })
-            .catch((error) => console.log(error));
+        if (authenticated && user) {
+            getEmployeeById(user.employeeId)
+                .then((response) => {
+                    setEmploye(response.data);
+                    setLoading(false);
+                })
+                .catch((error) => console.log(error));
+        }
     }, []);
 
     const ValidationSchema = Yup.object().shape({
@@ -133,21 +135,27 @@ const ProjectSectionItem = ({ project }) => (
     </SectionItemContainer>
 );
 
-const EducationSectionItem = ({ education }) => (
-    <SectionItemContainer>
-        <div className="my-profile-container__sections__container__item__heading">
-            <h1>{education.name} </h1>
-            <div className="my-profile-container__sections__container__item__heading__buttons">
-                <EditButton />
-                <DeleteButton />
+const EducationSectionItem = ({ education }) => {
+    const history = useHistory();
+    const { user } = useContext(UserContext);
+    return (
+        <SectionItemContainer>
+            <div className="my-profile-container__sections__container__item__heading">
+                <h1>{education.name} </h1>
+                <div className="my-profile-container__sections__container__item__heading__buttons">
+                    <EditButton
+                        handleClick={() => history.push(`/employee/${user.employeeId}/educations/edit/${education.id}`)}
+                    />
+                    <DeleteButton />
+                </div>
             </div>
-        </div>
-        <div className="my-profile-container__sections__container__item__subheading">
-            {education.startYear} - {education.endYear}
-        </div>
-        <p className="my-profile-container__sections__container__item__description">{education.description}</p>
-    </SectionItemContainer>
-);
+            <div className="my-profile-container__sections__container__item__subheading">
+                {education.startYear} - {education.endYear}
+            </div>
+            <p className="my-profile-container__sections__container__item__description">{education.description}</p>
+        </SectionItemContainer>
+    );
+};
 
 const EditProfileForm = ({ setValues, employee }) => {
     useEffect(() => {

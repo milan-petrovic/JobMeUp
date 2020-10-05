@@ -31,6 +31,7 @@ function App() {
                         <Route path={'/employee/:id/employments/new'} component={EmploymentForm} exact />
                         <Route path={'/employee/:id/projects/new'} component={ProjectForm} exact />
                         <Route path={'/employee/:id/educations/new'} component={EducationForm} exact />
+                        <Route path-={'/employee/:id/educations/edit/:educationId'} component={EducationForm} exact />
                     </Switch>
                 </div>
             </BrowserRouter>

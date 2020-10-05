@@ -1,7 +1,7 @@
 import { Field, Form, Formik } from 'formik';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useContext } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useRouteMatch } from 'react-router-dom';
 import * as Yup from 'yup';
 import { SubmitButton } from '../../components/Buttons/SubmitButton';
 import { InputField } from '../../components/InputForm/InputField';
@@ -9,13 +9,13 @@ import { InputFormContainer } from '../../components/InputForm/InputFormContaine
 import { InputFormHeading } from '../../components/InputForm/InputFormHeading';
 import { InputTextArea } from '../../components/InputForm/InputTextArea';
 import { Logo } from '../../components/Logo/Logo';
-import { postEducation } from '../../services/EducationService';
+import { getEducationById, postEducation, putEducation } from '../../services/EducationService';
 import { UserContext } from '../../services/UserContext';
 import { getConstraingLengthMaxMessage, getConstraintLengthMinMessage, requriedMessage } from '../../utils/Constants';
 
 export const EducationForm = () => {
     const history = useHistory();
-    const { user } = useContext(UserContext);
+    const { user, authenticated } = useContext(UserContext);
 
     const validationSchema = Yup.object().shape({
         name: Yup.string().required(requriedMessage),
@@ -43,45 +43,74 @@ export const EducationForm = () => {
         values.employee = {
             id: user.employeeId,
         };
-
-        postEducation(values, user.token)
-            .then((_) => {
-                setSubmitting(false);
-                history.push('/edit-profile');
-            })
-            .catch((error) => console.log(error))
-            .finally(() => {
-                resetForm(true);
-            });
+        if (authenticated && user && user.token) {
+            if (values.id != null) {
+                putEducation(values, user.token)
+                    .then((_) => {
+                        setSubmitting(false);
+                        history.push('/edit-profile');
+                    })
+                    .catch((error) => console.log(error))
+                    .finally(() => {
+                        resetForm(true);
+                    });
+            } else {
+                postEducation(values, user.token)
+                    .then((_) => {
+                        setSubmitting(false);
+                        history.push('/edit-profile');
+                    })
+                    .catch((error) => console.log(error))
+                    .finally(() => {
+                        resetForm(true);
+                    });
+            }
+        }
     };
 
     return (
-        <div className="input-form">
-            <Logo fontSize="32px" />
-            <InputFormHeading>Add a new education</InputFormHeading>
-            <InputFormContainer width="500px">
-                <Formik
-                    initialValues={initialValues}
-                    validateOnBlur={true}
-                    validateOnChange={false}
-                    validationSchema={validationSchema}
-                    onSubmit={(values, formikHelpers) => handleOnSubmit(values, formikHelpers)}>
-                    {(formikProps) => <InnerForm {...formikProps} />}
-                </Formik>
-            </InputFormContainer>
-        </div>
+        <Formik
+            initialValues={initialValues}
+            validateOnBlur={true}
+            validateOnChange={false}
+            validationSchema={validationSchema}
+            onSubmit={(values, formikHelpers) => handleOnSubmit(values, formikHelpers)}>
+            {(formikProps) => <InnerForm {...formikProps} />}
+        </Formik>
     );
 };
 
 const InnerForm = ({ setValues }) => {
-    return (
-        <Form>
-            <Field as={InputField} name="name" id="name" placeholder="Name" />
-            <Field as={InputTextArea} name="description" id="description" placeholder="Description" rows={5} />
-            <Field as={InputField} name="startYear" id="startYear" placeholder="Start year" />
-            <Field as={InputField} name="endYear" id="endYear" placeholder="End year" />
+    const [editing, setEditing] = useState(false);
+    const matchId = useRouteMatch('/employee/:id/educations/edit/:educationId')?.params.educationId;
+    const { user, authenticated } = useContext(UserContext);
 
-            <SubmitButton>Submit</SubmitButton>
-        </Form>
+    useEffect(() => {
+        if (matchId) {
+            if (authenticated && user && user.token) {
+                getEducationById(matchId, user.token).then((response) => {
+                    const { data } = response;
+                    setValues({ ...data });
+                    setEditing(true);
+                });
+            }
+        }
+    }, []);
+
+    return (
+        <div className="input-form">
+            <Logo fontSize="32px" />
+            <InputFormHeading>{editing ? 'Edit education' : 'Add a new education'}</InputFormHeading>
+            <InputFormContainer width="500px">
+                <Form>
+                    <Field as={InputField} name="name" id="name" placeholder="Name" />
+                    <Field as={InputTextArea} name="description" id="description" placeholder="Description" rows={5} />
+                    <Field as={InputField} name="startYear" id="startYear" placeholder="Start year" />
+                    <Field as={InputField} name="endYear" id="endYear" placeholder="End year" />
+
+                    <SubmitButton>{editing ? 'Edit education' : 'Add a new education'}</SubmitButton>
+                </Form>
+            </InputFormContainer>
+        </div>
     );
 };
