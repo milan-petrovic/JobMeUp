@@ -1,5 +1,5 @@
 import { Field, Form, Formik } from 'formik';
-import React from 'react';
+import React, { useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import * as Yup from 'yup';
 import { SubmitButton } from '../../components/Buttons/SubmitButton';
@@ -9,10 +9,12 @@ import { InputFormHeading } from '../../components/InputForm/InputFormHeading';
 import { InputTextArea } from '../../components/InputForm/InputTextArea';
 import { Logo } from '../../components/Logo/Logo';
 import { postProject } from '../../services/ProjectService';
+import { UserContext } from '../../services/UserContext';
 import { requriedMessage } from '../../utils/Constants';
 
 export const ProjectForm = () => {
     const history = useHistory();
+    const { user } = useContext(UserContext);
 
     const validationSchema = Yup.object().shape({
         name: Yup.string().required(requriedMessage),
@@ -30,10 +32,10 @@ export const ProjectForm = () => {
         const { resetForm, setSubmitting } = formikHelpers;
 
         values.employee = {
-            id: 1,
+            id: user.employeeId,
         };
         setSubmitting(true);
-        postProject(values)
+        postProject(values, user.token)
             .then((_) => {
                 setSubmitting(false);
                 history.push('/edit-profile');

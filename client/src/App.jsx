@@ -11,24 +11,30 @@ import { EmployeeEditProfile } from './containers/EmployeeProfile/EmployeeEditPr
 import { EmploymentForm } from './containers/Employment/EmploymentForm';
 import { ProjectForm } from './containers/Project/ProjectForm';
 import { EducationForm } from './containers/Education/EducationForm';
+import { UserContextProvider } from './services/UserContext';
+import { CompanyHomePage } from './containers/HomePages/CompanyHomePage';
 
 function App() {
     return (
-        <BrowserRouter>
-            <Navbar />
-            <div style={{ padding: '16px 10%' }}>
-                <Switch>
-                    <Route path="/" component={EmployeeHomePage} exact />
-                    <Route path={EmployeeById} component={EmployeeProfile} exact />
-                    <Route path={'/login'} component={LoginPage} exact />
-                    <Route path={'/companies/new'} component={CompanyForm} exact />
-                    <Route path={'/edit-profile'} component={EmployeeEditProfile} exact />
-                    <Route path={'/employee/:id/employments/new'} component={EmploymentForm} exact />
-                    <Route path={'/employee/:id/projects/new'} component={ProjectForm} exact />
-                    <Route path={'/employee/:id/educations/new'} component={EducationForm} exact />
-                </Switch>
-            </div>
-        </BrowserRouter>
+        <UserContextProvider>
+            <BrowserRouter>
+                <Navbar />
+                <div style={{ padding: '16px 10%' }}>
+                    <Switch>
+                        <Route path="/" component={HomePage} exact />
+                        <Route path="/employee/home" component={EmployeeHomePage} exact />
+                        <Route path="/company/home" component={CompanyHomePage} exact />
+                        <Route path={EmployeeById} component={EmployeeProfile} exact />
+                        <Route path={'/login'} component={LoginPage} exact />
+                        <Route path={'/companies/new'} component={CompanyForm} exact />
+                        <Route path={'/edit-profile'} component={EmployeeEditProfile} exact />
+                        <Route path={'/employee/:id/employments/new'} component={EmploymentForm} exact />
+                        <Route path={'/employee/:id/projects/new'} component={ProjectForm} exact />
+                        <Route path={'/employee/:id/educations/new'} component={EducationForm} exact />
+                    </Switch>
+                </div>
+            </BrowserRouter>
+        </UserContextProvider>
     );
 }
 

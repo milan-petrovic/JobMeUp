@@ -1,15 +1,11 @@
 import React from 'react';
+import { useContext } from 'react';
+import { UserContext } from '../../services/UserContext';
 import { EmployeeAccountInfo } from './EmpoyeeAccountInfo';
 import { SidebarCategoriesMenu } from './SidebarCategoriesMenu';
 
 export const Sidebar = ({ handleOnCategoryClick }) => {
-    const user = {
-        firstName: 'Milje',
-        lastName: 'Petrovic',
-        email: 'miljenator@gmail.com',
-        givenVotes: 104,
-        receivedVotes: 53,
-    };
+    const { user } = useContext(UserContext);
 
     return (
         <div className="sidebar">

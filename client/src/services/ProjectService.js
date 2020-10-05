@@ -1,5 +1,5 @@
-import { axiosInstance } from '../api/axios';
+import { axiosInstance, getRequestConfig } from '../api/axios';
 
-export const postProject = (requestData) => {
-    return axiosInstance.post('/projects', requestData);
+export const postProject = (requestData, accesToken) => {
+    return axiosInstance.post('/projects', requestData, getRequestConfig(accesToken));
 };

@@ -19,6 +19,13 @@ public abstract class EmployeeMapper {
     })
     public abstract  EmployeeDto entityToDto(Employee employee);
 
+    @Mappings({
+            @Mapping(target = "category", qualifiedByName = "categoryDto"),
+            @Mapping(target = "receivedVotes", ignore = true),
+            @Mapping(target = "givenVotes", ignore=true)
+    })
+    public abstract EmployeeDto createdEntityToDto(Employee employee);
+
     @Named("employeeDtoInsert")
     @Mappings({
         @Mapping(target = "skills", ignore = true),
@@ -32,4 +39,6 @@ public abstract class EmployeeMapper {
         @Mapping(target = "contracts", ignore = true)
     })
     public abstract Employee dtoToEntity(EmployeeDto employeeDto);
+
+    public abstract Employee requestDtoToEntity(EmployeeRequestDto requestDto);
 }

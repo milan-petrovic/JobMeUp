@@ -1,5 +1,5 @@
 import { Field, Form, Formik } from 'formik';
-import React from 'react';
+import React, { useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import * as Yup from 'yup';
 import { SubmitButton } from '../../components/Buttons/SubmitButton';
@@ -9,10 +9,12 @@ import { InputFormHeading } from '../../components/InputForm/InputFormHeading';
 import { InputTextArea } from '../../components/InputForm/InputTextArea';
 import { Logo } from '../../components/Logo/Logo';
 import { postEmployment } from '../../services/EmploymentService';
+import { UserContext } from '../../services/UserContext';
 import { requriedMessage } from '../../utils/Constants';
 
 export const EmploymentForm = () => {
     const history = useHistory();
+    const { user } = useContext(UserContext);
 
     const ValidationSchema = Yup.object().shape({
         client: Yup.string().required(requriedMessage),
@@ -34,106 +36,11 @@ export const EmploymentForm = () => {
         const { setSubmitting, resetForm } = formikHelpers;
 
         values.employee = {
-            id: 1,
-            email: 'milan@gmail.com',
-            password: 'password123',
-            firstName: 'milan',
-            lastName: 'petrovic',
-            about: 'Java developer',
-            category: {
-                id: 1,
-                name: 'Test',
-                description: 'No description',
-            },
-            expectedSalary: '23$hr',
-            skills: [
-                {
-                    id: 1,
-                    name: 'Test',
-                },
-                {
-                    id: 2,
-                    name: 'Test1',
-                },
-                {
-                    id: 3,
-                    name: 'Test2',
-                },
-            ],
-            benefits: [
-                {
-                    id: 2,
-                    name: 'Test1',
-                    description: 'No description',
-                },
-                {
-                    id: 1,
-                    name: 'Test',
-                    description: 'No description',
-                },
-                {
-                    id: 3,
-                    name: 'Test2',
-                    description: 'No description',
-                },
-                {
-                    id: 4,
-                    name: 'Test3',
-                    description: 'No description',
-                },
-            ],
-            projects: [
-                {
-                    id: 1,
-                    name: 'Hajpa',
-                    description: 'No desc',
-                    technicalStack: 'Java, React',
-                },
-                {
-                    id: 2,
-                    name: 'LCLA',
-                    description: 'No desc',
-                    technicalStack: 'Flutter',
-                },
-                {
-                    id: 3,
-                    name: 'LCLewqeqwA',
-                    description: 'No desc',
-                    technicalStack: 'Flutter',
-                },
-            ],
-            educations: [
-                {
-                    id: 1,
-                    name: 'FTN',
-                    description: 'No',
-                    startYear: '2016',
-                    endYear: '2020',
-                },
-                {
-                    id: 2,
-                    name: 'Gimnazija Doboj',
-                    description: 'No',
-                    startYear: '2012',
-                    endYear: '2016',
-                },
-            ],
-            employments: [
-                {
-                    id: 1,
-                    client: 'Veescore',
-                    description: 'No description',
-                    position: 'Software developer',
-                    startDate: 'May, 2020',
-                    endDate: ' September, 2020',
-                },
-            ],
-            receivedVotes: 1,
-            givenVotes: 2,
+            id: user.employeeId,
         };
 
         setSubmitting(true);
-        postEmployment(values)
+        postEmployment(values, user.token)
             .then((response) => {
                 setSubmitting(false);
                 history.push('/edit-profile');
@@ -147,7 +54,7 @@ export const EmploymentForm = () => {
     return (
         <div className="input-form">
             <Logo fontSize="32px" />
-            <InputFormHeading>Add a new education</InputFormHeading>
+            <InputFormHeading>Add a new employment</InputFormHeading>
             <InputFormContainer width="500px">
                 <Formik
                     initialValues={initialValues}

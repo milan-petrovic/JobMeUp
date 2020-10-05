@@ -34,7 +34,7 @@ public class CompanyServiceImpl implements CompanyService {
 
     @Override
     public CompanyDto saveCompany(CompanyDto companyDto) throws ExistingException {
-        if (companyRepository.findByName(companyDto.name).isPresent()) {
+        if (companyRepository.findCompanyByName(companyDto.name).isPresent()) {
             throw new ExistingException("Company with name " + companyDto.name + " already exists.");
         }
 

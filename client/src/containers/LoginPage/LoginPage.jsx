@@ -12,12 +12,20 @@ import {
     invalidEmailMessage,
     requriedMessage,
 } from '../../utils/Constants';
+import { loginAsEmployee } from '../../services/AuthenticateService';
+import { useContext } from 'react';
+import { UserContext } from '../../services/UserContext';
+import { useHistory } from 'react-router-dom';
+import jwt from 'jwt-decode';
 
 export const LoginPage = () => {
     const formInitialValues = {
         email: '',
         password: '',
     };
+
+    const { loginUser } = useContext(UserContext);
+    const history = useHistory();
 
     const ValidationSchema = Yup.object().shape({
         email: Yup.string()
@@ -31,7 +39,32 @@ export const LoginPage = () => {
     });
 
     const handleOnSubmit = (values, formikHelpers) => {
-        console.log(values);
+        const { setSubmitting } = formikHelpers;
+        setSubmitting(true);
+        const authModel = {
+            username: values.email,
+            password: values.password,
+        };
+
+        loginAsEmployee(authModel)
+            .then((response) => {
+                const decodedToken = jwt(response.data.jwtToken);
+                console.log(decodedToken);
+                const { employee } = decodedToken;
+                loginUser({
+                    employeeId: employee.id,
+                    firstName: employee.firstName,
+                    lastName: employee.lastName,
+                    email: employee.email,
+                    receivedVotes: employee.receivedVotes,
+                    givenVotes: employee.givenVotes,
+                    token: response.data.jwtToken,
+                    role: decodedToken.role,
+                });
+                history.push('/employee/home');
+            })
+            .catch((error) => console.log(error))
+            .finally(() => setSubmitting(false));
     };
 
     return (

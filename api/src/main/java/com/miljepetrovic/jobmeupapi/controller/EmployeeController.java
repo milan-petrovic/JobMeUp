@@ -1,5 +1,6 @@
 package com.miljepetrovic.jobmeupapi.controller;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
@@ -11,12 +12,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.http.MediaType;
 
 import com.miljepetrovic.jobmeupapi.dto.employee.EmployeeDto;
+import com.miljepetrovic.jobmeupapi.dto.employee.EmployeeRequestDto;
+import com.miljepetrovic.jobmeupapi.exception.ExistingException;
 import com.miljepetrovic.jobmeupapi.exception.NonExistingException;
 import com.miljepetrovic.jobmeupapi.service.employee.EmployeeService;
 import com.sun.mail.iap.Response;
@@ -41,6 +46,13 @@ public class EmployeeController {
         } else {
             return ResponseEntity.ok(employeeService.findAll());
         }
+    }
+
+    @PostMapping(value = "/register", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> registerEmployee(@RequestBody EmployeeRequestDto requestDto) throws ExistingException {
+        EmployeeDto savedEmployee = employeeService.saveEmployee(requestDto);
+
+        return ResponseEntity.created(URI.create(String.valueOf(savedEmployee.id))).build();
     }
 
     @GetMapping(value = "/category/{categoryId}", produces = MediaType.APPLICATION_JSON_VALUE)

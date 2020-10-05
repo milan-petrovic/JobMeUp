@@ -11,4 +11,5 @@ import com.miljepetrovic.jobmeupapi.model.Employee;
 public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
     List<Employee> findEmployeeByCategoryId(int categoryId);
     Optional<Employee> findEmployeeById(int employeeId);
+    Optional<Employee> findEmployeeByEmail(String email);
 }

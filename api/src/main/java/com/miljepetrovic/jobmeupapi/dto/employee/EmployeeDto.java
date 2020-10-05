@@ -55,6 +55,8 @@ public class EmployeeDto {
 
     public int givenVotes;
 
+    public String country;
+
     @Override
     public String toString() {
         return "EmployeeDto{" +
