@@ -12,7 +12,7 @@ import { InputTextArea } from '../../components/InputForm/InputTextArea';
 import { Spinner } from '../../components/Spinner/Spinner';
 import { getEmployeeById } from '../../services/EmployeeService';
 import { UserContext } from '../../services/UserContext';
-import { invalidEmailMessage, requriedMessage } from '../../utils/Constants';
+import { invalidEmailMessage, requiredMessage } from '../../utils/Constants';
 
 export const EmployeeEditProfile = () => {
     const [employee, setEmploye] = useState(null);
@@ -32,12 +32,12 @@ export const EmployeeEditProfile = () => {
     }, []);
 
     const validationSchema = Yup.object().shape({
-        email: Yup.string().email(invalidEmailMessage).required(requriedMessage),
-        firstName: Yup.string().required(requriedMessage),
-        lastName: Yup.string().required(requriedMessage),
-        password: Yup.string().required(requriedMessage),
-        about: Yup.string().required(requriedMessage),
-        expectedSalary: Yup.string().required(requriedMessage),
+        email: Yup.string().email(invalidEmailMessage).required(requiredMessage),
+        firstName: Yup.string().required(requiredMessage),
+        lastName: Yup.string().required(requiredMessage),
+        password: Yup.string().required(requiredMessage),
+        about: Yup.string().required(requiredMessage),
+        expectedSalary: Yup.string().required(requiredMessage),
     });
 
     return (

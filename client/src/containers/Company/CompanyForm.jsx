@@ -1,18 +1,18 @@
 import { Field, Form, Formik } from 'formik';
 import React from 'react';
-import { InputFormContainer } from '../../components/InputForm/InputFormContainer';
-import { Logo } from '../../components/Logo/Logo';
 import * as Yup from 'yup';
-import { InputField } from '../../components/InputForm/InputField';
 import { SubmitButton } from '../../components/Buttons/SubmitButton';
-import { InputTextArea } from '../../components/InputForm/InputTextArea';
-import { postCompany } from '../../services/CompanyService';
+import { InputField } from '../../components/InputForm/InputField';
+import { InputFormContainer } from '../../components/InputForm/InputFormContainer';
 import { InputFormHeading } from '../../components/InputForm/InputFormHeading';
+import { InputTextArea } from '../../components/InputForm/InputTextArea';
+import { Logo } from '../../components/Logo/Logo';
+import { postCompany } from '../../services/CompanyService';
 import {
     EMPTY_INITIAL_FIELD,
     getConstraintLengthMinMessage,
     invalidEmailMessage,
-    requriedMessage,
+    requiredMessage,
 } from '../../utils/Constants';
 
 export const CompanyForm = () => {
@@ -30,17 +30,17 @@ export const CompanyForm = () => {
 
     const validationSchema = Yup.object().shape({
         email: Yup.string()
-            .required(requriedMessage)
+            .required(requiredMessage)
             .min(6, getConstraintLengthMinMessage('Email', 6))
             .email(invalidEmailMessage),
-        password: Yup.string().required(requriedMessage),
-        name: Yup.string().required(requriedMessage),
-        about: Yup.string().required(requriedMessage),
-        country: Yup.string().required(requriedMessage),
-        size: Yup.number().required(requriedMessage),
-        foundedYear: Yup.number().required(requriedMessage),
-        address: Yup.string().required(requriedMessage),
-        phoneNumber: Yup.string().required(requriedMessage),
+        password: Yup.string().required(requiredMessage),
+        name: Yup.string().required(requiredMessage),
+        about: Yup.string().required(requiredMessage),
+        country: Yup.string().required(requiredMessage),
+        size: Yup.number().required(requiredMessage),
+        foundedYear: Yup.number().required(requiredMessage),
+        address: Yup.string().required(requiredMessage),
+        phoneNumber: Yup.string().required(requiredMessage),
     });
 
     const handleOnSubmit = (values, formikHelpers) => {

@@ -15,7 +15,7 @@ import {
     EMPTY_INITIAL_FIELD,
     getConstraingLengthMaxMessage,
     getConstraintLengthMinMessage,
-    requriedMessage,
+    requiredMessage,
     routes,
 } from '../../utils/Constants';
 
@@ -31,14 +31,14 @@ export const EducationForm = () => {
     };
 
     const validationSchema = Yup.object().shape({
-        name: Yup.string().required(requriedMessage),
+        name: Yup.string().required(requiredMessage),
         description: Yup.string(),
         startYear: Yup.string()
-            .required(requriedMessage)
+            .required(requiredMessage)
             .min(4, getConstraintLengthMinMessage('Start year', 4))
             .max(4, getConstraingLengthMaxMessage('Start year', 4)),
         endYear: Yup.string()
-            .required(requriedMessage)
+            .required(requiredMessage)
             .min(4, getConstraintLengthMinMessage('End year', 4))
             .max(4, getConstraingLengthMaxMessage('End year', 4)),
     });

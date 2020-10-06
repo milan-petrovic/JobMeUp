@@ -101,7 +101,8 @@ public class EmployeeServiceImpl implements EmployeeService {
         logger.debug("Saving employee {}", employeeRequestDto);
 
         Optional<Employee> employeeByEmail = employeeRepository.findEmployeeByEmail(employeeRequestDto.email);
-        if (employeeByEmail.isPresent() || registeredUserRepository.findRegisteredUserByEmail(employeeRequestDto.email).isPresent()) {
+        if (employeeByEmail.isPresent() ||
+            registeredUserRepository.findRegisteredUserByEmail(employeeRequestDto.email).isPresent()) {
             throw new ExistingException("Employee exists with email: " + employeeRequestDto.email);
         } else {
             Employee employee = employeeMapper.requestDtoToEntity(employeeRequestDto);
