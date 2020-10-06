@@ -105,10 +105,10 @@
                 font-weight: 500;
                 color: $black;
             }
-        }
 
-        .sidebar__user-details__edit-profile:hover {
-            cursor: pointer;
+            &:hover {
+                cursor: pointer;
+            }
         }
     }
 
@@ -135,11 +135,10 @@
             font-size: 14px;
             font-weight: 500;
             color: grey;
-        }
-
-        .sidebar_menu_items__item:hover {
-            color: $darkBlue;
-            cursor: pointer;
+            &:hover {
+                color: $darkBlue;
+                cursor: pointer;
+            }
         }
     }
 }

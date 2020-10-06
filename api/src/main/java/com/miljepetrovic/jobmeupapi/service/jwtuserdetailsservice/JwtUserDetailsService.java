@@ -3,12 +3,10 @@ package com.miljepetrovic.jobmeupapi.service.jwtuserdetailsservice;
 import java.util.ArrayList;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.miljepetrovic.jobmeupapi.dto.company.CompanyDto;
@@ -18,9 +16,11 @@ import com.miljepetrovic.jobmeupapi.dto.employee.EmployeeMapper;
 import com.miljepetrovic.jobmeupapi.exception.NonExistingException;
 import com.miljepetrovic.jobmeupapi.model.Company;
 import com.miljepetrovic.jobmeupapi.model.Employee;
+import com.miljepetrovic.jobmeupapi.model.RegisteredUser;
 import com.miljepetrovic.jobmeupapi.repository.AdminRepository;
 import com.miljepetrovic.jobmeupapi.repository.CompanyRepository;
 import com.miljepetrovic.jobmeupapi.repository.EmployeeRepository;
+import com.miljepetrovic.jobmeupapi.repository.RegisteredUserRepository;
 
 @Service
 public class JwtUserDetailsService implements UserDetailsService {
@@ -30,20 +30,21 @@ public class JwtUserDetailsService implements UserDetailsService {
     private final AdminRepository adminRepository;
     private final EmployeeMapper employeeMapper;
     private final CompanyMapper companyMapper;
-    @Autowired
-    private  PasswordEncoder bcryptEncoder;
+    private final RegisteredUserRepository registeredUserRepository;
 
-    public JwtUserDetailsService(EmployeeRepository employeeRepository, CompanyRepository companyRepository, AdminRepository adminRepository, EmployeeMapper employeeMapper, CompanyMapper companyMapper) {
+    public JwtUserDetailsService(EmployeeRepository employeeRepository, CompanyRepository companyRepository, AdminRepository adminRepository, EmployeeMapper employeeMapper, CompanyMapper companyMapper, RegisteredUserRepository registeredUserRepository) {
         this.employeeRepository = employeeRepository;
         this.companyRepository = companyRepository;
         this.adminRepository = adminRepository;
         this.employeeMapper = employeeMapper;
         this.companyMapper = companyMapper;
+        this.registeredUserRepository = registeredUserRepository;
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-            return new User(username, "$2a$10$slYQmyNdGzTn7ZLBXBChFOC9f6kFjAqPhccnP6DxlWXx2lPk1C3G6",
+        Optional<RegisteredUser> registeredUserByEmail = registeredUserRepository.findRegisteredUserByEmail(username);
+        return new User(username, registeredUserByEmail.get().getPassword(),
                     new ArrayList<>());
     }
 

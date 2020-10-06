@@ -14,21 +14,28 @@ import org.springframework.stereotype.Service;
 import com.miljepetrovic.jobmeupapi.dto.employee.EmployeeDto;
 import com.miljepetrovic.jobmeupapi.dto.employee.EmployeeMapper;
 import com.miljepetrovic.jobmeupapi.dto.employee.EmployeeRequestDto;
+import com.miljepetrovic.jobmeupapi.dto.registered_user.RegisteredUserDto;
 import com.miljepetrovic.jobmeupapi.exception.ExistingException;
 import com.miljepetrovic.jobmeupapi.exception.NonExistingException;
 import com.miljepetrovic.jobmeupapi.model.Employee;
 import com.miljepetrovic.jobmeupapi.repository.EmployeeRepository;
+import com.miljepetrovic.jobmeupapi.repository.RegisteredUserRepository;
+import com.miljepetrovic.jobmeupapi.service.registered_user.RegisteredUserService;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
     private final static Logger logger = LoggerFactory.getLogger(EmployeeServiceImpl.class);
     private final EmployeeRepository employeeRepository;
+    private final RegisteredUserRepository registeredUserRepository;
     private final EmployeeMapper employeeMapper;
+    private final RegisteredUserService registeredUserService;
     private final PasswordEncoder bcryptEncoder;
 
-    public EmployeeServiceImpl(EmployeeRepository employeeRepository, EmployeeMapper employeeMapper, PasswordEncoder bcryptEncoder) {
+    public EmployeeServiceImpl(EmployeeRepository employeeRepository, RegisteredUserRepository registeredUserRepository, EmployeeMapper employeeMapper, RegisteredUserService registeredUserService, PasswordEncoder bcryptEncoder) {
         this.employeeRepository = employeeRepository;
+        this.registeredUserRepository = registeredUserRepository;
         this.employeeMapper = employeeMapper;
+        this.registeredUserService = registeredUserService;
         this.bcryptEncoder = bcryptEncoder;
     }
 
@@ -92,13 +99,22 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public EmployeeDto saveEmployee(EmployeeRequestDto employeeRequestDto) throws ExistingException {
         logger.debug("Saving employee {}", employeeRequestDto);
+
         Optional<Employee> employeeByEmail = employeeRepository.findEmployeeByEmail(employeeRequestDto.email);
-        if (employeeByEmail.isPresent()) {
+        if (employeeByEmail.isPresent() || registeredUserRepository.findRegisteredUserByEmail(employeeRequestDto.email).isPresent()) {
             throw new ExistingException("Employee exists with email: " + employeeRequestDto.email);
         } else {
             Employee employee = employeeMapper.requestDtoToEntity(employeeRequestDto);
             employee.setPassword(bcryptEncoder.encode(employeeRequestDto.password));
             Employee persistedEmployee = employeeRepository.save(employee);
+
+            RegisteredUserDto registeredUserDto = new RegisteredUserDto();
+            registeredUserDto.email = persistedEmployee.getEmail();
+            registeredUserDto.password = persistedEmployee.getPassword();
+            registeredUserDto.type = "employee";
+            registeredUserDto.actualId = persistedEmployee.getId();
+
+            registeredUserService.saveRegisteredUser(registeredUserDto);
 
             return employeeMapper.createdEntityToDto(persistedEmployee);
         }

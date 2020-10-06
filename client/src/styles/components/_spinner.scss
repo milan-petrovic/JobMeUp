@@ -1,8 +1,8 @@
 @import './variables';
 
 .spinner {
-    border: 4px solid $lightBlue; /* Light grey */
-    border-top: 4px solid $darkBlue; /* Blue */
+    border: $verySmallPadding solid $lightBlue; /* Light grey */
+    border-top: $verySmallPadding solid $darkBlue; /* Blue */
     border-radius: 50%;
     width: 30px;
     height: 30px;
