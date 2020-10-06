@@ -6,9 +6,10 @@ import { useRouteMatch } from 'react-router';
 import { getEmployeeById } from '../../services/EmployeeService';
 import { Spinner } from '../../components/Spinner/Spinner';
 import { getIndicatorsOfFirstAndLastName } from '../../utils/Utils';
+import { routes } from '../../utils/Constants';
 
 export const EmployeeProfile = () => {
-    const matchId = useRouteMatch('/profile/:id').params.id;
+    const matchId = useRouteMatch(routes.EMPLOYEE_BY_ID).params.id;
     const [employee, setEmployee] = useState(null);
     const [isLoading, setLoading] = useState(true);
 

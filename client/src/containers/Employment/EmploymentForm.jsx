@@ -1,6 +1,6 @@
 import { Field, Form, Formik } from 'formik';
-import React, { useContext, useEffect, useState } from 'react';
-import { useHistory, useRouteMatch } from 'react-router-dom';
+import React, { useContext } from 'react';
+import { useHistory } from 'react-router-dom';
 import * as Yup from 'yup';
 import { SubmitButton } from '../../components/Buttons/SubmitButton';
 import { InputField } from '../../components/InputForm/InputField';
@@ -8,30 +8,29 @@ import { InputFormContainer } from '../../components/InputForm/InputFormContaine
 import { InputFormHeading } from '../../components/InputForm/InputFormHeading';
 import { InputTextArea } from '../../components/InputForm/InputTextArea';
 import { Logo } from '../../components/Logo/Logo';
-import { getEducationById } from '../../services/EducationService';
 import { postEmployment } from '../../services/EmploymentService';
 import { UserContext } from '../../services/UserContext';
-import { requriedMessage } from '../../utils/Constants';
+import { EMPTY_INITIAL_FIELD as EMPTY_INITIAL_FIELD_VALUE, requriedMessage, routes } from '../../utils/Constants';
 
 export const EmploymentForm = () => {
     const history = useHistory();
     const { user } = useContext(UserContext);
 
-    const ValidationSchema = Yup.object().shape({
+    const initialValues = {
+        client: EMPTY_INITIAL_FIELD_VALUE,
+        description: EMPTY_INITIAL_FIELD_VALUE,
+        startDate: EMPTY_INITIAL_FIELD_VALUE,
+        endDate: EMPTY_INITIAL_FIELD_VALUE,
+        position: EMPTY_INITIAL_FIELD_VALUE,
+    };
+
+    const validationSchema = Yup.object().shape({
         client: Yup.string().required(requriedMessage),
         description: Yup.string().required(requriedMessage),
         startDate: Yup.string().required(requriedMessage),
         endDate: Yup.string().required(requriedMessage),
         position: Yup.string().required(requriedMessage),
     });
-
-    const initialValues = {
-        client: '',
-        description: '',
-        startDate: '',
-        endDate: '',
-        position: '',
-    };
 
     const handleOnSubmit = (values, formikHelpers) => {
         const { setSubmitting, resetForm } = formikHelpers;
@@ -44,7 +43,7 @@ export const EmploymentForm = () => {
         postEmployment(values, user.token)
             .then((response) => {
                 setSubmitting(false);
-                history.push('/edit-profile');
+                history.push(routes.EDIT_PROFILE);
             })
             .catch((error) => console.log(error))
             .finally(() => {
@@ -61,7 +60,7 @@ export const EmploymentForm = () => {
                     initialValues={initialValues}
                     validateOnBlur={true}
                     validateOnChange={false}
-                    validationSchema={ValidationSchema}
+                    validationSchema={validationSchema}
                     onSubmit={(values, formikHelpers) => handleOnSubmit(values, formikHelpers)}>
                     {(formikProps) => <InnerForm {...formikProps} />}
                 </Formik>

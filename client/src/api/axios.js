@@ -1,8 +1,8 @@
 import axios from 'axios';
-import { ApiUrl } from '../utils/Constants';
+import { baseRoutes } from '../utils/Constants';
 
 export const axiosInstance = axios.create({
-    baseURL: ApiUrl,
+    baseURL: baseRoutes.API_URL,
     headers: {
         'Content-Type': 'application/json',
     },

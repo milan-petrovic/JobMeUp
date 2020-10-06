@@ -1,33 +1,33 @@
-import React from 'react';
-import { InputField } from '../../components/InputForm/InputField';
-import { Field, Form, Formik, FormikHelpers, FormikProps } from 'formik';
+import { Field, Form, Formik } from 'formik';
+import jwt from 'jwt-decode';
+import React, { useContext } from 'react';
+import { useHistory } from 'react-router-dom';
 import * as Yup from 'yup';
-import { Logo } from '../../components/Logo/Logo';
-import { LineSpacer } from '../../components/LineSpacer';
 import { SubmitButton } from '../../components/Buttons/SubmitButton';
+import { InputField } from '../../components/InputForm/InputField';
 import { InputFormContainer } from '../../components/InputForm/InputFormContainer';
+import { Logo } from '../../components/Logo/Logo';
+import { loginAsEmployee } from '../../services/AuthenticateService';
+import { UserContext } from '../../services/UserContext';
 import {
+    EMPTY_INITIAL_FIELD,
     getConstraingLengthMaxMessage,
     getConstraintLengthMinMessage,
     invalidEmailMessage,
     requriedMessage,
+    routes,
 } from '../../utils/Constants';
-import { loginAsEmployee } from '../../services/AuthenticateService';
-import { useContext } from 'react';
-import { UserContext } from '../../services/UserContext';
-import { useHistory } from 'react-router-dom';
-import jwt from 'jwt-decode';
 
 export const LoginPage = () => {
-    const formInitialValues = {
-        email: '',
-        password: '',
-    };
-
     const { loginUser } = useContext(UserContext);
     const history = useHistory();
 
-    const ValidationSchema = Yup.object().shape({
+    const initialValues = {
+        email: EMPTY_INITIAL_FIELD,
+        password: EMPTY_INITIAL_FIELD,
+    };
+
+    const validationSchema = Yup.object().shape({
         email: Yup.string()
             .email(invalidEmailMessage)
             .min(4, getConstraintLengthMinMessage('Email', 4))
@@ -41,6 +41,7 @@ export const LoginPage = () => {
     const handleOnSubmit = (values, formikHelpers) => {
         const { setSubmitting } = formikHelpers;
         setSubmitting(true);
+
         const authModel = {
             username: values.email,
             password: values.password,
@@ -49,7 +50,6 @@ export const LoginPage = () => {
         loginAsEmployee(authModel)
             .then((response) => {
                 const decodedToken = jwt(response.data.jwtToken);
-                console.log(decodedToken);
                 const { employee } = decodedToken;
                 loginUser({
                     employeeId: employee.id,
@@ -61,7 +61,7 @@ export const LoginPage = () => {
                     token: response.data.jwtToken,
                     role: decodedToken.role,
                 });
-                history.push('/employee/home');
+                history.push(routes.EMPLOYEE_HOME);
             })
             .catch((error) => console.log(error))
             .finally(() => setSubmitting(false));
@@ -76,10 +76,10 @@ export const LoginPage = () => {
             <div className="login-page__form">
                 <InputFormContainer width="400px">
                     <Formik
-                        initialValues={formInitialValues}
+                        initialValues={initialValues}
                         validateOnChange={false}
                         validateOnBlur={true}
-                        validationSchema={ValidationSchema}
+                        validationSchema={validationSchema}
                         onSubmit={(values, formikHelpers) => handleOnSubmit(values, formikHelpers)}>
                         {(formikProps) => (
                             <Form>

@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Sidebar } from '../../components/Sidebar/Sidebar';
 import { Spinner } from '../../components/Spinner/Spinner';
-import { EmployeeList } from '../EmployeeList/EmployeeList';
-import '../../styles/main.scss';
-import { getAllEmployees, getAllEmployeesByCategory, getAllOtherEmployees } from '../../services/EmployeeService';
-import { useContext } from 'react';
+import { getAllEmployeesByCategory, getAllOtherEmployees } from '../../services/EmployeeService';
 import { UserContext } from '../../services/UserContext';
+import '../../styles/main.scss';
+import { EmployeeList } from '../EmployeeList/EmployeeList';
 
 export const EmployeeHomePage = () => {
     const [employees, setEmployees] = useState([]);

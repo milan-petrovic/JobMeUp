@@ -11,11 +11,24 @@ import { InputTextArea } from '../../components/InputForm/InputTextArea';
 import { Logo } from '../../components/Logo/Logo';
 import { getEducationById, postEducation, putEducation } from '../../services/EducationService';
 import { UserContext } from '../../services/UserContext';
-import { getConstraingLengthMaxMessage, getConstraintLengthMinMessage, requriedMessage } from '../../utils/Constants';
+import {
+    EMPTY_INITIAL_FIELD,
+    getConstraingLengthMaxMessage,
+    getConstraintLengthMinMessage,
+    requriedMessage,
+    routes,
+} from '../../utils/Constants';
 
 export const EducationForm = () => {
-    const history = useHistory();
     const { user, authenticated } = useContext(UserContext);
+    const history = useHistory();
+
+    const initialValues = {
+        name: EMPTY_INITIAL_FIELD,
+        description: EMPTY_INITIAL_FIELD,
+        startYear: EMPTY_INITIAL_FIELD,
+        endYear: EMPTY_INITIAL_FIELD,
+    };
 
     const validationSchema = Yup.object().shape({
         name: Yup.string().required(requriedMessage),
@@ -30,25 +43,19 @@ export const EducationForm = () => {
             .max(4, getConstraingLengthMaxMessage('End year', 4)),
     });
 
-    const initialValues = {
-        name: '',
-        description: '',
-        startYear: '',
-        endYear: '',
-    };
-
     const handleOnSubmit = (values, formikHelpers) => {
         const { resetForm, setSubmitting } = formikHelpers;
 
         values.employee = {
             id: user.employeeId,
         };
+
         if (authenticated && user && user.token) {
             if (values.id != null) {
                 putEducation(values, user.token)
                     .then((_) => {
                         setSubmitting(false);
-                        history.push('/edit-profile');
+                        history.push(routes.EDIT_PROFILE);
                     })
                     .catch((error) => console.log(error))
                     .finally(() => {
@@ -58,7 +65,7 @@ export const EducationForm = () => {
                 postEducation(values, user.token)
                     .then((_) => {
                         setSubmitting(false);
-                        history.push('/edit-profile');
+                        history.push(routes.EDIT_PROFILE);
                     })
                     .catch((error) => console.log(error))
                     .finally(() => {
@@ -82,7 +89,7 @@ export const EducationForm = () => {
 
 const InnerForm = ({ setValues }) => {
     const [editing, setEditing] = useState(false);
-    const matchId = useRouteMatch('/employee/:id/educations/edit/:educationId')?.params.educationId;
+    const matchId = useRouteMatch(routes.EMPLOYEE_EDIT_EDUCATION)?.params.educationId;
     const { user, authenticated } = useContext(UserContext);
 
     useEffect(() => {

@@ -1,24 +1,24 @@
 import { Field, Form, Formik } from 'formik';
 import React, { useContext, useEffect, useState } from 'react';
-import { InputFormContainer } from '../../components/InputForm/InputFormContainer';
+import { useHistory } from 'react-router-dom';
 import * as Yup from 'yup';
-import { InputField } from '../../components/InputForm/InputField';
-import { InputTextArea } from '../../components/InputForm/InputTextArea';
-import { SubmitButton } from '../../components/Buttons/SubmitButton';
+import { AddButton } from '../../components/Buttons/AddButton';
 import { DeleteButton } from '../../components/Buttons/DeleteButton';
 import { EditButton } from '../../components/Buttons/EditButton';
-import { AddButton } from '../../components/Buttons/AddButton';
-import { invalidEmailMessage, requriedMessage } from '../../utils/Constants';
-import { useHistory } from 'react-router-dom';
-import { UserContext } from '../../services/UserContext';
-import { getEmployeeById } from '../../services/EmployeeService';
+import { SubmitButton } from '../../components/Buttons/SubmitButton';
+import { InputField } from '../../components/InputForm/InputField';
+import { InputFormContainer } from '../../components/InputForm/InputFormContainer';
+import { InputTextArea } from '../../components/InputForm/InputTextArea';
 import { Spinner } from '../../components/Spinner/Spinner';
+import { getEmployeeById } from '../../services/EmployeeService';
+import { UserContext } from '../../services/UserContext';
+import { invalidEmailMessage, requriedMessage } from '../../utils/Constants';
 
 export const EmployeeEditProfile = () => {
-    const history = useHistory();
-    const { user, authenticated } = useContext(UserContext);
     const [employee, setEmploye] = useState(null);
     const [isLoading, setLoading] = useState(true);
+    const { user, authenticated } = useContext(UserContext);
+    const history = useHistory();
 
     useEffect(() => {
         if (authenticated && user) {
@@ -31,7 +31,7 @@ export const EmployeeEditProfile = () => {
         }
     }, []);
 
-    const ValidationSchema = Yup.object().shape({
+    const validationSchema = Yup.object().shape({
         email: Yup.string().email(invalidEmailMessage).required(requriedMessage),
         firstName: Yup.string().required(requriedMessage),
         lastName: Yup.string().required(requriedMessage),
@@ -49,7 +49,7 @@ export const EmployeeEditProfile = () => {
                     <div className="my-profile-container__main__details">
                         <h1> Update your info</h1>
                         <InputFormContainer>
-                            <Formik validationSchema={ValidationSchema}>
+                            <Formik validationSchema={validationSchema}>
                                 {(formikProps) => <EditProfileForm {...formikProps} employee={employee} />}
                             </Formik>
                         </InputFormContainer>

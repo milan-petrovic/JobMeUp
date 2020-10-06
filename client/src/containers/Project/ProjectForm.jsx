@@ -10,11 +10,17 @@ import { InputTextArea } from '../../components/InputForm/InputTextArea';
 import { Logo } from '../../components/Logo/Logo';
 import { postProject } from '../../services/ProjectService';
 import { UserContext } from '../../services/UserContext';
-import { requriedMessage } from '../../utils/Constants';
+import { EMPTY_INITIAL_FIELD, requriedMessage, routes } from '../../utils/Constants';
 
 export const ProjectForm = () => {
     const history = useHistory();
     const { user } = useContext(UserContext);
+
+    const intialValues = {
+        name: EMPTY_INITIAL_FIELD,
+        description: EMPTY_INITIAL_FIELD,
+        technicalStack: EMPTY_INITIAL_FIELD,
+    };
 
     const validationSchema = Yup.object().shape({
         name: Yup.string().required(requriedMessage),
@@ -22,23 +28,18 @@ export const ProjectForm = () => {
         technicalStack: Yup.string().required(requriedMessage),
     });
 
-    const intialValues = {
-        name: '',
-        description: '',
-        technicalStack: '',
-    };
-
     const handleSubmit = (values, formikHelpers) => {
         const { resetForm, setSubmitting } = formikHelpers;
 
         values.employee = {
             id: user.employeeId,
         };
+
         setSubmitting(true);
         postProject(values, user.token)
             .then((_) => {
                 setSubmitting(false);
-                history.push('/edit-profile');
+                history.push(routes.EDIT_PROFILE);
             })
             .then((error) => console.log(error))
             .finally(() => {

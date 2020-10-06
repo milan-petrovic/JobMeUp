@@ -8,22 +8,27 @@ import { SubmitButton } from '../../components/Buttons/SubmitButton';
 import { InputTextArea } from '../../components/InputForm/InputTextArea';
 import { postCompany } from '../../services/CompanyService';
 import { InputFormHeading } from '../../components/InputForm/InputFormHeading';
-import { getConstraintLengthMinMessage, invalidEmailMessage, requriedMessage } from '../../utils/Constants';
+import {
+    EMPTY_INITIAL_FIELD,
+    getConstraintLengthMinMessage,
+    invalidEmailMessage,
+    requriedMessage,
+} from '../../utils/Constants';
 
 export const CompanyForm = () => {
     const initialValues = {
-        email: '',
-        password: '',
-        name: '',
-        about: '',
-        country: '',
+        email: EMPTY_INITIAL_FIELD,
+        password: EMPTY_INITIAL_FIELD,
+        name: EMPTY_INITIAL_FIELD,
+        about: EMPTY_INITIAL_FIELD,
+        country: EMPTY_INITIAL_FIELD,
         size: 0,
         foundedYear: 0,
-        address: '',
-        phoneNumber: '',
+        address: EMPTY_INITIAL_FIELD,
+        phoneNumber: EMPTY_INITIAL_FIELD,
     };
 
-    const ValidationSchema = Yup.object().shape({
+    const validationSchema = Yup.object().shape({
         email: Yup.string()
             .required(requriedMessage)
             .min(6, getConstraintLengthMinMessage('Email', 6))
@@ -62,7 +67,7 @@ export const CompanyForm = () => {
                     initialValues={initialValues}
                     validateOnChange={false}
                     validateOnBlur={true}
-                    validationSchema={ValidationSchema}
+                    validationSchema={validationSchema}
                     onSubmit={(values, formikHelpers) => handleOnSubmit(values, formikHelpers)}>
                     {(formikProps) => (
                         <Form>

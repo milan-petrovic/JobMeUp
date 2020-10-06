@@ -3,6 +3,7 @@ import { Link, useHistory } from 'react-router-dom';
 import { Logo } from '../Logo/Logo';
 import '../../styles/main.scss';
 import { UserContext } from '../../services/UserContext';
+import { roles, routes } from '../../utils/Constants';
 
 export const Navbar = () => {
     const { user, authenticated, logoutUser } = useContext(UserContext);
@@ -10,24 +11,24 @@ export const Navbar = () => {
 
     const handleLogout = () => {
         logoutUser();
-        history.push('/');
+        history.push(routes.HOME);
     };
 
     const getRedirectRoute = () => {
         if (user) {
-            if (user.role === 'employee') {
-                return '/employee/home';
+            if (user.role === roles.EMPLOYEE) {
+                return routes.EMPLOYEE_HOME;
             } else {
-                return 'company/home';
+                return routes.COMPANY_HOME;
             }
         } else {
-            return '/';
+            return routes.HOME;
         }
     };
 
     const getHeaderLinks = () => {
         if (authenticated) {
-            if (user && user.role === 'employee') {
+            if (user && user.role === roles.EMPLOYEE) {
                 return (
                     <ul className="header__links">
                         <li>
@@ -62,7 +63,7 @@ export const Navbar = () => {
                         <button className="header__button">Hire Best Employee</button>
                     </Link>
                     <li>
-                        <Link to="/login">Log In</Link>
+                        <Link to={routes.LOGIN}>Log In</Link>
                     </li>
                 </ul>
             );
