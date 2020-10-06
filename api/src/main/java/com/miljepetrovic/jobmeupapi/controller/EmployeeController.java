@@ -48,6 +48,13 @@ public class EmployeeController {
         }
     }
 
+    @GetMapping(value = "/others/{employeeId}")
+    public ResponseEntity<List<EmployeeDto>> getAllOtherEmployees(@PathVariable(name = "employeeId") int employeeId) {
+        logger.info("GET /employees/other/{}", employeeId);
+
+        return ResponseEntity.ok(employeeService.findAllOtherEmployees(employeeId));
+    }
+
     @PostMapping(value = "/register", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> registerEmployee(@RequestBody EmployeeRequestDto requestDto) throws ExistingException {
         EmployeeDto savedEmployee = employeeService.saveEmployee(requestDto);

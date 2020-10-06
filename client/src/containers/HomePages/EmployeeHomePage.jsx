@@ -3,19 +3,24 @@ import { Sidebar } from '../../components/Sidebar/Sidebar';
 import { Spinner } from '../../components/Spinner/Spinner';
 import { EmployeeList } from '../EmployeeList/EmployeeList';
 import '../../styles/main.scss';
-import { getAllEmployees, getAllEmployeesByCategory } from '../../services/EmployeeService';
+import { getAllEmployees, getAllEmployeesByCategory, getAllOtherEmployees } from '../../services/EmployeeService';
+import { useContext } from 'react';
+import { UserContext } from '../../services/UserContext';
 
 export const EmployeeHomePage = () => {
     const [employees, setEmployees] = useState([]);
     const [isLoading, setLoading] = useState(true);
+    const { user, authenticated } = useContext(UserContext);
 
     useEffect(() => {
-        getAllEmployees()
-            .then((response) => {
-                setEmployees(response.data);
-                setLoading(false);
-            })
-            .catch((error) => console.log(error));
+        if (authenticated && user) {
+            getAllOtherEmployees(user.employeeId)
+                .then((response) => {
+                    setEmployees(response.data);
+                    setLoading(false);
+                })
+                .catch((error) => console.log(error));
+        }
     }, []);
 
     const handleOnCategoryClick = (categoryId) => {

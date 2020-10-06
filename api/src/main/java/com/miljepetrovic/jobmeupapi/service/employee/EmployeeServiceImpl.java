@@ -41,6 +41,14 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
+    public List<EmployeeDto> findAllOtherEmployees(int id) {
+        logger.debug("Getting all other employees {}");
+        List<Employee> employeeEntities = employeeRepository.findCollegueEmployees(id);
+
+        return employeeEntities.stream().map(employeeMapper::entityToDto).collect(Collectors.toList());
+    }
+
+    @Override
     public List<EmployeeDto> findAllEmployeesByCategory(int categoryId) {
         logger.debug("Getting all employees by category with id {}", categoryId);
         List<Employee> employeesByCategory = employeeRepository.findEmployeeByCategoryId(categoryId);

@@ -12,4 +12,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
     List<Employee> findEmployeeByCategoryId(int categoryId);
     Optional<Employee> findEmployeeById(int employeeId);
     Optional<Employee> findEmployeeByEmail(String email);
+
+    @Query("select e from Employee e where e.id <> :id")
+    List<Employee> findCollegueEmployees(int id);
 }

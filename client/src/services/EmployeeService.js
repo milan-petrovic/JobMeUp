@@ -11,3 +11,7 @@ export const getAllEmployeesByCategory = (categoryId) => {
 export const getEmployeeById = (employeeId) => {
     return axiosInstance.get(`/employees/${employeeId}`);
 };
+
+export const getAllOtherEmployees = (employeeId) => {
+    return axiosInstance.get(`/employees/others/${employeeId}`);
+};
