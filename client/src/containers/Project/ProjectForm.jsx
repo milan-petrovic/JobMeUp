@@ -10,7 +10,7 @@ import { InputTextArea } from '../../components/InputForm/InputTextArea';
 import { Logo } from '../../components/Logo/Logo';
 import { postProject } from '../../services/ProjectService';
 import { UserContext } from '../../services/UserContext';
-import { EMPTY_INITIAL_FIELD, requriedMessage, routes } from '../../utils/Constants';
+import { EMPTY_INITIAL_FIELD, requiredMessage, routes } from '../../utils/Constants';
 
 export const ProjectForm = () => {
     const history = useHistory();
@@ -23,9 +23,9 @@ export const ProjectForm = () => {
     };
 
     const validationSchema = Yup.object().shape({
-        name: Yup.string().required(requriedMessage),
-        description: Yup.string().required(requriedMessage),
-        technicalStack: Yup.string().required(requriedMessage),
+        name: Yup.string().required(requiredMessage),
+        description: Yup.string().required(requiredMessage),
+        technicalStack: Yup.string().required(requiredMessage),
     });
 
     const handleSubmit = (values, formikHelpers) => {

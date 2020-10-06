@@ -14,7 +14,7 @@ import {
     getConstraingLengthMaxMessage,
     getConstraintLengthMinMessage,
     invalidEmailMessage,
-    requriedMessage,
+    requiredMessage,
     routes,
 } from '../../utils/Constants';
 
@@ -31,11 +31,11 @@ export const LoginPage = () => {
         email: Yup.string()
             .email(invalidEmailMessage)
             .min(4, getConstraintLengthMinMessage('Email', 4))
-            .required(requriedMessage),
+            .required(requiredMessage),
         password: Yup.string()
             .min(6, getConstraintLengthMinMessage('Password', 6))
             .max(32, getConstraingLengthMaxMessage('Password', 32))
-            .required(requriedMessage),
+            .required(requiredMessage),
     });
 
     const handleOnSubmit = (values, formikHelpers) => {

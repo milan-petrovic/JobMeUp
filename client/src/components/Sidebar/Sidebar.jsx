@@ -5,7 +5,7 @@ import { EmployeeAccountInfo } from './EmpoyeeAccountInfo';
 import { SidebarCategoriesMenu } from './SidebarCategoriesMenu';
 
 export const Sidebar = ({ handleOnCategoryClick }) => {
-    const { user, authenticated } = useContext(UserContext);
+    const { user } = useContext(UserContext);
 
     return (
         <div className="sidebar">

@@ -10,7 +10,7 @@ import { InputTextArea } from '../../components/InputForm/InputTextArea';
 import { Logo } from '../../components/Logo/Logo';
 import { postEmployment } from '../../services/EmploymentService';
 import { UserContext } from '../../services/UserContext';
-import { EMPTY_INITIAL_FIELD as EMPTY_INITIAL_FIELD_VALUE, requriedMessage, routes } from '../../utils/Constants';
+import { EMPTY_INITIAL_FIELD as EMPTY_INITIAL_FIELD_VALUE, requiredMessage, routes } from '../../utils/Constants';
 
 export const EmploymentForm = () => {
     const history = useHistory();
@@ -25,11 +25,11 @@ export const EmploymentForm = () => {
     };
 
     const validationSchema = Yup.object().shape({
-        client: Yup.string().required(requriedMessage),
-        description: Yup.string().required(requriedMessage),
-        startDate: Yup.string().required(requriedMessage),
-        endDate: Yup.string().required(requriedMessage),
-        position: Yup.string().required(requriedMessage),
+        client: Yup.string().required(requiredMessage),
+        description: Yup.string().required(requiredMessage),
+        startDate: Yup.string().required(requiredMessage),
+        endDate: Yup.string().required(requiredMessage),
+        position: Yup.string().required(requiredMessage),
     });
 
     const handleOnSubmit = (values, formikHelpers) => {
