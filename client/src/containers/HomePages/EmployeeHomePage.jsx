@@ -13,7 +13,7 @@ export const EmployeeHomePage = () => {
 
     useEffect(() => {
         getEmployees();
-    }, [employees]);
+    }, []);
 
     const getEmployees = () => {
         if (authenticated && user) {
@@ -44,7 +44,9 @@ export const EmployeeHomePage = () => {
             };
 
             postVote(requestData, user.token)
-                .then((_) => {})
+                .then((_) => {
+                    getEmployees();
+                })
                 .catch((error) => console.log(error));
         }
     };

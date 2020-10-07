@@ -14,10 +14,10 @@ export const EmployeeProfile = () => {
     const [employee, setEmployee] = useState(null);
     const [isLoading, setLoading] = useState(true);
     const { user, authenticated } = useContext(UserContext);
-
+    const { isUpdated, setUpdated } = useState(false);
     useEffect(() => {
         getEmployee();
-    }, [employee]);
+    }, []);
 
     const getEmployee = () => {
         if (user && matchId && !isNaN(Number(matchId))) {
@@ -51,7 +51,12 @@ const EmployeeProileLayout = ({ user, employee, authenticated, getEmployee }) =>
         <div className="employee-profile">
             <Header employee={employee} />
             {user.role === roles.EMPLOYEE ? (
-                <VoteContainer employee={employee} user={user} authenticated={authenticated} />
+                <VoteContainer
+                    employee={employee}
+                    user={user}
+                    authenticated={authenticated}
+                    getEmployee={getEmployee}
+                />
             ) : (
                 <HireContainer employee={employee} />
             )}
