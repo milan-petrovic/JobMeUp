@@ -14,7 +14,7 @@ export const EmployeeProfile = () => {
     const [employee, setEmployee] = useState(null);
     const [isLoading, setLoading] = useState(true);
     const { user, authenticated } = useContext(UserContext);
-    const { isUpdated, setUpdated } = useState(false);
+
     useEffect(() => {
         getEmployee();
     }, []);

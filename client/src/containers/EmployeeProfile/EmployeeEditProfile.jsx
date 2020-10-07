@@ -9,10 +9,13 @@ import { SubmitButton } from '../../components/Buttons/SubmitButton';
 import { InputField } from '../../components/InputForm/InputField';
 import { InputFormContainer } from '../../components/InputForm/InputFormContainer';
 import { InputTextArea } from '../../components/InputForm/InputTextArea';
+import { SelectInputField, SelectInputMenu } from '../../components/InputForm/SelectInputField';
+import { SkillsList } from '../../components/Skills/SkillsList';
 import { Spinner } from '../../components/Spinner/Spinner';
+import { getAllCategories } from '../../services/CategoryService';
 import { getEmployeeById } from '../../services/EmployeeService';
 import { UserContext } from '../../services/UserContext';
-import { invalidEmailMessage, requiredMessage } from '../../utils/Constants';
+import { EMPTY_INITIAL_FIELD, invalidEmailMessage, requiredMessage } from '../../utils/Constants';
 
 export const EmployeeEditProfile = () => {
     const [employee, setEmploye] = useState(null);
@@ -26,6 +29,7 @@ export const EmployeeEditProfile = () => {
                 .then((response) => {
                     setEmploye(response.data);
                     setLoading(false);
+                    console.log('employee: ' + employee);
                 })
                 .catch((error) => console.log(error));
         }
@@ -38,7 +42,24 @@ export const EmployeeEditProfile = () => {
         password: Yup.string().required(requiredMessage),
         about: Yup.string().required(requiredMessage),
         expectedSalary: Yup.string().required(requiredMessage),
+        category: Yup.object().nullable(false).shape({
+            id: Yup.number(),
+        }),
     });
+
+    const initialValues = {
+        email: EMPTY_INITIAL_FIELD,
+        firstName: EMPTY_INITIAL_FIELD,
+        lastName: EMPTY_INITIAL_FIELD,
+        password: EMPTY_INITIAL_FIELD,
+        about: EMPTY_INITIAL_FIELD,
+        expectedSalary: EMPTY_INITIAL_FIELD,
+        category: null,
+    };
+
+    const handleOnSubmit = (values, formikHelpers) => {
+        console.log(values);
+    };
 
     return (
         <>
@@ -49,8 +70,13 @@ export const EmployeeEditProfile = () => {
                     <div className="my-profile-container__main__details">
                         <h1> Update your info</h1>
                         <InputFormContainer>
-                            <Formik validationSchema={validationSchema}>
-                                {(formikProps) => <EditProfileForm {...formikProps} employee={employee} />}
+                            <Formik
+                                validationSchema={validationSchema}
+                                initialValues={initialValues}
+                                onSubmit={(values, formikHelpers) => handleOnSubmit(values, formikHelpers)}>
+                                {(formikProps) => (
+                                    <EditProfileForm {...formikProps} employee={employee} skills={employee.skills} />
+                                )}
                             </Formik>
                         </InputFormContainer>
                     </div>
@@ -157,10 +183,31 @@ const EducationSectionItem = ({ education }) => {
     );
 };
 
-const EditProfileForm = ({ setValues, employee }) => {
+const EditProfileForm = ({ setValues, setFieldValue }) => {
+    const { user, authenticated } = useContext(UserContext);
+    const [categories, setCategories] = useState([]);
+    const [showMenu, setShowMenu] = useState(false);
+
     useEffect(() => {
-        setValues({ ...employee });
+        if (authenticated && user) {
+            getEmployeeById(user.employeeId)
+                .then((response) => {
+                    const { data } = response;
+                    setValues({ ...data });
+                })
+                .catch((error) => console.log(error));
+            getAllCategories()
+                .then((response) => {
+                    setCategories(response.data);
+                })
+                .catch((error) => console.log(error));
+        }
     }, []);
+
+    const handleOnCategoryClick = (category) => {
+        setFieldValue('category', category);
+        setShowMenu(false);
+    };
 
     return (
         <Form>
@@ -170,6 +217,8 @@ const EditProfileForm = ({ setValues, employee }) => {
             <Field as={InputField} name="lastName" labelName="Last name" />
             <Field as={InputTextArea} name="about" labelName="About" rows={5} />
             <Field as={InputField} name="expectedSalary" labelName="Expected salary" />
+            <Field as={SelectInputField} name="category.name" labelName="Category" onClick={() => setShowMenu(true)} />
+            <SelectInputMenu visible={showMenu} options={categories} handleClick={handleOnCategoryClick} />
             <SubmitButton>Update</SubmitButton>
         </Form>
     );
