@@ -298,6 +298,49 @@
         }
     }
 
+    .employee-profile__vote-container {
+        background-color: #add8e6;
+        height: 100px;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+
+        p {
+            color: grey;
+            font-weight: 500;
+        }
+
+        .employee-profile__vote-container__button {
+            background-color: $lightBlue;
+            padding: $mediumPadding;
+            border: transparent;
+            border-radius: $verySmallPadding;
+            font-weight: bold;
+            margin-left: 8px;
+            color: $white;
+            cursor: pointer;
+            &:hover,
+            :active {
+                background-color: $darkBlue;
+            }
+        }
+    }
+
+    .employee-profile__vote-container__voted {
+        background-color: $lightGreen;
+        height: 100px;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+
+        p {
+            color: grey;
+            font-weight: 500;
+        }
+    }
+
     .employee-profile__section {
         width: 100%;
         display: flex;

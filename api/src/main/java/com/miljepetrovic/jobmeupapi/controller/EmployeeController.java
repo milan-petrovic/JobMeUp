@@ -74,8 +74,15 @@ public class EmployeeController {
         }
     }
 
+    @GetMapping(value = "/{id}/{employeeId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<EmployeeDto> getEmployeeByIdForEmployee(@PathVariable (name="employeeId") int employeeId, @PathVariable (name="id") int id) throws NonExistingException {
+        logger.info("GET /employees/{}/{}", id, employeeId);
+
+        return ResponseEntity.ok(employeeService.findEmployeeByIdForEmployee(employeeId, id));
+    }
+
     @GetMapping(value = "/{employeeId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<EmployeeDto> getEmployeeById(@PathVariable int employeeId) throws NonExistingException {
+    public ResponseEntity<EmployeeDto> getEmployeeById(@PathVariable (name="employeeId") int employeeId) throws NonExistingException {
         logger.info("GET /employees/{}", employeeId);
 
         return ResponseEntity.ok(employeeService.findEmployeeById(employeeId));

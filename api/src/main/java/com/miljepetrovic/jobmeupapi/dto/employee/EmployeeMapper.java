@@ -22,7 +22,7 @@ public abstract class EmployeeMapper {
     @Mappings({
             @Mapping(target = "category", qualifiedByName = "categoryDto"),
             @Mapping(target = "receivedVotes", ignore = true),
-            @Mapping(target = "givenVotes", ignore=true)
+            @Mapping(target = "givenVotes", ignore=true),
     })
     public abstract EmployeeDto createdEntityToDto(Employee employee);
 

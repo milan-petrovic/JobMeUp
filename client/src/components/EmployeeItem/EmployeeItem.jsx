@@ -1,11 +1,11 @@
-import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLocationArrow, faPlusCircle } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React from 'react';
+import { useHistory } from 'react-router-dom';
 import { getIndicatorsOfFirstAndLastName } from '../../utils/Utils';
 import { SkillsList } from '../Skills/SkillsList';
-import { useHistory } from 'react-router-dom';
 
-export const EmployeeItem = ({ employee }) => {
+export const EmployeeItem = ({ employee, handleVoteSubmit }) => {
     const history = useHistory();
 
     return (
@@ -31,12 +31,16 @@ export const EmployeeItem = ({ employee }) => {
                 <div className="employee-details__category">
                     <div className="employee-details__category_text">Category: {employee.category.name}</div>
                 </div>
-                <div className="employee-details__salary">Expected salary: {employee.expectedSalary}</div>
+                <div className="employee-details__salary"> Expected salary: {employee.expectedSalary}</div>
                 <SkillsList skills={employee.skills} />
-                <div className="employee-details__voteup_button">
-                    <FontAwesomeIcon className="employee-details__voteup_button__icon" icon={faPlusCircle} />
-                    <div className="employee-details__voteup_button__text">Vote Me UP</div>
-                </div>
+                {employee.isVotedByEmployee ? (
+                    <div></div>
+                ) : (
+                    <div className="employee-details__voteup_button" onClick={() => handleVoteSubmit(employee)}>
+                        <FontAwesomeIcon className="employee-details__voteup_button__icon" icon={faPlusCircle} />
+                        <div className="employee-details__voteup_button__text">Vote Me UP</div>
+                    </div>
+                )}
             </div>
             <div className="employee-description" onClick={() => history.push(`/profile/${employee.id}`)}>
                 <div className="employee-description__about-placeholder">About</div>

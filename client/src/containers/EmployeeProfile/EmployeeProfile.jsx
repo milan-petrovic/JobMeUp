@@ -1,37 +1,60 @@
-import React, { useEffect, useState } from 'react';
+import { faBook, faLayerGroup, faTasks, faThermometerHalf } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faLayerGroup, faTasks, faBook, faThermometerHalf } from '@fortawesome/free-solid-svg-icons';
-import { SkillsList } from '../../components/Skills/SkillsList';
+import React, { useContext, useEffect, useState } from 'react';
 import { useRouteMatch } from 'react-router';
-import { getEmployeeById } from '../../services/EmployeeService';
+import { SkillsList } from '../../components/Skills/SkillsList';
 import { Spinner } from '../../components/Spinner/Spinner';
+import { getEmployeeForEmployee, postVote } from '../../services/EmployeeService';
+import { UserContext } from '../../services/UserContext';
+import { roles, routes } from '../../utils/Constants';
 import { getIndicatorsOfFirstAndLastName } from '../../utils/Utils';
-import { routes } from '../../utils/Constants';
 
 export const EmployeeProfile = () => {
     const matchId = useRouteMatch(routes.EMPLOYEE_BY_ID).params.id;
     const [employee, setEmployee] = useState(null);
     const [isLoading, setLoading] = useState(true);
+    const { user, authenticated } = useContext(UserContext);
 
     useEffect(() => {
-        if (matchId && !isNaN(Number(matchId))) {
-            getEmployeeById(matchId)
+        getEmployee();
+    }, [employee]);
+
+    const getEmployee = () => {
+        if (user && matchId && !isNaN(Number(matchId))) {
+            getEmployeeForEmployee(user.employeeId, matchId)
                 .then((response) => {
                     setEmployee(response.data);
                     setLoading(false);
                 })
                 .catch((error) => console.log(error));
         }
-    }, []);
+    };
 
-    return <>{isLoading ? <Spinner /> : <EmployeeProileLayout employee={employee} />}</>;
+    return (
+        <>
+            {isLoading ? (
+                <Spinner />
+            ) : (
+                <EmployeeProileLayout
+                    employee={employee}
+                    user={user}
+                    authenticated={authenticated}
+                    getEmployee={getEmployee}
+                />
+            )}
+        </>
+    );
 };
 
-const EmployeeProileLayout = ({ employee }) => {
+const EmployeeProileLayout = ({ user, employee, authenticated, getEmployee }) => {
     return (
         <div className="employee-profile">
             <Header employee={employee} />
-            <HireContainer employee={employee} />
+            {user.role === roles.EMPLOYEE ? (
+                <VoteContainer employee={employee} user={user} authenticated={authenticated} />
+            ) : (
+                <HireContainer employee={employee} />
+            )}
             <Section>
                 <SectionTitle name="Employments" icon={faLayerGroup} />
                 <EmploymentSection employments={employee.employments} />
@@ -174,3 +197,36 @@ const HireContainer = ({ employee }) => (
         <button className="employee-profile__hire-container__button">Hire {employee.firstName}</button>
     </div>
 );
+
+const VoteContainer = ({ employee, user, authenticated, getEmployee }) => {
+    const handleVoteSubmit = () => {
+        if (user && authenticated) {
+            const requestData = {
+                receivedEmployee: { id: employee.id },
+                givenEmployee: { id: user.employeeId },
+            };
+
+            postVote(requestData, user.token)
+                .then((_) => {
+                    getEmployee();
+                })
+                .catch((error) => console.log(error));
+        }
+    };
+    return (
+        <>
+            {employee.isVotedByEmployee ? (
+                <div className="employee-profile__vote-container__voted">
+                    <p>Thanks for voting me up!</p>
+                </div>
+            ) : (
+                <div className="employee-profile__vote-container">
+                    <p>Help {employee.firstName} to find a job</p>
+                    <button className="employee-profile__vote-container__button" onClick={() => handleVoteSubmit()}>
+                        Vote {employee.firstName} UP
+                    </button>
+                </div>
+            )}
+        </>
+    );
+};

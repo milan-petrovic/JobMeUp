@@ -21,19 +21,22 @@ import com.miljepetrovic.jobmeupapi.model.Employee;
 import com.miljepetrovic.jobmeupapi.repository.EmployeeRepository;
 import com.miljepetrovic.jobmeupapi.repository.RegisteredUserRepository;
 import com.miljepetrovic.jobmeupapi.service.registered_user.RegisteredUserService;
+import com.miljepetrovic.jobmeupapi.service.vote.VoteService;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
     private final static Logger logger = LoggerFactory.getLogger(EmployeeServiceImpl.class);
     private final EmployeeRepository employeeRepository;
     private final RegisteredUserRepository registeredUserRepository;
+    private final VoteService voteService;
     private final EmployeeMapper employeeMapper;
     private final RegisteredUserService registeredUserService;
     private final PasswordEncoder bcryptEncoder;
 
-    public EmployeeServiceImpl(EmployeeRepository employeeRepository, RegisteredUserRepository registeredUserRepository, EmployeeMapper employeeMapper, RegisteredUserService registeredUserService, PasswordEncoder bcryptEncoder) {
+    public EmployeeServiceImpl(EmployeeRepository employeeRepository, RegisteredUserRepository registeredUserRepository, VoteService voteService, EmployeeMapper employeeMapper, RegisteredUserService registeredUserService, PasswordEncoder bcryptEncoder) {
         this.employeeRepository = employeeRepository;
         this.registeredUserRepository = registeredUserRepository;
+        this.voteService = voteService;
         this.employeeMapper = employeeMapper;
         this.registeredUserService = registeredUserService;
         this.bcryptEncoder = bcryptEncoder;
@@ -52,7 +55,13 @@ public class EmployeeServiceImpl implements EmployeeService {
         logger.debug("Getting all other employees {}");
         List<Employee> employeeEntities = employeeRepository.findCollegueEmployees(id);
 
-        return employeeEntities.stream().map(employeeMapper::entityToDto).collect(Collectors.toList());
+        return employeeEntities.stream().map(employee -> {
+            EmployeeDto employeeDto = employeeMapper.entityToDto(employee);
+            if (voteService.findVoteByGivenEmployeeIdAndReceivedEmployeeId(id, employeeDto.id).isPresent()) {
+                employeeDto.isVotedByEmployee = true;
+            }
+            return employeeDto;
+        }).collect(Collectors.toList());
     }
 
     @Override
@@ -83,6 +92,22 @@ public class EmployeeServiceImpl implements EmployeeService {
         Collections.reverse(employees);
 
         return employees.stream().map(employeeMapper::entityToDto).collect(Collectors.toList());
+    }
+
+    @Override
+    public EmployeeDto findEmployeeByIdForEmployee(int employeeId, int id) throws NonExistingException {
+        logger.debug("Fetching employee by id");
+        Optional<Employee> employeeById = employeeRepository.findEmployeeById(employeeId);
+        if (employeeById.isEmpty()) {
+            throw new NonExistingException("Couldn't find employee with id " + employeeById);
+        }
+
+        EmployeeDto employeeDto = employeeMapper.entityToDto(employeeById.get());
+        if (voteService.findVoteByGivenEmployeeIdAndReceivedEmployeeId(id, employeeId).isPresent()) {
+            employeeDto.isVotedByEmployee = true;
+        }
+
+        return employeeDto;
     }
 
     @Override

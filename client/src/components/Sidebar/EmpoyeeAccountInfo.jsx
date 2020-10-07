@@ -1,9 +1,8 @@
-import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPencilAlt } from '@fortawesome/free-solid-svg-icons';
-import { getIndicatorsOfFirstAndLastName } from '../../utils/Utils';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React from 'react';
 import { useHistory } from 'react-router-dom';
-import { UserContext } from '../../services/UserContext';
+import { getIndicatorsOfFirstAndLastName } from '../../utils/Utils';
 
 export const EmployeeAccountInfo = ({ user }) => {
     const history = useHistory();
