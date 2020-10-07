@@ -1,4 +1,4 @@
-import { faLocationArrow, faPlusCircle } from '@fortawesome/free-solid-svg-icons';
+import { faChevronUp, faLocationArrow } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 import { useHistory } from 'react-router-dom';
@@ -37,8 +37,10 @@ export const EmployeeItem = ({ employee, handleVoteSubmit }) => {
                     <div></div>
                 ) : (
                     <div className="employee-details__voteup_button" onClick={() => handleVoteSubmit(employee)}>
-                        <FontAwesomeIcon className="employee-details__voteup_button__icon" icon={faPlusCircle} />
-                        <div className="employee-details__voteup_button__text">Vote Me UP</div>
+                        <FontAwesomeIcon className="employee-details__voteup_button__icon" icon={faChevronUp} />
+                        <div className="employee-details__voteup_button__text">
+                            VOTE ME <div className="employe-details__voteup_button__text__up">UP</div>
+                        </div>
                     </div>
                 )}
             </div>
