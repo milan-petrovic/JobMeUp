@@ -10,18 +10,30 @@ import { InputField } from '../../components/InputForm/InputField';
 import { InputFormContainer } from '../../components/InputForm/InputFormContainer';
 import { InputTextArea } from '../../components/InputForm/InputTextArea';
 import { SelectInputField, SelectInputMenu } from '../../components/InputForm/SelectInputField';
+import { LineSpacer } from '../../components/LineSpacer/LineSpacer';
 import { SkillsList } from '../../components/Skills/SkillsList';
 import { Spinner } from '../../components/Spinner/Spinner';
 import { getAllCategories } from '../../services/CategoryService';
-import { getEmployeeById } from '../../services/EmployeeService';
+import { getEmployeeById, putEmployee } from '../../services/EmployeeService';
+import { getAllSkills } from '../../services/SkillsService';
 import { UserContext } from '../../services/UserContext';
 import { EMPTY_INITIAL_FIELD, invalidEmailMessage, requiredMessage } from '../../utils/Constants';
+import { faCog } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Dialog } from '../../components/Dialog/Dialog';
+import { getAllBenefits } from '../../services/BenefitsService';
+import { BenefitsList } from '../../components/BenefitsList/BenefitsList';
 
 export const EmployeeEditProfile = () => {
     const [employee, setEmploye] = useState(null);
     const [isLoading, setLoading] = useState(true);
     const { user, authenticated } = useContext(UserContext);
     const history = useHistory();
+    const [selectedSkills, setSelectedSkills] = useState([]);
+    const [activeSkills, setActiveSkills] = useState([]);
+
+    const [selectedBenefits, setSelectedBenefits] = useState([]);
+    const [activeBenefits, setActiveBenefits] = useState([]);
 
     useEffect(() => {
         if (authenticated && user) {
@@ -29,7 +41,10 @@ export const EmployeeEditProfile = () => {
                 .then((response) => {
                     setEmploye(response.data);
                     setLoading(false);
-                    console.log('employee: ' + employee);
+                    setActiveSkills(response.data.skills);
+                    setSelectedSkills(response.data.skills);
+                    setActiveBenefits(response.data.benefits);
+                    setSelectedBenefits(response.data.benefits);
                 })
                 .catch((error) => console.log(error));
         }
@@ -45,6 +60,18 @@ export const EmployeeEditProfile = () => {
         category: Yup.object().nullable(false).shape({
             id: Yup.number(),
         }),
+        skills: Yup.array().of(
+            Yup.object().shape({
+                id: Yup.number(),
+                name: Yup.string(),
+            }),
+        ),
+        benefits: Yup.array().of(
+            Yup.object().shape({
+                id: Yup.number(),
+                name: Yup.string(),
+            }),
+        ),
     });
 
     const initialValues = {
@@ -55,10 +82,16 @@ export const EmployeeEditProfile = () => {
         about: EMPTY_INITIAL_FIELD,
         expectedSalary: EMPTY_INITIAL_FIELD,
         category: null,
+        skills: null,
+        benefits: null,
     };
 
     const handleOnSubmit = (values, formikHelpers) => {
         console.log(values);
+
+        putEmployee(values)
+            .then((response) => console.log(response))
+            .catch((error) => console.log(error));
     };
 
     return (
@@ -75,7 +108,18 @@ export const EmployeeEditProfile = () => {
                                 initialValues={initialValues}
                                 onSubmit={(values, formikHelpers) => handleOnSubmit(values, formikHelpers)}>
                                 {(formikProps) => (
-                                    <EditProfileForm {...formikProps} employee={employee} skills={employee.skills} />
+                                    <EditProfileForm
+                                        {...formikProps}
+                                        employee={employee}
+                                        activeSkills={activeSkills}
+                                        selectedSkills={selectedSkills}
+                                        setSelectedSkills={setSelectedSkills}
+                                        setActiveSkills={setActiveSkills}
+                                        activeBenefits={activeBenefits}
+                                        selectedBenefits={selectedBenefits}
+                                        setActiveBenefits={setActiveBenefits}
+                                        setSelectedBenefits={setSelectedBenefits}
+                                    />
                                 )}
                             </Formik>
                         </InputFormContainer>
@@ -112,6 +156,140 @@ export const EmployeeEditProfile = () => {
                 </div>
             )}
         </>
+    );
+};
+
+const SkillsSelectableDialog = ({
+    token,
+    selectedSkills,
+    setSelectedSkills,
+    activeSkills,
+    setActiveSkills,
+    setFieldValue,
+    setShowDialog,
+}) => {
+    const [showOptionsMenu, setShowOptionsMenu] = useState(false);
+    const [skills, setSkills] = useState([]);
+    const [initialSkills, setInitialsSkills] = useState([]);
+
+    useEffect(() => {
+        getAllSkills(token)
+            .then((response) => {
+                setSkills(response.data);
+                setInitialsSkills([...selectedSkills]);
+            })
+            .catch((error) => console.log(error));
+    }, []);
+
+    const handleOnSelectClick = (skill) => {
+        const skills = [...selectedSkills];
+        skills.push(skill);
+        setSelectedSkills(skills);
+        setShowOptionsMenu(false);
+    };
+
+    const handleOnSkillClick = (skill) => {
+        const skills = [...selectedSkills];
+        setSelectedSkills(skills.filter((filteredSkill) => filteredSkill !== skill));
+    };
+
+    const handleOnConfirm = () => {
+        setActiveSkills(selectedSkills);
+        setFieldValue('skills', selectedSkills);
+        console.log(activeSkills);
+        setShowDialog(false);
+    };
+
+    const handleOpenOptionsMenu = () => {
+        setShowOptionsMenu(true);
+    };
+
+    const handleCloseOptionsMenu = () => {
+        setSelectedSkills([...initialSkills]);
+        setShowDialog(false);
+    };
+
+    return (
+        <Dialog
+            dialogTitle="Skills"
+            content="Select skills"
+            selectedItems={selectedSkills}
+            selectButtonText="Select skills here. Click on skill for delete."
+            items={skills}
+            handleOnSelectedItemClick={handleOnSkillClick}
+            handleOnSelectClick={handleOnSelectClick}
+            handleOnConfirm={handleOnConfirm}
+            handleOpenOptionsMenu={handleOpenOptionsMenu}
+            handleCloseOptionsMenu={handleCloseOptionsMenu}
+            visible={showOptionsMenu}
+        />
+    );
+};
+
+const BenefitsSelectableDialog = ({
+    token,
+    selectedBenefits,
+    setSelectedBenefits,
+    activeBenefits,
+    setActiveBenefits,
+    setFieldValue,
+    setShowDialog,
+}) => {
+    const [showOptionsMenu, setShowOptionsMenu] = useState(false);
+    const [benefits, setBenefits] = useState([]);
+    const [initialBenefits, setInitialBenefits] = useState([]);
+
+    useEffect(() => {
+        getAllBenefits(token)
+            .then((response) => {
+                setBenefits(response.data);
+                setInitialBenefits([...selectedBenefits]);
+            })
+            .catch((error) => console.log(error));
+    }, []);
+
+    const handleOnSelectClick = (benefit) => {
+        const tempBenefits = [...selectedBenefits];
+        var benefits = tempBenefits.filter((tempBenefit) => tempBenefit.id !== benefit.idy);
+        benefits.push(benefit);
+        setSelectedBenefits(benefits);
+        setShowOptionsMenu(false);
+    };
+
+    const handleOnBenefitClick = (benefit) => {
+        const benefits = [...selectedBenefits];
+        setSelectedBenefits(benefits.filter((filteredBenefit) => filteredBenefit !== benefit));
+    };
+
+    const handleOnConfirm = () => {
+        setActiveBenefits(selectedBenefits);
+        setFieldValue('benefits', selectedBenefits);
+        setShowDialog(false);
+    };
+
+    const handleOpenOptionsMenu = () => {
+        setShowOptionsMenu(true);
+    };
+
+    const handleCloseOptionsMenu = () => {
+        setSelectedBenefits([...initialBenefits]);
+        setShowDialog(false);
+    };
+
+    return (
+        <Dialog
+            dialogTitle="Benefits"
+            content="Select benefit"
+            selectedItems={selectedBenefits}
+            selectButtonText="Select benefit here. Click on benefit for delete."
+            items={benefits}
+            handleOnSelectedItemClick={handleOnBenefitClick}
+            handleOnSelectClick={handleOnSelectClick}
+            handleOnConfirm={handleOnConfirm}
+            handleOpenOptionsMenu={handleOpenOptionsMenu}
+            handleCloseOptionsMenu={handleCloseOptionsMenu}
+            visible={showOptionsMenu}
+        />
     );
 };
 
@@ -183,10 +361,23 @@ const EducationSectionItem = ({ education }) => {
     );
 };
 
-const EditProfileForm = ({ setValues, setFieldValue }) => {
+const EditProfileForm = ({
+    setValues,
+    setFieldValue,
+    activeSkills,
+    selectedSkills,
+    setActiveSkills,
+    setSelectedSkills,
+    activeBenefits,
+    selectedBenefits,
+    setActiveBenefits,
+    setSelectedBenefits,
+}) => {
     const { user, authenticated } = useContext(UserContext);
     const [categories, setCategories] = useState([]);
     const [showMenu, setShowMenu] = useState(false);
+    const [showSkillsDialog, setShowSkillsDialog] = useState(false);
+    const [showBenefitsDialog, setShowBenefitsDialog] = useState(false);
 
     useEffect(() => {
         if (authenticated && user) {
@@ -219,6 +410,52 @@ const EditProfileForm = ({ setValues, setFieldValue }) => {
             <Field as={InputField} name="expectedSalary" labelName="Expected salary" />
             <Field as={SelectInputField} name="category.name" labelName="Category" onClick={() => setShowMenu(true)} />
             <SelectInputMenu visible={showMenu} options={categories} handleClick={handleOnCategoryClick} />
+            <div className="dialog-label">
+                Skills
+                <FontAwesomeIcon
+                    icon={faCog}
+                    className="dialog-label__icon "
+                    onClick={() => setShowSkillsDialog(true)}
+                />
+            </div>
+            {showSkillsDialog ? (
+                <SkillsSelectableDialog
+                    token={user.token}
+                    activeSkills={activeSkills}
+                    selectedSkills={selectedSkills}
+                    setActiveSkills={setActiveSkills}
+                    setSelectedSkills={setSelectedSkills}
+                    setFieldValue={setFieldValue}
+                    setShowDialog={setShowSkillsDialog}
+                />
+            ) : (
+                <></>
+            )}
+            {activeSkills && <SkillsList skills={activeSkills} />}
+
+            <div className="dialog-label">
+                Benefits
+                <FontAwesomeIcon
+                    icon={faCog}
+                    className="dialog-label__icon "
+                    onClick={() => setShowBenefitsDialog(true)}
+                />
+            </div>
+            {showBenefitsDialog ? (
+                <BenefitsSelectableDialog
+                    token={user.token}
+                    activeBenefits={activeBenefits}
+                    selectedBenefits={selectedBenefits}
+                    setActiveBenefits={setActiveBenefits}
+                    setSelectedBenefits={setSelectedBenefits}
+                    setFieldValue={setFieldValue}
+                    setShowDialog={setShowBenefitsDialog}
+                />
+            ) : (
+                <></>
+            )}
+            {activeBenefits && <BenefitsList benefits={activeBenefits} />}
+
             <SubmitButton>Update</SubmitButton>
         </Form>
     );

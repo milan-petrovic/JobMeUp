@@ -201,6 +201,7 @@
         margin-bottom: 4px;
         padding: 2px 0;
         width: 60px;
+        height: 25px;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -210,6 +211,42 @@
         border-radius: 16px;
         color: #ffffff;
     }
+}
+
+.benefit-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    border-left: 1px dashed $lightGrey;
+    padding: 8px 16px;
+    margin-bottom: 16px;
+    margin-top: 8px;
+}
+
+.benefit-list {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: 8px 0px;
+    margin-bottom: 16px;
+    margin-top: 8px;
+}
+
+.benefit-item {
+    display: inline-block;
+    margin-right: 4px;
+    margin-top: 4px;
+    margin-bottom: 4px;
+    padding: 2px 0;
+    width: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #1b6ca8;
+    background-color: #5f98c2;
+    font-size: 11px;
+    border-radius: 4px;
+    color: #ffffff;
 }
 
 .employee-profile {

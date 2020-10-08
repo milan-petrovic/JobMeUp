@@ -11,13 +11,17 @@ import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.miljepetrovic.jobmeupapi.dto.benefit.BenefitMapper;
+import com.miljepetrovic.jobmeupapi.dto.category.CategoryMapper;
 import com.miljepetrovic.jobmeupapi.dto.employee.EmployeeDto;
 import com.miljepetrovic.jobmeupapi.dto.employee.EmployeeMapper;
 import com.miljepetrovic.jobmeupapi.dto.employee.EmployeeRequestDto;
 import com.miljepetrovic.jobmeupapi.dto.registered_user.RegisteredUserDto;
+import com.miljepetrovic.jobmeupapi.dto.skill.SkillMapper;
 import com.miljepetrovic.jobmeupapi.exception.ExistingException;
 import com.miljepetrovic.jobmeupapi.exception.NonExistingException;
 import com.miljepetrovic.jobmeupapi.model.Employee;
+import com.miljepetrovic.jobmeupapi.model.RegisteredUser;
 import com.miljepetrovic.jobmeupapi.repository.EmployeeRepository;
 import com.miljepetrovic.jobmeupapi.repository.RegisteredUserRepository;
 import com.miljepetrovic.jobmeupapi.service.registered_user.RegisteredUserService;
@@ -32,14 +36,20 @@ public class EmployeeServiceImpl implements EmployeeService {
     private final EmployeeMapper employeeMapper;
     private final RegisteredUserService registeredUserService;
     private final PasswordEncoder bcryptEncoder;
+    private final CategoryMapper categoryMapper;
+    private final SkillMapper skillMapper;
+    private final BenefitMapper benefitMapper;
 
-    public EmployeeServiceImpl(EmployeeRepository employeeRepository, RegisteredUserRepository registeredUserRepository, VoteService voteService, EmployeeMapper employeeMapper, RegisteredUserService registeredUserService, PasswordEncoder bcryptEncoder) {
+    public EmployeeServiceImpl(EmployeeRepository employeeRepository, RegisteredUserRepository registeredUserRepository, VoteService voteService, EmployeeMapper employeeMapper, RegisteredUserService registeredUserService, PasswordEncoder bcryptEncoder, CategoryMapper categoryMapper, SkillMapper skillMapper, BenefitMapper benefitMapper) {
         this.employeeRepository = employeeRepository;
         this.registeredUserRepository = registeredUserRepository;
         this.voteService = voteService;
         this.employeeMapper = employeeMapper;
         this.registeredUserService = registeredUserService;
         this.bcryptEncoder = bcryptEncoder;
+        this.categoryMapper = categoryMapper;
+        this.skillMapper = skillMapper;
+        this.benefitMapper = benefitMapper;
     }
 
     @Override
@@ -143,6 +153,52 @@ public class EmployeeServiceImpl implements EmployeeService {
             registeredUserService.saveRegisteredUser(registeredUserDto);
 
             return employeeMapper.createdEntityToDto(persistedEmployee);
+        }
+    }
+
+    @Override
+    public EmployeeDto putEmployee(EmployeeRequestDto employeeRequestDto) throws NonExistingException {
+        logger.debug("Updating employee {}", employeeRequestDto);
+
+        Optional<Employee> employeeOptional = employeeRepository.findById(employeeRequestDto.id);
+        if (employeeOptional.isPresent()) {
+            Employee employee = employeeOptional.get();
+            employee.setEmail(employeeRequestDto.email);
+
+            if (employee.getPassword().equals(employeeRequestDto.password)) {
+                employee.setPassword(employeeRequestDto.password);
+            } else {
+                employee.setPassword(bcryptEncoder.encode(employeeRequestDto.password));
+            }
+
+            employee.setAbout(employeeRequestDto.about);
+            employee.setCategory(categoryMapper.dtoToEntity(employeeRequestDto.category));
+            employee.setCountry(employeeRequestDto.country);
+            employee.setFirstName(employeeRequestDto.firstName);
+            employee.setLastName(employeeRequestDto.lastName);
+            employee.setExpectedSalary(employeeRequestDto.expectedSalary);
+            employee.setSkills(employeeRequestDto.skills.stream().map(skillMapper::dtoToEntity).collect(Collectors.toList()));
+            employee.setBenefits(employeeRequestDto.benefits.stream().map(benefitMapper::dtoToEntity).collect(Collectors.toList()));
+            employeeRepository.save(employee);
+
+            Optional<RegisteredUser> registeredUserOptional = registeredUserRepository.findRegisteredUserByTypeAndId("employee", employeeRequestDto.id);
+            if (registeredUserOptional.isPresent()) {
+                RegisteredUser registeredUser = registeredUserOptional.get();
+                registeredUser.setEmail(employeeRequestDto.email);
+
+                if (registeredUser.getPassword().equals(employeeRequestDto.password)) {
+                    registeredUser.setPassword(employeeRequestDto.password);
+                } else {
+                    registeredUser.setPassword(bcryptEncoder.encode(employeeRequestDto.password));
+                }
+
+                registeredUserRepository.save(registeredUser);
+            }
+
+            return employeeMapper.entityToDto(employee);
+
+        } else {
+            throw new NonExistingException("Employee doesn't exists with id " + employeeRequestDto.id);
         }
     }
 }

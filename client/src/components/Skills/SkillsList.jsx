@@ -3,9 +3,10 @@ import React from 'react';
 export const SkillsList = ({ skills }) => {
     return (
         <div className="skills-container">
-            {skills.map((skill, index) => {
-                return <SkillItem name={skill.name} key={index} />;
-            })}
+            {skills &&
+                skills.map((skill, index) => {
+                    return <SkillItem name={skill.name} key={index} />;
+                })}
         </div>
     );
 };

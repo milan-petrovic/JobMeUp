@@ -23,3 +23,7 @@ export const getAllOtherEmployees = (employeeId) => {
 export const postVote = (requestData, accessToken) => {
     return axiosInstance.post('/votes', requestData, getRequestConfig(accessToken));
 };
+
+export const putEmployee = (requestData, accessToken) => {
+    return axiosInstance.put('/employees', requestData);
+};

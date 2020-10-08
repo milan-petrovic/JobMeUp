@@ -2,6 +2,7 @@ import { faBook, faLayerGroup, faTasks, faThermometerHalf } from '@fortawesome/f
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useContext, useEffect, useState } from 'react';
 import { useRouteMatch } from 'react-router';
+import { BenefitsContainer, BenefitsList } from '../../components/BenefitsList/BenefitsList';
 import { SkillsList } from '../../components/Skills/SkillsList';
 import { Spinner } from '../../components/Spinner/Spinner';
 import { getEmployeeForEmployee, postVote } from '../../services/EmployeeService';
@@ -169,11 +170,7 @@ const EducationSectionItem = ({ education }) => {
 const BenefitSection = ({ benefits }) => {
     return (
         <SectionList>
-            <div className="employee-profile__section__list__benefit-container">
-                {benefits.map((benefit, index) => (
-                    <div className="employee-profile__section__list__benefit-item">{benefit.name}</div>
-                ))}
-            </div>
+            <BenefitsContainer benefits={benefits} />
         </SectionList>
     );
 };

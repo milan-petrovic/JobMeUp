@@ -5,10 +5,12 @@ import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 import org.mapstruct.Named;
 
+import com.miljepetrovic.jobmeupapi.dto.benefit.BenefitMapper;
 import com.miljepetrovic.jobmeupapi.dto.category.CategoryMapper;
+import com.miljepetrovic.jobmeupapi.dto.skill.SkillMapper;
 import com.miljepetrovic.jobmeupapi.model.Employee;
 
-@Mapper(componentModel = "spring", uses = {CategoryMapper.class})
+@Mapper(componentModel = "spring", uses = {CategoryMapper.class, SkillMapper.class, BenefitMapper.class})
 public abstract class EmployeeMapper {
 
     @Named("employeeDto")
@@ -40,5 +42,9 @@ public abstract class EmployeeMapper {
     })
     public abstract Employee dtoToEntity(EmployeeDto employeeDto);
 
+//    @Mappings({
+//            @Mapping(target = "skills", qualifiedByName = "skillDtoInsert"),
+//            @Mapping(target = "benefits", qualifiedByName = "benefitDtoInsert")
+//    })
     public abstract Employee requestDtoToEntity(EmployeeRequestDto requestDto);
 }

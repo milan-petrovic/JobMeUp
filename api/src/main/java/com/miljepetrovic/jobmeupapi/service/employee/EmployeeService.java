@@ -15,4 +15,5 @@ public interface EmployeeService {
     EmployeeDto findEmployeeByIdForEmployee(int employeeId, int id) throws NonExistingException;
     EmployeeDto saveEmployee(EmployeeRequestDto employeeRequestDto) throws ExistingException;
     List<EmployeeDto> findAllOtherEmployees(int id);
+    EmployeeDto putEmployee(EmployeeRequestDto employeeRequestDto) throws NonExistingException;
 }
