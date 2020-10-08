@@ -182,7 +182,8 @@ const SkillsSelectableDialog = ({
     }, []);
 
     const handleOnSelectClick = (skill) => {
-        const skills = [...selectedSkills];
+        const tempSkills = [...selectedSkills];
+        const skills = tempSkills.filter((tempSkill) => tempSkill.id !== skill.id);
         skills.push(skill);
         setSelectedSkills(skills);
         setShowOptionsMenu(false);
@@ -250,7 +251,7 @@ const BenefitsSelectableDialog = ({
 
     const handleOnSelectClick = (benefit) => {
         const tempBenefits = [...selectedBenefits];
-        var benefits = tempBenefits.filter((tempBenefit) => tempBenefit.id !== benefit.idy);
+        var benefits = tempBenefits.filter((tempBenefit) => tempBenefit.id !== benefit.id);
         benefits.push(benefit);
         setSelectedBenefits(benefits);
         setShowOptionsMenu(false);
