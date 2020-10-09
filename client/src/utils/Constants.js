@@ -15,6 +15,7 @@ export const routes = {
     EMPLOYEE_NEW_PROJECT: '/employee/:id/projects/new',
     EMPLOYEE_NEW_EDUCATION: '/employee/:id/educations/new',
     EMPLOYEE_EDIT_EDUCATION: '/employee/:id/educations/edit/:educationId',
+    EMPLOYEE_REGISTER: '/employee/new',
 };
 
 export const roles = {

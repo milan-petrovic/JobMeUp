@@ -13,7 +13,7 @@ export const SelectInputField = (props) => {
     );
 };
 
-export const SelectInputMenu = ({ visible, options, handleClick }) => {
+export const SelectInputMenu = ({ visible, options, handleClick, formikProps }) => {
     return (
         <>
             {visible ? (
@@ -21,7 +21,11 @@ export const SelectInputMenu = ({ visible, options, handleClick }) => {
                     <ul>
                         {options.map((option, index) => {
                             return (
-                                <li key={index} onClick={() => handleClick(option)}>
+                                <li
+                                    key={index}
+                                    onClick={
+                                        formikProps ? () => handleClick(option, formikProps) : () => handleClick(option)
+                                    }>
                                     {option.name}
                                 </li>
                             );

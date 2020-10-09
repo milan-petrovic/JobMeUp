@@ -75,9 +75,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/employees/register").permitAll()
                 .antMatchers("/authenticate/employee").permitAll()
                 .antMatchers("/employees/**").permitAll()
-                .antMatchers("/categories/**").permitAll().
+                .antMatchers("/categories/**").permitAll()
+                .antMatchers("/skills/**").permitAll()
+                .antMatchers(("/benefits/**")).permitAll()
                 // all other requests need to be authenticated
-                        anyRequest().authenticated().and().
+                        .anyRequest().authenticated().and().
                 // make sure we use stateless session; session won't be used to
                 // store user's state.
                         exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and().sessionManagement()

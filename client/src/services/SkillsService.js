@@ -1,5 +1,5 @@
-import { axiosInstance, getRequestConfig } from '../api/axios';
+import { axiosInstance } from '../api/axios';
 
-export const getAllSkills = (accessToken) => {
-    return axiosInstance.get('/skills', getRequestConfig(accessToken));
+export const getAllSkills = () => {
+    return axiosInstance.get('/skills');
 };

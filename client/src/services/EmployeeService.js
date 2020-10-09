@@ -24,6 +24,10 @@ export const postVote = (requestData, accessToken) => {
     return axiosInstance.post('/votes', requestData, getRequestConfig(accessToken));
 };
 
-export const putEmployee = (requestData, accessToken) => {
+export const putEmployee = (requestData) => {
     return axiosInstance.put('/employees', requestData);
+};
+
+export const postEmployee = (requestData) => {
+    return axiosInstance.post('/employees/register', requestData);
 };

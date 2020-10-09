@@ -42,9 +42,9 @@ public abstract class EmployeeMapper {
     })
     public abstract Employee dtoToEntity(EmployeeDto employeeDto);
 
-//    @Mappings({
-//            @Mapping(target = "skills", qualifiedByName = "skillDtoInsert"),
-//            @Mapping(target = "benefits", qualifiedByName = "benefitDtoInsert")
-//    })
+    @Mappings({
+            @Mapping(target = "skills", ignore = true),
+            @Mapping(target = "benefits", ignore = true)
+    })
     public abstract Employee requestDtoToEntity(EmployeeRequestDto requestDto);
 }

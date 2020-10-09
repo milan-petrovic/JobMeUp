@@ -6,6 +6,7 @@ import { CompanyForm } from './containers/Company/CompanyForm';
 import { EducationForm } from './containers/Education/EducationForm';
 import { EmployeeEditProfile } from './containers/EmployeeProfile/EmployeeEditProfile';
 import { EmployeeProfile } from './containers/EmployeeProfile/EmployeeProfile';
+import { EmployeeRegister } from './containers/EmployeeProfile/EmployeeRegister';
 import { EmploymentForm } from './containers/Employment/EmploymentForm';
 import { CompanyHomePage } from './containers/HomePages/CompanyHomePage';
 import { EmployeeHomePage } from './containers/HomePages/EmployeeHomePage';
@@ -23,11 +24,12 @@ function App() {
                 <div style={{ padding: '16px 10%' }}>
                     <Switch>
                         <Route path={routes.HOME} component={HomePage} exact />
+                        <Route path={routes.LOGIN} component={LoginPage} exact />
+                        <Route path={routes.COMPANY_NEW} component={CompanyForm} exact />
+                        <Route path={routes.EMPLOYEE_REGISTER} component={EmployeeRegister} exact />
                         <PrivateRoute path={routes.EMPLOYEE_HOME} component={EmployeeHomePage} exact />
                         <PrivateRoute path={routes.COMPANY_HOME} component={CompanyHomePage} exact />
                         <PrivateRoute path={routes.EMPLOYEE_BY_ID} component={EmployeeProfile} exact />
-                        <Route path={routes.LOGIN} component={LoginPage} exact />
-                        <Route path={routes.COMPANY_NEW} component={CompanyForm} exact />
                         <PrivateRoute path={routes.EDIT_PROFILE} component={EmployeeEditProfile} exact />
                         <PrivateRoute path={routes.EMPLOYEE_NEW_EMPLOYMENT} component={EmploymentForm} exact />
                         <PrivateRoute path={routes.EMPLOYEE_NEW_PROJECT} component={ProjectForm} exact />

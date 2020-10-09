@@ -142,6 +142,8 @@ public class EmployeeServiceImpl implements EmployeeService {
         } else {
             Employee employee = employeeMapper.requestDtoToEntity(employeeRequestDto);
             employee.setPassword(bcryptEncoder.encode(employeeRequestDto.password));
+            employee.setSkills(employeeRequestDto.skills.stream().map(skillMapper::dtoToEntity).collect(Collectors.toList()));
+            employee.setBenefits(employeeRequestDto.benefits.stream().map(benefitMapper::dtoToEntity).collect(Collectors.toList()));
             Employee persistedEmployee = employeeRepository.save(employee);
 
             RegisteredUserDto registeredUserDto = new RegisteredUserDto();

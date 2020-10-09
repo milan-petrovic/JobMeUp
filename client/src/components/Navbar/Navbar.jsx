@@ -57,7 +57,7 @@ export const Navbar = () => {
             return (
                 <ul className="header__links">
                     <li>
-                        <Link to="/top">Apply as employee</Link>
+                        <Link to={routes.EMPLOYEE_REGISTER}>Apply as employee</Link>
                     </li>
                     <Link>
                         <button className="header__button">Hire Best Employee</button>

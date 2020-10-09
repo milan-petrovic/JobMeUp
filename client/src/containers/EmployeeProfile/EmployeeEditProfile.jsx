@@ -57,6 +57,7 @@ export const EmployeeEditProfile = () => {
         password: Yup.string().required(requiredMessage),
         about: Yup.string().required(requiredMessage),
         expectedSalary: Yup.string().required(requiredMessage),
+        country: Yup.string().required(requiredMessage),
         category: Yup.object().nullable(false).shape({
             id: Yup.number(),
         }),
@@ -81,6 +82,7 @@ export const EmployeeEditProfile = () => {
         password: EMPTY_INITIAL_FIELD,
         about: EMPTY_INITIAL_FIELD,
         expectedSalary: EMPTY_INITIAL_FIELD,
+        country: EMPTY_INITIAL_FIELD,
         category: null,
         skills: null,
         benefits: null,
@@ -160,7 +162,6 @@ export const EmployeeEditProfile = () => {
 };
 
 const SkillsSelectableDialog = ({
-    token,
     selectedSkills,
     setSelectedSkills,
     activeSkills,
@@ -173,7 +174,7 @@ const SkillsSelectableDialog = ({
     const [initialSkills, setInitialsSkills] = useState([]);
 
     useEffect(() => {
-        getAllSkills(token)
+        getAllSkills()
             .then((response) => {
                 setSkills(response.data);
                 setInitialsSkills([...selectedSkills]);
@@ -228,7 +229,6 @@ const SkillsSelectableDialog = ({
 };
 
 const BenefitsSelectableDialog = ({
-    token,
     selectedBenefits,
     setSelectedBenefits,
     activeBenefits,
@@ -241,7 +241,7 @@ const BenefitsSelectableDialog = ({
     const [initialBenefits, setInitialBenefits] = useState([]);
 
     useEffect(() => {
-        getAllBenefits(token)
+        getAllBenefits()
             .then((response) => {
                 setBenefits(response.data);
                 setInitialBenefits([...selectedBenefits]);
@@ -409,6 +409,7 @@ const EditProfileForm = ({
             <Field as={InputField} name="lastName" labelName="Last name" />
             <Field as={InputTextArea} name="about" labelName="About" rows={5} />
             <Field as={InputField} name="expectedSalary" labelName="Expected salary" />
+            <Field as={InputField} name="country" labelName="Country" />
             <Field as={SelectInputField} name="category.name" labelName="Category" onClick={() => setShowMenu(true)} />
             <SelectInputMenu visible={showMenu} options={categories} handleClick={handleOnCategoryClick} />
             <div className="dialog-label">
@@ -421,7 +422,6 @@ const EditProfileForm = ({
             </div>
             {showSkillsDialog ? (
                 <SkillsSelectableDialog
-                    token={user.token}
                     activeSkills={activeSkills}
                     selectedSkills={selectedSkills}
                     setActiveSkills={setActiveSkills}
@@ -444,7 +444,6 @@ const EditProfileForm = ({
             </div>
             {showBenefitsDialog ? (
                 <BenefitsSelectableDialog
-                    token={user.token}
                     activeBenefits={activeBenefits}
                     selectedBenefits={selectedBenefits}
                     setActiveBenefits={setActiveBenefits}

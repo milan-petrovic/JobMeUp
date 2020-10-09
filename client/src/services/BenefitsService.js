@@ -1,5 +1,5 @@
-import { axiosInstance, getRequestConfig } from '../api/axios';
+import { axiosInstance } from '../api/axios';
 
-export const getAllBenefits = (token) => {
-    return axiosInstance.get('/benefits', getRequestConfig(token));
+export const getAllBenefits = () => {
+    return axiosInstance.get('/benefits');
 };
