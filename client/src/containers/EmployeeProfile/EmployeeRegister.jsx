@@ -21,6 +21,7 @@ import { Field, Form, Formik } from 'formik';
 import { BenefitsList } from '../../components/BenefitsList/BenefitsList';
 import { postEmployee } from '../../services/EmployeeService';
 import { useHistory } from 'react-router-dom';
+import { FormSubheading } from '../../components/FormSubheading/FormSubheading';
 
 export const EmployeeRegister = () => {
     const [categories, setCategories] = useState([]);
@@ -91,7 +92,7 @@ export const EmployeeRegister = () => {
         setSubmitting(true);
         postEmployee(values)
             .then((_) => {
-                history.push(routes.LOGIN);
+                history.push(routes.LOGIN_EMPLOYEE);
                 resetForm();
             })
             .catch((error) => console.log(error));
@@ -313,6 +314,7 @@ export const EmployeeRegister = () => {
                     )}
                 </Formik>
             </InputFormContainer>
+            <FormSubheading text="Already registered as employee?" linkText="Login" path={routes.LOGIN_EMPLOYEE} />
         </div>
     );
 };

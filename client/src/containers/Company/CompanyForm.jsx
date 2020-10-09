@@ -1,7 +1,9 @@
 import { Field, Form, Formik } from 'formik';
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 import * as Yup from 'yup';
 import { SubmitButton } from '../../components/Buttons/SubmitButton';
+import { FormSubheading } from '../../components/FormSubheading/FormSubheading';
 import { InputField } from '../../components/InputForm/InputField';
 import { InputFormContainer } from '../../components/InputForm/InputFormContainer';
 import { InputFormHeading } from '../../components/InputForm/InputFormHeading';
@@ -13,9 +15,12 @@ import {
     getConstraintLengthMinMessage,
     invalidEmailMessage,
     requiredMessage,
+    routes,
 } from '../../utils/Constants';
 
 export const CompanyForm = () => {
+    const history = useHistory();
+
     const initialValues = {
         email: EMPTY_INITIAL_FIELD,
         password: EMPTY_INITIAL_FIELD,
@@ -50,6 +55,7 @@ export const CompanyForm = () => {
         postCompany(values)
             .then((response) => {
                 console.log(response);
+                history.push(routes.LOGIN_COMPANY);
             })
             .catch((error) => console.log(error))
             .finally((_) => {
@@ -105,6 +111,7 @@ export const CompanyForm = () => {
                     )}
                 </Formik>
             </InputFormContainer>
+            <FormSubheading text="Already registered as company?" linkText="Login" path={routes.LOGIN_COMPANY} />
         </div>
     );
 };

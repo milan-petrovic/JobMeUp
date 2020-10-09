@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
+import com.miljepetrovic.jobmeupapi.dto.company.CompanyDto;
 import com.miljepetrovic.jobmeupapi.dto.employee.EmployeeDto;
 
 import io.jsonwebtoken.Claims;
@@ -54,6 +55,14 @@ public class JwtTokenUtil {
         Map<String, Object> claims = new HashMap<>();
         claims.put("role", "employee");
         claims.put("employee", employeeDto);
+
+        return doGenerateToken(claims, userDetails.getUsername(), "2");
+    }
+
+    public String generateTokenForCompany(CompanyDto companyDto, UserDetails userDetails) {
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("role", "company");
+        claims.put("company", companyDto);
 
         return doGenerateToken(claims, userDetails.getUsername(), "2");
     }

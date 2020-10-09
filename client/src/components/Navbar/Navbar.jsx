@@ -59,11 +59,11 @@ export const Navbar = () => {
                     <li>
                         <Link to={routes.EMPLOYEE_REGISTER}>Apply as employee</Link>
                     </li>
-                    <Link>
+                    <Link to={routes.COMPANY_REGISTER}>
                         <button className="header__button">Hire Best Employee</button>
                     </Link>
                     <li>
-                        <Link to={routes.LOGIN}>Log In</Link>
+                        <Link to="/login/employee">Log In</Link>
                     </li>
                 </ul>
             );

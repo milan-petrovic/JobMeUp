@@ -1,5 +1,8 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { UserContext } from '../../services/UserContext';
 
 export const CompanyHomePage = () => {
-    return <h1>CompanyHomePage</h1>;
+    const { user, authenticated } = useContext(UserContext);
+
+    return <div>{user.name}</div>;
 };

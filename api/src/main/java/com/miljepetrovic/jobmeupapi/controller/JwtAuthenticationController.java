@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.miljepetrovic.jobmeupapi.dto.authentication.JwtRequestDto;
 import com.miljepetrovic.jobmeupapi.dto.authentication.JwtResponseDto;
+import com.miljepetrovic.jobmeupapi.dto.company.CompanyDto;
 import com.miljepetrovic.jobmeupapi.dto.employee.EmployeeDto;
 import com.miljepetrovic.jobmeupapi.dto.employee.EmployeeRequestDto;
 import com.miljepetrovic.jobmeupapi.service.jwtuserdetailsservice.JwtUserDetailsService;
@@ -37,7 +38,7 @@ public class JwtAuthenticationController {
     }
 
     @PostMapping(value = "/employee")
-    public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequestDto authenticationRequest) throws Exception {
+    public ResponseEntity<?> createAuthenticationTokenEmployee(@RequestBody JwtRequestDto authenticationRequest) throws Exception {
         authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
         UserDetails userDetails = null;
         final EmployeeDto employeeDto = userDetailsService.loadEmployeeByEmail(authenticationRequest.getUsername());
@@ -47,6 +48,19 @@ public class JwtAuthenticationController {
                     .loadUserByUsername(authenticationRequest.getUsername());
         }
         final String token = jwtTokenUtil.generateTokenForEmployee(employeeDto, userDetails);
+        return ResponseEntity.ok(new JwtResponseDto(token));
+    }
+
+    @PostMapping(value = "/company")
+    public ResponseEntity<?> createAuthenticationTokenCompany(@RequestBody JwtRequestDto authenticationRequest) throws Exception {
+        authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
+        UserDetails userDetails = null;
+        final CompanyDto companyDto = userDetailsService.loadCompanyByEmail(authenticationRequest.getUsername());
+
+        if (companyDto != null) {
+            userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
+        }
+        final String token = jwtTokenUtil.generateTokenForCompany(companyDto, userDetails);
         return ResponseEntity.ok(new JwtResponseDto(token));
     }
 

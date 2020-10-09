@@ -25,7 +25,7 @@ function App() {
                     <Switch>
                         <Route path={routes.HOME} component={HomePage} exact />
                         <Route path={routes.LOGIN} component={LoginPage} exact />
-                        <Route path={routes.COMPANY_NEW} component={CompanyForm} exact />
+                        <Route path={routes.COMPANY_REGISTER} component={CompanyForm} exact />
                         <Route path={routes.EMPLOYEE_REGISTER} component={EmployeeRegister} exact />
                         <PrivateRoute path={routes.EMPLOYEE_HOME} component={EmployeeHomePage} exact />
                         <PrivateRoute path={routes.COMPANY_HOME} component={CompanyHomePage} exact />

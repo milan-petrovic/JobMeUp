@@ -8,14 +8,16 @@ export const routes = {
     EMPLOYEE_HOME: '/employee/home',
     COMPANY_HOME: '/company/home',
     EMPLOYEE_BY_ID: '/profile/:id',
-    LOGIN: '/login',
-    COMPANY_NEW: '/company/new',
+    LOGIN: '/login/:role',
+    LOGIN_EMPLOYEE: '/login/employee',
+    LOGIN_COMPANY: '/login/company',
+    COMPANY_REGISTER: '/company/register',
     EDIT_PROFILE: '/edit-profile',
     EMPLOYEE_NEW_EMPLOYMENT: '/employee/:id/employments/new',
     EMPLOYEE_NEW_PROJECT: '/employee/:id/projects/new',
     EMPLOYEE_NEW_EDUCATION: '/employee/:id/educations/new',
     EMPLOYEE_EDIT_EDUCATION: '/employee/:id/educations/edit/:educationId',
-    EMPLOYEE_REGISTER: '/employee/new',
+    EMPLOYEE_REGISTER: '/employee/register',
 };
 
 export const roles = {
