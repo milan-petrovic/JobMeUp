@@ -1,12 +1,15 @@
 import { faChevronUp, faLocationArrow } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React from 'react';
+import React, { useContext } from 'react';
 import { useHistory } from 'react-router-dom';
+import { UserContext } from '../../services/UserContext';
+import { roles } from '../../utils/Constants';
 import { getIndicatorsOfFirstAndLastName } from '../../utils/Utils';
 import { SkillsList } from '../Skills/SkillsList';
 
 export const EmployeeItem = ({ employee, handleVoteSubmit }) => {
     const history = useHistory();
+    const { user } = useContext(UserContext);
 
     return (
         <div className="employee-item">
@@ -33,7 +36,7 @@ export const EmployeeItem = ({ employee, handleVoteSubmit }) => {
                 </div>
                 <div className="employee-details__salary"> Expected salary: {employee.expectedSalary}</div>
                 <SkillsList skills={employee.skills} />
-                {employee.isVotedByEmployee ? (
+                {user.role === roles.COMPANY || employee.isVotedByEmployee ? (
                     <div></div>
                 ) : (
                     <div className="employee-details__voteup_button" onClick={() => handleVoteSubmit(employee)}>

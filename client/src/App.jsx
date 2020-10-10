@@ -11,6 +11,7 @@ import { EmploymentForm } from './containers/Employment/EmploymentForm';
 import { CompanyHomePage } from './containers/HomePages/CompanyHomePage';
 import { EmployeeHomePage } from './containers/HomePages/EmployeeHomePage';
 import { HomePage } from './containers/HomePages/HomePage';
+import { JobOfferForm } from './containers/JobOffer/JobOfferForm';
 import { LoginPage } from './containers/LoginPage/LoginPage';
 import { ProjectForm } from './containers/Project/ProjectForm';
 import { UserContextProvider } from './services/UserContext';
@@ -29,6 +30,7 @@ function App() {
                         <Route path={routes.EMPLOYEE_REGISTER} component={EmployeeRegister} exact />
                         <PrivateRoute path={routes.EMPLOYEE_HOME} component={EmployeeHomePage} exact />
                         <PrivateRoute path={routes.COMPANY_HOME} component={CompanyHomePage} exact />
+                        <PrivateRoute path={routes.JOB_OFFER_NEW} component={JobOfferForm} exact />
                         <PrivateRoute path={routes.EMPLOYEE_BY_ID} component={EmployeeProfile} exact />
                         <PrivateRoute path={routes.EDIT_PROFILE} component={EmployeeEditProfile} exact />
                         <PrivateRoute path={routes.EMPLOYEE_NEW_EMPLOYMENT} component={EmploymentForm} exact />

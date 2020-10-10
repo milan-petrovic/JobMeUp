@@ -1,6 +1,7 @@
 package com.miljepetrovic.jobmeupapi.service.company;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
@@ -12,6 +13,7 @@ import com.miljepetrovic.jobmeupapi.dto.company.CompanyDto;
 import com.miljepetrovic.jobmeupapi.dto.company.CompanyMapper;
 import com.miljepetrovic.jobmeupapi.dto.registered_user.RegisteredUserDto;
 import com.miljepetrovic.jobmeupapi.exception.ExistingException;
+import com.miljepetrovic.jobmeupapi.exception.NonExistingException;
 import com.miljepetrovic.jobmeupapi.model.Company;
 import com.miljepetrovic.jobmeupapi.repository.CompanyRepository;
 import com.miljepetrovic.jobmeupapi.repository.RegisteredUserRepository;
@@ -66,5 +68,17 @@ public class CompanyServiceImpl implements CompanyService {
         registeredUserService.saveRegisteredUser(registeredUserDto);
 
         return companyMapper.entityToDto(persistedCompany);
+    }
+
+    @Override
+    public CompanyDto findCompanyById(int id) throws NonExistingException {
+        logger.debug("Fetching company with id {}", id);
+        Optional<Company> companyOptional = companyRepository.findById(id);
+
+        if (companyOptional.isPresent()) {
+            return companyMapper.entityToDto(companyOptional.get());
+        } else {
+            throw new NonExistingException("Couldn't find company with id " + id);
+        }
     }
 }

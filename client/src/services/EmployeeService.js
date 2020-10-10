@@ -8,6 +8,10 @@ export const getAllEmployeesByCategory = (categoryId) => {
     return axiosInstance.get(`/employees/category/${categoryId}`);
 };
 
+export const getAllEmployeesByCategorySortedByReceivedVotes = (categoryId) => {
+    return axiosInstance.get(`/employees/category/${categoryId}?popular=true`);
+}
+
 export const getEmployeeById = (employeeId) => {
     return axiosInstance.get(`/employees/${employeeId}`);
 };
@@ -31,3 +35,7 @@ export const putEmployee = (requestData) => {
 export const postEmployee = (requestData) => {
     return axiosInstance.post('/employees/register', requestData);
 };
+
+export const getAllEmployeesSortedByReceivedVotes = () => {
+    return axiosInstance.get('/employees?popular=true');
+}

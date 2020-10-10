@@ -1,4 +1,4 @@
-import { axiosInstance } from '../api/axios';
+import { axiosInstance, getRequestConfig } from '../api/axios';
 
 export const getAllCompanies = () => {
     return axiosInstance.get('/companies');
@@ -7,3 +7,5 @@ export const getAllCompanies = () => {
 export const postCompany = (requestData) => {
     return axiosInstance.post('/companies', requestData);
 };
+
+export const getCompanyById = (companyId, accesToken) => axiosInstance.get(`/companies/${companyId}`, getRequestConfig(accesToken));

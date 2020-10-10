@@ -12,6 +12,7 @@ public interface CompanyMapper {
     @Named("companyDto")
     CompanyDto entityToDto(Company entity);
 
+    @Named("companyDtoInsert")
     @Mappings({
         @Mapping(target = "jobOffers", ignore = true),
         @Mapping(target = "contracts", ignore = true)

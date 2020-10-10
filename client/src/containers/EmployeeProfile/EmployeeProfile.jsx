@@ -1,11 +1,11 @@
 import { faBook, faLayerGroup, faTasks, faThermometerHalf } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useContext, useEffect, useState } from 'react';
-import { useRouteMatch } from 'react-router';
+import { useHistory, useRouteMatch } from 'react-router';
 import { BenefitsContainer, BenefitsList } from '../../components/BenefitsList/BenefitsList';
 import { SkillsList } from '../../components/Skills/SkillsList';
 import { Spinner } from '../../components/Spinner/Spinner';
-import { getEmployeeForEmployee, postVote } from '../../services/EmployeeService';
+import { getEmployeeById, getEmployeeForEmployee, postVote } from '../../services/EmployeeService';
 import { UserContext } from '../../services/UserContext';
 import { roles, routes } from '../../utils/Constants';
 import { getIndicatorsOfFirstAndLastName } from '../../utils/Utils';
@@ -21,13 +21,19 @@ export const EmployeeProfile = () => {
     }, []);
 
     const getEmployee = () => {
-        if (user && matchId && !isNaN(Number(matchId))) {
+        if (user && authenticated && matchId && !isNaN(Number(matchId))) {
+            user.role === roles.EMPLOYEE ?
             getEmployeeForEmployee(user.employeeId, matchId)
                 .then((response) => {
                     setEmployee(response.data);
                     setLoading(false);
                 })
-                .catch((error) => console.log(error));
+                .catch((error) => console.log(error))
+                :
+            getEmployeeById(matchId).then(response => {
+                setEmployee(response.data);
+                setLoading(false);
+            }).catch(error => console.log(error));
         }
     };
 
@@ -193,12 +199,18 @@ const Header = ({ employee }) => (
     </div>
 );
 
-const HireContainer = ({ employee }) => (
-    <div className="employee-profile__hire-container">
-        <p>Create job offer for {employee.firstName}</p>
-        <button className="employee-profile__hire-container__button">Hire {employee.firstName}</button>
-    </div>
-);
+const HireContainer = ({ employee }) => {
+    const history = useHistory();
+
+    return(
+        <div className="employee-profile__hire-container">
+            <p>Create job offer for {employee.firstName}</p>
+            <button className="employee-profile__hire-container__button" onClick={() => history.push(routes.JOB_OFFER_NEW, {
+                employee: employee
+            })}>Hire {employee.firstName}</button>
+        </div>
+    )
+};
 
 const VoteContainer = ({ employee, user, authenticated, getEmployee }) => {
     const handleVoteSubmit = () => {

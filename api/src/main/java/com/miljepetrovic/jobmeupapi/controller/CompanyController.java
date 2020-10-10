@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.miljepetrovic.jobmeupapi.dto.company.CompanyDto;
 import com.miljepetrovic.jobmeupapi.exception.ExistingException;
+import com.miljepetrovic.jobmeupapi.exception.NonExistingException;
 import com.miljepetrovic.jobmeupapi.service.company.CompanyService;
 
 @RestController
@@ -44,5 +46,12 @@ public class CompanyController {
         CompanyDto persistedCompany = companyService.saveCompany(companyDto);
 
         return ResponseEntity.created(URI.create(String.valueOf(persistedCompany.id))).build(); 
+    }
+
+    @GetMapping(value = "/{companyId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<CompanyDto> getCompany(@PathVariable(name = "companyId") int companyId) throws NonExistingException {
+        logger.info("GET /companies/{} ", companyId);
+
+        return ResponseEntity.ok(companyService.findCompanyById(companyId));
     }
 }

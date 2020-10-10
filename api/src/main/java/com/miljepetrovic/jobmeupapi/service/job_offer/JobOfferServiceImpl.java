@@ -38,4 +38,13 @@ public class JobOfferServiceImpl implements JobOfferService {
 
         return activeEmployeesJobOffers.stream().map(jobOfferMapper::entityToDto).collect(Collectors.toList());
     }
+
+    @Override
+    public JobOfferDto saveJobOffer(JobOfferDto jobOfferDto) {
+        logger.debug("Saving job offer {}", jobOfferDto);
+        JobOffer jobOffer = jobOfferMapper.dtoToEntity(jobOfferDto);
+        JobOffer persistedJobOffer = jobOfferRepository.save(jobOffer);
+
+        return jobOfferDto;
+    }
 }
