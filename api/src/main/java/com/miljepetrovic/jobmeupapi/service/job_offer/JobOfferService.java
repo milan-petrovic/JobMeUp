@@ -8,5 +8,7 @@ import com.miljepetrovic.jobmeupapi.model.JobOffer;
 public interface JobOfferService {
     List<JobOfferDto> findAllJobOffers();
     List<JobOfferDto> findActiveEmployeesJobOffers(int employeeId);
+    List<JobOfferDto> findDeclinedEmployeesJobOffers(int employeeId);
     JobOfferDto saveJobOffer(JobOfferDto jobOfferDto);
+    void declineJobOffer(int jobOfferId);
 }

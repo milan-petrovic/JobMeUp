@@ -44,11 +44,26 @@ public class JobOfferController {
         return ResponseEntity.ok(jobOfferService.findActiveEmployeesJobOffers(employeeId));
     }
 
+    @GetMapping(value = "/declined/employee/{employeeId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<JobOfferDto>> getAllDeclinedEmployeesJobOffers(@PathVariable int employeeId) {
+        logger.info("GET /jobOffers/active/employee/{}", employeeId);
+
+        return ResponseEntity.ok(jobOfferService.findDeclinedEmployeesJobOffers(employeeId));
+    }
+
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> postJobOffer(@RequestBody JobOfferDto jobOfferDto) {
         logger.info("POST /joboffers {}", jobOfferDto);
         JobOfferDto persistedJobOffer = jobOfferService.saveJobOffer(jobOfferDto);
 
         return ResponseEntity.created(URI.create(String.valueOf(persistedJobOffer.company))).build();
+    }
+
+    @PostMapping(value = "/decline/{jobOfferId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> declineJobOffer(@PathVariable(name = "jobOfferId") int jobOfferId) {
+        logger.info("POST /jobOffers/decline/{}", jobOfferId);
+        jobOfferService.declineJobOffer(jobOfferId);
+
+        return ResponseEntity.accepted().build();
     }
 }

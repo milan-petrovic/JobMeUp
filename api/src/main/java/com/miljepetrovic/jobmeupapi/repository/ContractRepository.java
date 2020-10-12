@@ -11,4 +11,6 @@ import com.miljepetrovic.jobmeupapi.model.Contract;
 public interface ContractRepository extends JpaRepository<Contract, Integer> {
     List<Contract> findContractByEmployeeId(int employeeId);
     List<Contract> findContractByCompanyId(int companyId);
+    List<Contract> findAllByActiveTrueAndEmployeeId(int employeeId);
+    List<Contract> findAllByActiveFalseAndEmployeeId(int employeeId);
 }

@@ -19,6 +19,8 @@ export const routes = {
     EMPLOYEE_EDIT_EDUCATION: '/employee/:id/educations/edit/:educationId',
     EMPLOYEE_REGISTER: '/employee/register',
     JOB_OFFER_NEW: '/company/job-offers/new',
+    JOB_OFFER_CONTAINER_EMPLOYEE: '/employee/job-offers',
+    CONTRACTS_CONTAINER_EMPLOYEE: '/employee/contracts',
 };
 
 export const roles = {

@@ -1,0 +1,90 @@
+@import 'variables';
+
+.joboffers-container {
+    display: flex;
+    flex-direction: row;
+
+    h2 {
+        font-size: 32px;
+        color: $darkBlue;
+        font-weight: 500;
+    }
+
+    .joboffers-container__active {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        padding: 0 16px;
+
+        .joboffers-container__active__item {
+            max-height: 640px;
+            box-sizing: border-box;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            background-color: #fafafa;
+            box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.34);
+            padding-top: 16px;
+            padding-left: 16px;
+            padding-right: 16px;
+            margin-bottom: 16px;
+
+            h4 {
+                font-size: 16px;
+                color: $darkBlue;
+                font-weight: 500px;
+                margin-top: 0px;
+                margin-bottom: 4px;
+            }
+
+            .joboffers-container__active__item__subheading {
+                font-weight: bold;
+                color: $lightGrey;
+                font-size: 12px;
+            }
+
+            p {
+                font-size: 12px;
+                color: $lightGrey;
+                margin: 0px;
+            }
+
+            .joboffers-container__active__item__buttons {
+                display: flex;
+                flex-direction: row;
+                margin-right: auto;
+            }
+        }
+    }
+
+    .joboffers-container__inactive {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        padding: 0 16px;
+
+        .joboffers-container__inactive__table {
+            box-sizing: border-box;
+            border-radius: 8px;
+            background-color: #fafafa;
+            box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.34);
+            padding: 16px;
+            margin-bottom: 16px;
+
+            th,
+            td {
+                text-align: left;
+                padding: 8px;
+            }
+
+            th {
+                font-weight: 500;
+                color: $darkBlue;
+            }
+
+            td {
+                font-size: 12px;
+            }
+        }
+    }
+}

@@ -20,4 +20,10 @@ public abstract class ContractMapper {
             @Mapping(target = "employee", qualifiedByName = "employeeDtoInsert")
     })
     public abstract Contract dtoToEntity(ContractDto dto);
+
+    @Mappings({
+            @Mapping(target = "employee", qualifiedByName = "employeeDtoInsert"),
+            @Mapping(target = "company", qualifiedByName = "companyDtoInsert"),
+    })
+    public abstract Contract requestDto(ContractRequestDto contractRequestDto);
 }

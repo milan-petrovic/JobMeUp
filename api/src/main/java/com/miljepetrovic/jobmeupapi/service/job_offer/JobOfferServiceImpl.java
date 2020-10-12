@@ -1,6 +1,7 @@
 package com.miljepetrovic.jobmeupapi.service.job_offer;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
@@ -37,6 +38,25 @@ public class JobOfferServiceImpl implements JobOfferService {
         List<JobOffer> activeEmployeesJobOffers = jobOfferRepository.findAllByActiveTrueAndEmployeeId(employeeId);
 
         return activeEmployeesJobOffers.stream().map(jobOfferMapper::entityToDto).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<JobOfferDto> findDeclinedEmployeesJobOffers(int employeeId) {
+        logger.debug("Fetching declined job offers for employee with id {]", employeeId);
+        List<JobOffer> declinedEmployeesJobOffers = jobOfferRepository.findAllByActiveFalseAndEmployeeId(employeeId);
+
+        return declinedEmployeesJobOffers.stream().map(jobOfferMapper::entityToDto).collect(Collectors.toList());
+    }
+
+    @Override
+    public void declineJobOffer(int jobOfferId) {
+        logger.debug("Declining job offer with id {}", jobOfferId);
+        Optional<JobOffer> optionalJobOffer = jobOfferRepository.findById(jobOfferId);
+        if (optionalJobOffer.isPresent()) {
+            JobOffer jobOffer = optionalJobOffer.get();
+            jobOffer.setActive(false);
+            jobOfferRepository.save(jobOffer);
+        }
     }
 
     @Override

@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { Navbar } from './components/Navbar/Navbar';
 import { PrivateRoute } from './components/PrivateRoute/PrivateRoute';
 import { CompanyForm } from './containers/Company/CompanyForm';
+import { ContractsContainer } from './containers/ContractsContainer/ContractsContainer';
 import { EducationForm } from './containers/Education/EducationForm';
 import { EmployeeEditProfile } from './containers/EmployeeProfile/EmployeeEditProfile';
 import { EmployeeProfile } from './containers/EmployeeProfile/EmployeeProfile';
@@ -12,6 +13,7 @@ import { CompanyHomePage } from './containers/HomePages/CompanyHomePage';
 import { EmployeeHomePage } from './containers/HomePages/EmployeeHomePage';
 import { HomePage } from './containers/HomePages/HomePage';
 import { JobOfferForm } from './containers/JobOffer/JobOfferForm';
+import { JobOffersContainer } from './containers/JobOffer/JobOffersContainer';
 import { LoginPage } from './containers/LoginPage/LoginPage';
 import { ProjectForm } from './containers/Project/ProjectForm';
 import { UserContextProvider } from './services/UserContext';
@@ -36,7 +38,9 @@ function App() {
                         <PrivateRoute path={routes.EMPLOYEE_NEW_EMPLOYMENT} component={EmploymentForm} exact />
                         <PrivateRoute path={routes.EMPLOYEE_NEW_PROJECT} component={ProjectForm} exact />
                         <PrivateRoute path={routes.EMPLOYEE_NEW_EDUCATION} component={EducationForm} exact />
-                        <PrivateRoute path-={routes.EMPLOYEE_EDIT_EDUCATION} component={EducationForm} exact />
+                        <PrivateRoute path={routes.EMPLOYEE_EDIT_EDUCATION} component={EducationForm} exact />
+                        <PrivateRoute path={routes.JOB_OFFER_CONTAINER_EMPLOYEE} component={JobOffersContainer} exact />
+                        <PrivateRoute path={routes.CONTRACTS_CONTAINER_EMPLOYEE} component={ContractsContainer} exact />
                     </Switch>
                 </div>
             </BrowserRouter>
