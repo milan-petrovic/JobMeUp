@@ -13,4 +13,5 @@ public interface EmploymentService {
     EmploymentDto findEmploymentById(int employmentId) throws NonExistingException;
     EmploymentDto updateEmployment(EmploymentRequestDto employmentRequestDto) throws NonExistingException;
     EmploymentDto saveEmployment(EmploymentRequestDto employmentDto);
+    void deleteEmployment(int employmentId) throws NonExistingException;
 }

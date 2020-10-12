@@ -21,8 +21,12 @@ import { EMPTY_INITIAL_FIELD, invalidEmailMessage, requiredMessage } from '../..
 import { faCog } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { SelectableDialog  } from '../../components/Dialog/SelectableDialog';
+import { Dialog } from '../../components/Dialog/Dialog';
 import { getAllBenefits } from '../../services/BenefitsService';
 import { BenefitsList } from '../../components/BenefitsList/BenefitsList';
+import { deleteEmployment } from '../../services/EmploymentService';
+import { deleteProject } from '../../services/ProjectService';
+import { deleteEducation } from '../../services/EducationService';
 
 export const EmployeeEditProfile = () => {
     const [employee, setEmploye] = useState(null);
@@ -37,18 +41,22 @@ export const EmployeeEditProfile = () => {
 
     useEffect(() => {
         if (authenticated && user) {
-            getEmployeeById(user.employeeId)
-                .then((response) => {
-                    setEmploye(response.data);
-                    setLoading(false);
-                    setActiveSkills(response.data.skills);
-                    setSelectedSkills(response.data.skills);
-                    setActiveBenefits(response.data.benefits);
-                    setSelectedBenefits(response.data.benefits);
-                })
-                .catch((error) => console.log(error));
+            getEmployee(user.employeeId);
         }
     }, []);
+    
+    const getEmployee = (employeeId) => {
+        getEmployeeById(employeeId)
+        .then((response) => {
+            setEmploye(response.data);
+            setLoading(false);
+            setActiveSkills(response.data.skills);
+            setSelectedSkills(response.data.skills);
+            setActiveBenefits(response.data.benefits);
+            setSelectedBenefits(response.data.benefits);
+        })
+        .catch((error) => console.log(error));
+    };
 
     const validationSchema = Yup.object().shape({
         email: Yup.string().email(invalidEmailMessage).required(requiredMessage),
@@ -133,7 +141,7 @@ export const EmployeeEditProfile = () => {
                                 onClick={() => history.push(`/employee/${employee.id}/employments/new`)}
                             />
                             {employee?.employments?.map((employment, index) => (
-                                <EmploymentSectionItem employment={employment} key={index} />
+                                <EmploymentSectionItem employment={employment} key={index} getEmployee={getEmployee}/>
                             ))}
                         </Section>
                         <Section>
@@ -142,7 +150,7 @@ export const EmployeeEditProfile = () => {
                                 onClick={() => history.push(`/employee/${employee.id}/projects/new`)}
                             />
                             {employee?.projects?.map((project, index) => (
-                                <ProjectSectionItem project={project} key={index} />
+                                <ProjectSectionItem project={project} key={index} getEmployee={getEmployee}/>
                             ))}
                         </Section>
                         <Section>
@@ -151,7 +159,7 @@ export const EmployeeEditProfile = () => {
                                 onClick={() => history.push(`/employee/${employee.id}/educations/new`)}
                             />
                             {employee?.educations?.map((education, index) => (
-                                <EducationSectionItem education={education} key={index} />
+                                <EducationSectionItem education={education} key={index} getEmployee={getEmployee} />
                             ))}
                         </Section>
                     </div>
@@ -308,71 +316,163 @@ const SectionItemContainer = ({ children }) => (
     <div className="my-profile-container__sections__container">{children} </div>
 );
 
-const EmploymentSectionItem = ({ employment }) => {
-    const { user } = useContext(UserContext);
+const EmploymentSectionItem = ({ employment, getEmployee }) => {
+    const { user, authenticated } = useContext(UserContext);
     const history = useHistory();
+    const [showDeleteDialog, setShowDeleteDialog] = useState({ showDialog: false, employment: null});
+
+    const handleOpenDialog = (employment) => {
+        setShowDeleteDialog({ showDialog: true, employment: employment });
+    };
+
+    const handleCloseDialog = () => {
+        setShowDeleteDialog({ showDialog: false, employment: null });
+    };
+
+    const handleOnConfirm = (employmentId) => {
+        if (user && authenticated && user.token) {
+            deleteEmployment(employmentId, user.token)
+                .then(_ => {
+                    getEmployee(user.employeeId);
+                })
+                .catch(error => console.log(error))
+                .finally(() => {
+                    handleCloseDialog();
+                });
+        }
+    }
 
     return  (
-        <SectionItemContainer>
-            <div className="my-profile-container__sections__container__item__heading">
-                <h1>{employment.client} </h1>
-                <div className="my-profile-container__sections__container__item__heading__buttons">
-                    <EditButton 
-                        handleClick={() => history.push(`/employee/${user.employeeId}/employments/edit/${employment.id}`)}
-                    />
-                    <DeleteButton />
+        <>
+            {showDeleteDialog.showDialog ? 
+                <Dialog 
+                title="Delete employment confirmation" 
+                content={`Are you sure that you want delete employment ${showDeleteDialog.employment.client}?`}
+                handleOnConfirm={() => handleOnConfirm(showDeleteDialog.employment.id)} 
+                handleOnClose={() => handleCloseDialog()}/>
+                : <></>}
+            <SectionItemContainer>
+                <div className="my-profile-container__sections__container__item__heading">
+                    <h1>{employment.client} </h1>
+                    <div className="my-profile-container__sections__container__item__heading__buttons">
+                        <EditButton 
+                            handleClick={() => history.push(`/employee/${user.employeeId}/employments/edit/${employment.id}`)}
+                        />
+                        <DeleteButton handleClick={() => handleOpenDialog(employment)}/>
+                    </div>
                 </div>
-            </div>
-            <div className="my-profile-container__sections__container__item__subheading">
-                {employment.position} - {employment.startDate} - {employment.endDate}
-            </div>
-            <p className="my-profile-container__sections__container__item__description">{employment.description}</p>
-        </SectionItemContainer>
+                <div className="my-profile-container__sections__container__item__subheading">
+                    {employment.position} - {employment.startDate} - {employment.endDate}
+                </div>
+                <p className="my-profile-container__sections__container__item__description">{employment.description}</p>
+            </SectionItemContainer>
+        </>
     );
 };
 
-const ProjectSectionItem = ({ project }) => {
+const ProjectSectionItem = ({ project, getEmployee }) => {
     const { user, authenticated } = useContext(UserContext);
     const history = useHistory();
+    const [showDeleteDialog, setShowDeleteDialog] = useState({ showDialog: false, project: null});
+
+    const handleOpenDialog = (project) => {
+        setShowDeleteDialog({ showDialog: true, project: project });
+    };
+
+    const handleCloseDialog = () => {
+        setShowDeleteDialog({ showDialog: false, project: null });
+    };
+
+    const handleDelete = (projectId) => {
+        if (authenticated && user && user.token) {
+            deleteProject(projectId, user.token)
+                .then(_ => {
+                    getEmployee(user.employeeId);
+                })
+                .catch(error => console.log(error));
+        }
+    }
 
     return (
-        <SectionItemContainer>
-            <div className="my-profile-container__sections__container__item__heading">
-                <h1>{project.name} </h1>
-                <div className="my-profile-container__sections__container__item__heading__buttons">
-                    <EditButton 
-                        handleClick={() => history.push(`/employee/${user.employeeId}/projects/edit/${project.id}`)}
-                        />
-                    <DeleteButton />
+        <>
+            {showDeleteDialog && showDeleteDialog.showDialog ? 
+                <Dialog 
+                    title="Delete project confirmation"
+                    content={`Are you sure that you want to delete ${showDeleteDialog.project.name}?`}
+                    handleOnClose={() => handleCloseDialog()}
+                    handleOnConfirm={() => handleDelete(showDeleteDialog.project.id)}
+                /> : 
+                <></>
+            }
+            <SectionItemContainer>
+                <div className="my-profile-container__sections__container__item__heading">
+                    <h1>{project.name} </h1>
+                    <div className="my-profile-container__sections__container__item__heading__buttons">
+                        <EditButton 
+                            handleClick={() => history.push(`/employee/${user.employeeId}/projects/edit/${project.id}`)}
+                            />
+                        <DeleteButton handleClick={() => handleOpenDialog(project)}/>
+                    </div>
                 </div>
-            </div>
-            <div className="my-profile-container__sections__container__item__subheading">
-                Technical stack: {project.technicalStack}
-            </div>
-            <p className="my-profile-container__sections__container__item__description">{project.description}</p>
-        </SectionItemContainer>
+                <div className="my-profile-container__sections__container__item__subheading">
+                    Technical stack: {project.technicalStack}
+                </div>
+                <p className="my-profile-container__sections__container__item__description">{project.description}</p>
+            </SectionItemContainer>
+        </>
     );
 }
 
-const EducationSectionItem = ({ education }) => {
+const EducationSectionItem = ({ education, getEmployee  }) => {
     const history = useHistory();
-    const { user } = useContext(UserContext);
+    const { user, authenticated } = useContext(UserContext);
+    const [showDeleteDialog, setShowDeleteDialog] = useState({ showDialog: false, education: null});
+
+    const handleOpenDialog = (education) => {
+        setShowDeleteDialog({ showDialog: true, education: education });
+    };
+
+    const handleCloseDialog = () => {
+        setShowDeleteDialog({ showDialog: false, education: null });
+    };
+
+    const handleDelete = (educationId) => {
+        if (authenticated && user && user.token) {
+            deleteEducation(educationId, user.token)
+                .then(_ => {
+                    getEmployee(user.employeeId);
+                })
+                .catch(error => console.log(error));
+        }
+    }
+
     return (
-        <SectionItemContainer>
-            <div className="my-profile-container__sections__container__item__heading">
-                <h1>{education.name} </h1>
-                <div className="my-profile-container__sections__container__item__heading__buttons">
-                    <EditButton
-                        handleClick={() => history.push(`/employee/${user.employeeId}/educations/edit/${education.id}`)}
-                    />
-                    <DeleteButton />
+        <>
+            {showDeleteDialog && showDeleteDialog.showDialog ? 
+              <Dialog 
+                title="Delete education confirmation"
+                content={`Are you sure that you want to delete ${showDeleteDialog.education.name}?`}
+                handleOnClose={() => handleCloseDialog()}
+                handleOnConfirm={() => handleDelete(showDeleteDialog.education.id)}
+             />
+              : <></>
+            }
+            <SectionItemContainer>
+                <div className="my-profile-container__sections__container__item__heading">
+                    <h1>{education.name} </h1>
+                    <div className="my-profile-container__sections__container__item__heading__buttons">
+                        <EditButton
+                            handleClick={() => history.push(`/employee/${user.employeeId}/educations/edit/${education.id}`)}
+                        />
+                        <DeleteButton handleClick={() => handleOpenDialog(education)}/>
+                    </div>
                 </div>
-            </div>
-            <div className="my-profile-container__sections__container__item__subheading">
-                {education.startYear} - {education.endYear}
-            </div>
-            <p className="my-profile-container__sections__container__item__description">{education.description}</p>
-        </SectionItemContainer>
+                <div className="my-profile-container__sections__container__item__subheading">
+                    {education.startYear} - {education.endYear}
+                </div>
+                <p className="my-profile-container__sections__container__item__description">{education.description}</p>
+            </SectionItemContainer>
+        </>
     );
 };
 

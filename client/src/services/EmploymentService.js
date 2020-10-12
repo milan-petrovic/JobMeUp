@@ -7,3 +7,5 @@ export const postEmployment = (requestData, accesToken) => {
 export const putEmployment = (requestData, accesToken) => axiosInstance.put('/employments', requestData, getRequestConfig(accesToken));
 
 export const getEmploymentById = (employmentId, accesToken) => axiosInstance.get(`/employments/${employmentId}`, getRequestConfig(accesToken));
+
+export const deleteEmployment = (employmentId, accesToken) => axiosInstance.delete(`/employments/${employmentId}`, getRequestConfig(accesToken));

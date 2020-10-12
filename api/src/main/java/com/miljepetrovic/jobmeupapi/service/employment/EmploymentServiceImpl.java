@@ -78,4 +78,16 @@ public class EmploymentServiceImpl implements EmploymentService {
             throw new NonExistingException("Couldn't find employment with id: ", employmentRequestDto.id);
         }
     }
+
+    @Override
+    public void deleteEmployment(int employmentId) throws NonExistingException {
+        logger.debug("Deleting employment {}", employmentId);
+
+        Optional<Employment> employmentOptional = employmentRepository.findById(employmentId);
+        if (employmentOptional.isPresent()) {
+            employmentRepository.delete(employmentOptional.get());
+        } else {
+            throw new NonExistingException("Couldn't find employment with id: " + employmentId);
+        }
+    }
 }

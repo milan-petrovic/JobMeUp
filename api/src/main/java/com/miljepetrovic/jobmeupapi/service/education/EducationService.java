@@ -11,4 +11,5 @@ public interface EducationService {
     EducationDto saveEducation(EducationRequestDto educationDto);
     EducationDto updateEducation(EducationRequestDto educationRequestDto) throws NonExistingException;
     EducationDto findEducationById(int id) throws NonExistingException;
+    void deleteEducation(int educationId) throws NonExistingException;
 }

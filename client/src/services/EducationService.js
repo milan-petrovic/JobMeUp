@@ -11,3 +11,5 @@ export const putEducation = (requestData, accessToken) => {
 export const getEducationById = (id, accessToken) => {
     return axiosInstance.get(`/educations/${id}`, getRequestConfig(accessToken));
 };
+
+export const deleteEducation = (educationId, accessToken) => axiosInstance.delete(`/educations/${educationId}`, getRequestConfig(accessToken));

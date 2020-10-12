@@ -75,4 +75,15 @@ public class EducationServiceImpl implements EducationService{
             throw new NonExistingException("Couldn\'t find education with id: " + id);
         }
     }
+
+    @Override
+    public void deleteEducation(int educationId) throws NonExistingException {
+        logger.debug("Deleting education with id: {}", educationId);
+        Optional<Education> educationOptional = educationRepository.findById(educationId);
+        if (educationOptional.isPresent()) {
+            educationRepository.delete(educationOptional.get());
+        } else {
+            throw new NonExistingException("Couldn't find education with id " + educationId);
+        }
+    }
 }

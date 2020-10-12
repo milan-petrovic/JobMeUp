@@ -5,3 +5,5 @@ export const postProject = (requestData, accesToken) => axiosInstance.post('/pro
 export const putProject = (requestData, accessToken) => axiosInstance.put('/projects', requestData, getRequestConfig(accessToken));
 
 export const getProjectById = (projectId, accessToken) => axiosInstance.get(`/projects/${projectId}`, getRequestConfig(accessToken));
+
+export const deleteProject = (projectId, accessToken) => axiosInstance.delete(`/projects/${projectId}`, getRequestConfig(accessToken));
