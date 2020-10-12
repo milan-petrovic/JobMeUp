@@ -308,21 +308,28 @@ const SectionItemContainer = ({ children }) => (
     <div className="my-profile-container__sections__container">{children} </div>
 );
 
-const EmploymentSectionItem = ({ employment }) => (
-    <SectionItemContainer>
-        <div className="my-profile-container__sections__container__item__heading">
-            <h1>{employment.client} </h1>
-            <div className="my-profile-container__sections__container__item__heading__buttons">
-                <EditButton />
-                <DeleteButton />
+const EmploymentSectionItem = ({ employment }) => {
+    const { user } = useContext(UserContext);
+    const history = useHistory();
+
+    return  (
+        <SectionItemContainer>
+            <div className="my-profile-container__sections__container__item__heading">
+                <h1>{employment.client} </h1>
+                <div className="my-profile-container__sections__container__item__heading__buttons">
+                    <EditButton 
+                        handleClick={() => history.push(`/employee/${user.employeeId}/employments/edit/${employment.id}`)}
+                    />
+                    <DeleteButton />
+                </div>
             </div>
-        </div>
-        <div className="my-profile-container__sections__container__item__subheading">
-            {employment.position}, {employment.startDate} - {employment.endDate}
-        </div>
-        <p className="my-profile-container__sections__container__item__description">{employment.description}</p>
-    </SectionItemContainer>
-);
+            <div className="my-profile-container__sections__container__item__subheading">
+                {employment.position} # {employment.startDate} - {employment.endDate}
+            </div>
+            <p className="my-profile-container__sections__container__item__description">{employment.description}</p>
+        </SectionItemContainer>
+    );
+};
 
 const ProjectSectionItem = ({ project }) => {
     const { user, authenticated } = useContext(UserContext);

@@ -14,6 +14,7 @@ export const routes = {
     COMPANY_REGISTER: '/company/register',
     EDIT_PROFILE: '/edit-profile',
     EMPLOYEE_NEW_EMPLOYMENT: '/employee/:id/employments/new',
+    EMPLOYEE_EDIT_EMPLOYMENT: '/employee/:id/employments/edit/:employmentId',
     EMPLOYEE_NEW_PROJECT: '/employee/:id/projects/new',
     EMPLOYEE_EDIT_PROJECT: '/employee/:id/projects/edit/:projectId',
     EMPLOYEE_NEW_EDUCATION: '/employee/:id/educations/new',

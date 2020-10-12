@@ -1,6 +1,6 @@
 import { Field, Form, Formik } from 'formik';
-import React, { useContext } from 'react';
-import { useHistory } from 'react-router-dom';
+import React, { useContext, useEffect, useState } from 'react';
+import { useHistory, useRouteMatch } from 'react-router-dom';
 import * as Yup from 'yup';
 import { SubmitButton } from '../../components/Buttons/SubmitButton';
 import { InputField } from '../../components/InputForm/InputField';
@@ -8,13 +8,13 @@ import { InputFormContainer } from '../../components/InputForm/InputFormContaine
 import { InputFormHeading } from '../../components/InputForm/InputFormHeading';
 import { InputTextArea } from '../../components/InputForm/InputTextArea';
 import { Logo } from '../../components/Logo/Logo';
-import { postEmployment } from '../../services/EmploymentService';
+import { getEmploymentById, postEmployment, putEmployment } from '../../services/EmploymentService';
 import { UserContext } from '../../services/UserContext';
 import { EMPTY_INITIAL_FIELD as EMPTY_INITIAL_FIELD_VALUE, requiredMessage, routes } from '../../utils/Constants';
 
 export const EmploymentForm = () => {
     const history = useHistory();
-    const { user } = useContext(UserContext);
+    const { user, authenticated } = useContext(UserContext);
 
     const initialValues = {
         client: EMPTY_INITIAL_FIELD_VALUE,
@@ -40,15 +40,29 @@ export const EmploymentForm = () => {
         };
 
         setSubmitting(true);
-        postEmployment(values, user.token)
-            .then((response) => {
-                setSubmitting(false);
-                history.push(routes.EDIT_PROFILE);
-            })
-            .catch((error) => console.log(error))
-            .finally(() => {
-                resetForm();
-            });
+        if (authenticated && user && user.token) {
+            if (values.id != null) {
+            putEmployment(values, user.token)
+                .then((response) => {
+                    setSubmitting(false);
+                    history.push(routes.EDIT_PROFILE);
+                })
+                .catch((error) => console.log(error))
+                .finally(() => {
+                    resetForm();
+                });
+            } else {
+            postEmployment(values, user.token)
+                .then((response) => {
+                    setSubmitting(false);
+                    history.push(routes.EDIT_PROFILE);
+                })
+                .catch((error) => console.log(error))
+                .finally(() => {
+                    resetForm();
+                });
+            }
+        }
     };
 
     return (
@@ -70,6 +84,22 @@ export const EmploymentForm = () => {
 };
 
 const InnerForm = ({ setValues }) => {
+    const [editing, setEditing] = useState(false);
+    const matchId = useRouteMatch(routes.EMPLOYEE_EDIT_EMPLOYMENT)?.params.employmentId;
+    const { user, authenticated } = useContext(UserContext);
+
+    useEffect(() => {
+        if (matchId) {
+            if (authenticated && user && user.token) {
+                getEmploymentById(matchId, user.token).then((response) => {
+                    const { data } = response;
+                    setValues({...data});
+                    setEditing(true);
+                })
+            }
+        }
+    }, []);
+    
     return (
         <Form>
             <Field as={InputField} name="client" placeholder="Client" />
@@ -78,7 +108,7 @@ const InnerForm = ({ setValues }) => {
             <Field as={InputField} name="startDate" row={5} placeholder="Start date, e.g. May, 2016" />
             <Field as={InputField} name="endDate" row={5} placeholder="End date, e.g. May, 2016" />
 
-            <SubmitButton>Add employment</SubmitButton>
+            <SubmitButton>{editing ? 'Edit employment' : 'Add employment'}</SubmitButton>
         </Form>
     );
 };
