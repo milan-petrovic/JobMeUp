@@ -20,7 +20,9 @@ export const routes = {
     EMPLOYEE_REGISTER: '/employee/register',
     JOB_OFFER_NEW: '/company/job-offers/new',
     JOB_OFFER_CONTAINER_EMPLOYEE: '/employee/job-offers',
+    JOB_OFFER_CONTAINER_COMPANY: '/company/job-offers',
     CONTRACTS_CONTAINER_EMPLOYEE: '/employee/contracts',
+    CONTRACTS_CONTAINER_COMPANY: '/company/contracts',
 };
 
 export const roles = {

@@ -44,10 +44,10 @@ export const Navbar = () => {
                 return (
                     <ul className="header__links">
                         <li>
-                            <Link to="/top">Job offers</Link>
+                            <Link to={routes.JOB_OFFER_CONTAINER_COMPANY}>Job offers</Link>
                         </li>
                         <li>
-                            <Link to="/top">Contracts</Link>
+                            <Link to={routes.CONTRACTS_CONTAINER_COMPANY}>Contracts</Link>
                         </li>
                         <li onClick={() => handleLogout()}>Logout</li>
                     </ul>

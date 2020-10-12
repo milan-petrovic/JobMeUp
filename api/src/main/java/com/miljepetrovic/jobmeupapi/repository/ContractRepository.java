@@ -13,4 +13,6 @@ public interface ContractRepository extends JpaRepository<Contract, Integer> {
     List<Contract> findContractByCompanyId(int companyId);
     List<Contract> findAllByActiveTrueAndEmployeeId(int employeeId);
     List<Contract> findAllByActiveFalseAndEmployeeId(int employeeId);
+    List<Contract> findAllByActiveTrueAndCompanyId(int companyId);
+    List<Contract> findAllByActiveFalseAndCompanyId(int companyId);
 }

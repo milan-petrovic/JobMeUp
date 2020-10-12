@@ -40,7 +40,9 @@ function App() {
                         <PrivateRoute path={routes.EMPLOYEE_NEW_EDUCATION} component={EducationForm} exact />
                         <PrivateRoute path={routes.EMPLOYEE_EDIT_EDUCATION} component={EducationForm} exact />
                         <PrivateRoute path={routes.JOB_OFFER_CONTAINER_EMPLOYEE} component={JobOffersContainer} exact />
+                        <PrivateRoute path={routes.JOB_OFFER_CONTAINER_COMPANY} component={JobOffersContainer} exact />
                         <PrivateRoute path={routes.CONTRACTS_CONTAINER_EMPLOYEE} component={ContractsContainer} exact />
+                        <PrivateRoute path={routes.CONTRACTS_CONTAINER_COMPANY} component={ContractsContainer} exact />
                     </Switch>
                 </div>
             </BrowserRouter>

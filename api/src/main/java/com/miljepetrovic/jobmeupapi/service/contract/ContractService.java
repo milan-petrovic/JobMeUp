@@ -12,5 +12,7 @@ public interface ContractService {
     ContractRequestDto postContract(ContractRequestDto contractDto);
     List<ContractDto> findAllActiveContractsByEmployee(int employeeId);
     List<ContractDto> findAllPastContractsByEmployee(int employeeId);
+    List<ContractDto> findAllActiveContractsByCompany(int companyId);
+    List<ContractDto> findAllPastContractsByCompany(int companyId);
     void closeContract(int contractId);
 }

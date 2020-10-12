@@ -59,6 +59,20 @@ public class ContractController {
         return ResponseEntity.ok(contractService.findAllPastContractsByEmployee(employeeId));
     }
 
+    @GetMapping(value = "/company/active/{companyId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<ContractDto>> getAllActiveContractsByCompany(@PathVariable(name = "companyId") int companyId) {
+        logger.info("GET /contract/company/active/{}", companyId);
+
+        return ResponseEntity.ok(contractService.findAllActiveContractsByCompany(companyId));
+    }
+
+    @GetMapping(value = "/company/past/{companyId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<ContractDto>> getAllPastContractsByCompany(@PathVariable(name = "companyId") int companyId) {
+        logger.info("GET /contracts/company/past/{}", companyId);
+
+        return ResponseEntity.ok(contractService.findAllPastContractsByCompany(companyId));
+    }
+
     @GetMapping(value = "/company/{companyId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<ContractDto>> getAllCompanyContracts(@PathVariable int companyId) {
         logger.info("GET /contracts/company/{}", companyId);

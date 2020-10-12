@@ -1,8 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Spinner } from '../../components/Spinner/Spinner';
 import { postContract } from '../../services/ContractsService';
-import { declineJobOffer, getAllActiveJobOffersForEmployee, getAllDeclinedJobOffersForEmployee } from '../../services/JobOfferService';
+import { declineJobOffer, getAllActiveJobOffersForCompany, getAllActiveJobOffersForEmployee, getAllDeclinedJobOffersForEmployee, getAllPastJobOffersForCompany } from '../../services/JobOfferService';
 import { UserContext } from '../../services/UserContext';
+import { roles } from '../../utils/Constants';
+import { getFullName } from '../../utils/Utils';
 
 export const JobOffersContainer = () => {
     const [isLoading, setLoading] = useState(true);
@@ -12,11 +14,15 @@ export const JobOffersContainer = () => {
 
     useEffect(() => {
         if (user && authenticated) {
-            getAllJobOffers(user.employeeId, user.token);
+            if (user.role === roles.EMPLOYEE) {
+                getAllJobOffersForEmployee(user.employeeId, user.token);
+            } else {
+                getAllJobOffersForCompany(user.companyId, user.token);
+            }
         }
     }, []);
 
-    const getAllJobOffers = (employeeId, token) => {
+    const getAllJobOffersForEmployee = (employeeId, token) => {
         getAllActiveJobOffersForEmployee(employeeId, token)
         .then(response => {
             setActiveJobOffers(response.data);
@@ -29,6 +35,20 @@ export const JobOffersContainer = () => {
             }).catch(error => console.log(error));
     }
 
+    const getAllJobOffersForCompany = (companyId, token) => {
+        getAllActiveJobOffersForCompany(companyId, token)
+            .then(response => {
+                setActiveJobOffers(response.data);
+                setLoading(false);
+            }).catch(error => console.log(error));
+
+        getAllPastJobOffersForCompany(companyId, token)
+            .then(response => {
+                setDeclinedJobOffers(response.data);
+                setLoading(false);
+            }).catch(error => console.log(error));
+    };
+
 
     return(
         <div className="joboffers-container">
@@ -38,7 +58,7 @@ export const JobOffersContainer = () => {
                     activeJobOffers.map((jobOffer, index) => 
                     <ActiveJobOfferItem 
                       jobOffer={jobOffer}
-                      getAllJobOffers={getAllJobOffers}
+                      getAllJobOffers={user.role === roles.EMPLOYEE ? getAllJobOffersForEmployee : getAllJobOffersForCompany}
                       key={index}
                     />)}
             </div>
@@ -47,12 +67,12 @@ export const JobOffersContainer = () => {
                 <>{ isLoading ? <Spinner /> : 
                     <table className="joboffers-container__inactive__table">
                     <tr>
-                        <th>Company</th>
+                        <th>{user.role === roles.EMPLOYEE ? 'Company' : 'Employee'}</th>
                         <th>Creation date</th>
                         <th>Position</th>
                         <th>Salary</th>
                     </tr>
-                    {declinedJobOffers.map((jobOffer, index) => <JobOfferTableCell jobOffer={jobOffer} key={index} />)}
+                    {declinedJobOffers.map((jobOffer, index) => <JobOfferTableCell user={user} jobOffer={jobOffer} key={index} />)}
                 </table>
                 }</>
             </div>
@@ -60,10 +80,10 @@ export const JobOffersContainer = () => {
     );   
 }
 
-const JobOfferTableCell = ({ jobOffer }) => {
+const JobOfferTableCell = ({ jobOffer, user }) => {
     return (
         <tr>
-            <td>{jobOffer.company.name}</td>
+            <td>{user.role === roles.EMPLOYEE ? jobOffer.company.name : getFullName(jobOffer.employee.firstName, jobOffer.employee.lastName)}</td>
             <td>{jobOffer.creationDate}</td>
             <td>{jobOffer.position}</td>
             <td>{jobOffer.salary}</td>
@@ -82,7 +102,7 @@ const ActiveJobOfferItem = ({ jobOffer, getAllJobOffers }) => {
         if (user && authenticated) {
             declineJobOffer(jobOfferId, user.token)
             .then(_ => {
-                getAllJobOffers(user.employeeId, user.token);
+                getAllJobOffers(user.role === roles.EMPLOYEEE ? user.employeeId : user.companyId, user.token);
             }).catch(error => console.log(error));
         }
     }
@@ -105,16 +125,23 @@ const ActiveJobOfferItem = ({ jobOffer, getAllJobOffers }) => {
 
     return (
         <div className="joboffers-container__active__item">
-            <h4>{jobOffer.company.name}</h4>
+            <h4>{user.role === roles.EMPLOYEE ? jobOffer.company.name : getFullName(jobOffer.employee.firstName, jobOffer.employee.lastName)}</h4>
             <div className="joboffers-container__active__item__subheading">
                 {jobOffer.position} - {jobOffer.salary}
             </div>
             <p>{jobOffer.description}</p>
             <p>Created at: {jobOffer.creationDate}</p>
-            <div className="joboffers-container__active__item__buttons">
-                <button className="button--accept" onClick={() => handleOnAccept(jobOffer)}>Accept</button>
-                <button className="button--decline" onClick={() => handleOnDecline(jobOffer.id)}>Decline</button>
-            </div>
+            {user.role === roles.EMPLOYEE ? (
+                <div className="joboffers-container__active__item__buttons">
+                    <button className="button--accept" onClick={() => handleOnAccept(jobOffer)}>Accept</button>
+                    <button className="button--decline" onClick={() => handleOnDecline(jobOffer.id)}>Decline</button>
+                </div> 
+                ) : (
+                    <div className="joboffers-container__active__item__buttons">
+                        <button className="button--accept" onClick={() => handleOnDecline(jobOffer.id)}>Close</button>
+                    </div>
+                )
+            }
         </div>
     );
 };

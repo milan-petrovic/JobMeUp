@@ -81,6 +81,22 @@ public class ContractServiceImpl implements ContractService {
     }
 
     @Override
+    public List<ContractDto> findAllActiveContractsByCompany(int companyId) {
+        logger.debug("Find all active contracts by company with id {}", companyId);
+        List<Contract> contractEntities = contractRepository.findAllByActiveTrueAndCompanyId(companyId);
+
+        return contractEntities.stream().map(contractMapper::entityToDto).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<ContractDto> findAllPastContractsByCompany(int companyId) {
+        logger.debug("Find all past contracts by company with id {}", companyId);
+        List<Contract> contractEntities = contractRepository.findAllByActiveFalseAndCompanyId(companyId);
+
+        return contractEntities.stream().map(contractMapper::entityToDto).collect(Collectors.toList());
+    }
+
+    @Override
     public void closeContract(int contractId) {
         logger.debug("Closing contract with id {}", contractId);
 

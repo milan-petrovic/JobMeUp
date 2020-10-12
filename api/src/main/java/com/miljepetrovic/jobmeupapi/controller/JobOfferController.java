@@ -51,6 +51,20 @@ public class JobOfferController {
         return ResponseEntity.ok(jobOfferService.findDeclinedEmployeesJobOffers(employeeId));
     }
 
+    @GetMapping(value = "/active/company/{companyId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<JobOfferDto>> getAllActiveCompanysJobOffers(@PathVariable(name = "companyId") int companyId) {
+        logger.info("GET /jobOffers/active/company/{}", companyId);
+
+        return ResponseEntity.ok(jobOfferService.findActiveCompanysJobOffers(companyId));
+    }
+
+    @GetMapping(value = "/past/company/{companyId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<JobOfferDto>> getAllPastCompanysJobOffers(@PathVariable(name = "companyId") int companyId) {
+        logger.info("GET /jobOffers/past/company/{}", companyId);
+
+        return ResponseEntity.ok(jobOfferService.findPastCompanysJobOffers(companyId));
+    }
+
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> postJobOffer(@RequestBody JobOfferDto jobOfferDto) {
         logger.info("POST /joboffers {}", jobOfferDto);

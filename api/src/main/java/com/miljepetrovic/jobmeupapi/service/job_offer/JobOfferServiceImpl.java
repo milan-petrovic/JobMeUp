@@ -49,6 +49,22 @@ public class JobOfferServiceImpl implements JobOfferService {
     }
 
     @Override
+    public List<JobOfferDto> findActiveCompanysJobOffers(int companyId) {
+        logger.debug("Fetching active job offers for company with id {}", companyId);
+        List<JobOffer> activeCompanysJobOffers = jobOfferRepository.findAllByActiveTrueAndCompanyId(companyId);
+
+        return activeCompanysJobOffers.stream().map(jobOfferMapper::entityToDto).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<JobOfferDto> findPastCompanysJobOffers(int companyId) {
+        logger.debug("Fetching past job offers for company with id {}", companyId);
+        List<JobOffer> pastCompanysJobOffers = jobOfferRepository.findAllByActiveFalseAndCompanyId(companyId);
+
+        return pastCompanysJobOffers.stream().map(jobOfferMapper::entityToDto).collect(Collectors.toList());
+    }
+
+    @Override
     public void declineJobOffer(int jobOfferId) {
         logger.debug("Declining job offer with id {}", jobOfferId);
         Optional<JobOffer> optionalJobOffer = jobOfferRepository.findById(jobOfferId);

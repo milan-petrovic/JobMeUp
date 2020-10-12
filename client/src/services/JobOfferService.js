@@ -10,6 +10,14 @@ export const getAllDeclinedJobOffersForEmployee = (employeeId, accessToken) => {
    return axiosInstance.get(`/jobOffers/declined/employee/${employeeId}`, getRequestConfig(accessToken));
 };
 
+export const getAllActiveJobOffersForCompany = (companyId, accessToken) => {
+    return axiosInstance.get(`/jobOffers/active/company/${companyId}`, getRequestConfig(accessToken));
+};
+
+export const getAllPastJobOffersForCompany = (companyId, accessToken) => {
+   return axiosInstance.get(`/jobOffers/past/company/${companyId}`, getRequestConfig(accessToken));
+};
+
 export const declineJobOffer = (jobOfferId, accessToken) => {
     return axiosInstance.post(`/jobOffers/decline/${jobOfferId}`, {}, getRequestConfig(accessToken));
 };
