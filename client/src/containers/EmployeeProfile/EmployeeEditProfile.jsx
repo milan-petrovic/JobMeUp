@@ -324,7 +324,7 @@ const EmploymentSectionItem = ({ employment }) => {
                 </div>
             </div>
             <div className="my-profile-container__sections__container__item__subheading">
-                {employment.position} # {employment.startDate} - {employment.endDate}
+                {employment.position} - {employment.startDate} - {employment.endDate}
             </div>
             <p className="my-profile-container__sections__container__item__description">{employment.description}</p>
         </SectionItemContainer>

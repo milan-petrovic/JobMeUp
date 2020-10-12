@@ -79,7 +79,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/employees/**").permitAll()
                 .antMatchers("/categories/**").permitAll()
                 .antMatchers("/skills/**").permitAll()
-                .antMatchers(HttpMethod.POST, "/companies/**").permitAll()
+                .antMatchers("/companies/**").permitAll()
                 .antMatchers(("/benefits/**")).permitAll()
                 // all other requests need to be authenticated
                         .anyRequest().authenticated().and().

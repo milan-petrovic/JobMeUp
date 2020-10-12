@@ -9,3 +9,5 @@ export const postCompany = (requestData) => {
 };
 
 export const getCompanyById = (companyId, accesToken) => axiosInstance.get(`/companies/${companyId}`, getRequestConfig(accesToken));
+
+export const putCompany = (requestData) => axiosInstance.put('/companies', requestData);

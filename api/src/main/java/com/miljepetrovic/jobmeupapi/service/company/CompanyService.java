@@ -10,4 +10,5 @@ public interface CompanyService {
     List<CompanyDto> findAllCompanies();
     CompanyDto saveCompany(CompanyDto companyDto) throws ExistingException;
     CompanyDto findCompanyById(int id) throws NonExistingException;
+    CompanyDto updateCompany(CompanyDto companyDto) throws NonExistingException;
 }

@@ -15,6 +15,7 @@ import com.miljepetrovic.jobmeupapi.dto.registered_user.RegisteredUserDto;
 import com.miljepetrovic.jobmeupapi.exception.ExistingException;
 import com.miljepetrovic.jobmeupapi.exception.NonExistingException;
 import com.miljepetrovic.jobmeupapi.model.Company;
+import com.miljepetrovic.jobmeupapi.model.RegisteredUser;
 import com.miljepetrovic.jobmeupapi.repository.CompanyRepository;
 import com.miljepetrovic.jobmeupapi.repository.RegisteredUserRepository;
 import com.miljepetrovic.jobmeupapi.service.registered_user.RegisteredUserService;
@@ -79,6 +80,52 @@ public class CompanyServiceImpl implements CompanyService {
             return companyMapper.entityToDto(companyOptional.get());
         } else {
             throw new NonExistingException("Couldn't find company with id " + id);
+        }
+    }
+
+    @Override
+    public CompanyDto updateCompany(CompanyDto companyDto) throws NonExistingException {
+        logger.debug("Updating company {}", companyDto);
+
+        Optional<Company> companyOptional = companyRepository.findById(companyDto.id);
+
+        if (companyOptional.isPresent()) {
+            Company company = companyOptional.get();
+            company.setName(companyDto.name);
+            company.setEmail(companyDto.email);
+
+            if (company.getPassword().equals(companyDto.password)) {
+                company.setPassword(companyDto.password);
+            } else {
+                company.setPassword(bcryptEncoder.encode(companyDto.password));
+            }
+
+            company.setAbout(companyDto.about);
+            company.setAddress(companyDto.address);
+            company.setCountry(companyDto.country);
+            company.setSize(companyDto.size);
+            company.setFoundedYear(companyDto.foundedYear);
+            company.setPhoneNumber(companyDto.phoneNumber);
+
+            Company updatedCompany = companyRepository.save(company);
+
+            Optional<RegisteredUser> registeredUserOptional = registeredUserRepository.findRegisteredUserByTypeAndId("company", companyDto.id);
+            if (registeredUserOptional.isPresent()) {
+                RegisteredUser registeredUser = registeredUserOptional.get();
+                registeredUser.setEmail(companyDto.email);
+
+                if (registeredUser.getPassword().equals(companyDto.password)) {
+                    registeredUser.setPassword(companyDto.password);
+                } else {
+                    registeredUser.setPassword(bcryptEncoder.encode(companyDto.password));
+                }
+
+                registeredUserRepository.save(registeredUser);
+            }
+
+            return companyMapper.entityToDto(updatedCompany);
+        } else {
+            throw new NonExistingException("Couldn't find company with id: " + companyDto.id);
         }
     }
 }

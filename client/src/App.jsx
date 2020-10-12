@@ -31,6 +31,7 @@ function App() {
                         <Route path={routes.COMPANY_REGISTER} component={CompanyForm} exact />
                         <Route path={routes.EMPLOYEE_REGISTER} component={EmployeeRegister} exact />
                         <PrivateRoute path={routes.EMPLOYEE_HOME} component={EmployeeHomePage} exact />
+                        <PrivateRoute path={routes.COMPANY_EDIT} component={CompanyForm} exact />
                         <PrivateRoute path={routes.COMPANY_HOME} component={CompanyHomePage} exact />
                         <PrivateRoute path={routes.JOB_OFFER_NEW} component={JobOfferForm} exact />
                         <PrivateRoute path={routes.EMPLOYEE_BY_ID} component={EmployeeProfile} exact />

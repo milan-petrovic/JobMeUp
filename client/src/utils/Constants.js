@@ -12,6 +12,7 @@ export const routes = {
     LOGIN_EMPLOYEE: '/login/employee',
     LOGIN_COMPANY: '/login/company',
     COMPANY_REGISTER: '/company/register',
+    COMPANY_EDIT: '/company/edit/:companyId',
     EDIT_PROFILE: '/edit-profile',
     EMPLOYEE_NEW_EMPLOYMENT: '/employee/:id/employments/new',
     EMPLOYEE_EDIT_EMPLOYMENT: '/employee/:id/employments/edit/:employmentId',
