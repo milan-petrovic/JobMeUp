@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -39,6 +40,13 @@ public class ProjectController {
         return ResponseEntity.ok(projectService.findAllProject());
     }
 
+    @GetMapping(value = "/{projectId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ProjectDto> getProjectById(@PathVariable(name = "projectId") int projectId) throws NonExistingException {
+        logger.info("GET /projects/{}", projectId);
+
+        return ResponseEntity.ok(projectService.findProjectById(projectId));
+    }
+
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ProjectDto> addProject(@RequestBody ProjectRequestDto projectDto) {
         logger.info("POST /projects {}", projectDto);
@@ -53,5 +61,14 @@ public class ProjectController {
         projectService.deleteProject(projectId);
 
         return ResponseEntity.accepted().build();
+    }
+
+    @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ProjectDto> updateProject(@RequestBody ProjectRequestDto projectRequestDto) throws NonExistingException {
+        logger.info("PUT /projects {}", projectRequestDto);
+
+        ProjectDto projectDto = projectService.updateProject(projectRequestDto);
+
+        return ResponseEntity.ok(projectDto);
     }
 }

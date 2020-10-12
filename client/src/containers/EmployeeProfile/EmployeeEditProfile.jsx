@@ -324,21 +324,28 @@ const EmploymentSectionItem = ({ employment }) => (
     </SectionItemContainer>
 );
 
-const ProjectSectionItem = ({ project }) => (
-    <SectionItemContainer>
-        <div className="my-profile-container__sections__container__item__heading">
-            <h1>{project.name} </h1>
-            <div className="my-profile-container__sections__container__item__heading__buttons">
-                <EditButton />
-                <DeleteButton />
+const ProjectSectionItem = ({ project }) => {
+    const { user, authenticated } = useContext(UserContext);
+    const history = useHistory();
+
+    return (
+        <SectionItemContainer>
+            <div className="my-profile-container__sections__container__item__heading">
+                <h1>{project.name} </h1>
+                <div className="my-profile-container__sections__container__item__heading__buttons">
+                    <EditButton 
+                        handleClick={() => history.push(`/employee/${user.employeeId}/projects/edit/${project.id}`)}
+                        />
+                    <DeleteButton />
+                </div>
             </div>
-        </div>
-        <div className="my-profile-container__sections__container__item__subheading">
-            Technical stack: {project.technicalStack}
-        </div>
-        <p className="my-profile-container__sections__container__item__description">{project.description}</p>
-    </SectionItemContainer>
-);
+            <div className="my-profile-container__sections__container__item__subheading">
+                Technical stack: {project.technicalStack}
+            </div>
+            <p className="my-profile-container__sections__container__item__description">{project.description}</p>
+        </SectionItemContainer>
+    );
+}
 
 const EducationSectionItem = ({ education }) => {
     const history = useHistory();

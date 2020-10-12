@@ -52,4 +52,36 @@ public class ProjectServiceImpl implements ProjectService{
         }
         projectRepository.deleteById(projectId);
     }
+
+    @Override
+    public ProjectDto updateProject(ProjectRequestDto projectRequestDto) throws NonExistingException {
+        logger.debug("Updating project {}", projectRequestDto);
+        Optional<Project> projectOptional = projectRepository.findById(projectRequestDto.id);
+
+        if (projectOptional.isPresent()) {
+            Project project = projectOptional.get();
+            project.setName(projectRequestDto.name);
+            project.setDescription(projectRequestDto.description);
+            project.setTechnicalStack(projectRequestDto.technicalStack);
+
+            Project editedProject = projectRepository.save(project);
+
+            return projectMapper.entityToDto(editedProject);
+        } else {
+            throw new NonExistingException("Could\'nt find project with id: " + projectRequestDto.id);
+        }
+    }
+
+    @Override
+    public ProjectDto findProjectById(int projectId) throws NonExistingException {
+        logger.debug("Fetching project by id {}", projectId);
+
+        Optional<Project> projectOptional = projectRepository.findById(projectId);
+
+        if (projectOptional.isPresent()) {
+            return projectMapper.entityToDto(projectOptional.get());
+        } else {
+            throw new NonExistingException("Couldn'\t find project with id: " + projectId);
+        }
+    }
 }

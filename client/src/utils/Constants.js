@@ -15,6 +15,7 @@ export const routes = {
     EDIT_PROFILE: '/edit-profile',
     EMPLOYEE_NEW_EMPLOYMENT: '/employee/:id/employments/new',
     EMPLOYEE_NEW_PROJECT: '/employee/:id/projects/new',
+    EMPLOYEE_EDIT_PROJECT: '/employee/:id/projects/edit/:projectId',
     EMPLOYEE_NEW_EDUCATION: '/employee/:id/educations/new',
     EMPLOYEE_EDIT_EDUCATION: '/employee/:id/educations/edit/:educationId',
     EMPLOYEE_REGISTER: '/employee/register',

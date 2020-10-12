@@ -37,6 +37,7 @@ function App() {
                         <PrivateRoute path={routes.EDIT_PROFILE} component={EmployeeEditProfile} exact />
                         <PrivateRoute path={routes.EMPLOYEE_NEW_EMPLOYMENT} component={EmploymentForm} exact />
                         <PrivateRoute path={routes.EMPLOYEE_NEW_PROJECT} component={ProjectForm} exact />
+                        <PrivateRoute path={routes.EMPLOYEE_EDIT_PROJECT} component={ProjectForm} exact />
                         <PrivateRoute path={routes.EMPLOYEE_NEW_EDUCATION} component={EducationForm} exact />
                         <PrivateRoute path={routes.EMPLOYEE_EDIT_EDUCATION} component={EducationForm} exact />
                         <PrivateRoute path={routes.JOB_OFFER_CONTAINER_EMPLOYEE} component={JobOffersContainer} exact />
