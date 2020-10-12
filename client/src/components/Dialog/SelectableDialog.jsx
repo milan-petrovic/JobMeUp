@@ -1,7 +1,7 @@
 import React from 'react';
 import { SelectInputMenu } from '../InputForm/SelectInputField';
 
-export const Dialog = ({
+export const SelectableDialog = ({
     dialogTitle,
     content,
     selectedItems,

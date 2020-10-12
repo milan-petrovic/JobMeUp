@@ -20,7 +20,7 @@ import { UserContext } from '../../services/UserContext';
 import { EMPTY_INITIAL_FIELD, invalidEmailMessage, requiredMessage } from '../../utils/Constants';
 import { faCog } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Dialog } from '../../components/Dialog/Dialog';
+import { SelectableDialog  } from '../../components/Dialog/SelectableDialog';
 import { getAllBenefits } from '../../services/BenefitsService';
 import { BenefitsList } from '../../components/BenefitsList/BenefitsList';
 
@@ -212,7 +212,7 @@ const SkillsSelectableDialog = ({
     };
 
     return (
-        <Dialog
+        <SelectableDialog
             dialogTitle="Skills"
             content="Select skills"
             selectedItems={selectedSkills}
@@ -278,7 +278,7 @@ const BenefitsSelectableDialog = ({
     };
 
     return (
-        <Dialog
+        <SelectableDialog
             dialogTitle="Benefits"
             content="Select benefit"
             selectedItems={selectedBenefits}

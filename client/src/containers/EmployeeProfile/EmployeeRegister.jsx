@@ -15,7 +15,7 @@ import { EMPTY_INITIAL_FIELD, invalidEmailMessage, requiredMessage, routes } fro
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { getAllSkills } from '../../services/SkillsService';
 import { getAllBenefits } from '../../services/BenefitsService';
-import { Dialog } from '../../components/Dialog/Dialog';
+import { SelectableDialog } from '../../components/Dialog/SelectableDialog';
 import { SkillsList } from '../../components/Skills/SkillsList';
 import { Field, Form, Formik } from 'formik';
 import { BenefitsList } from '../../components/BenefitsList/BenefitsList';
@@ -152,7 +152,7 @@ export const EmployeeRegister = () => {
         };
 
         return (
-            <Dialog
+            <SelectableDialog
                 dialogTitle="Skills"
                 content="Select skills"
                 selectedItems={selectedSkills}
@@ -216,7 +216,7 @@ export const EmployeeRegister = () => {
         };
 
         return (
-            <Dialog
+            <SelectableDialog
                 dialogTitle="Benefits"
                 content="Select benefits"
                 selectedItems={selectedBenefits}
