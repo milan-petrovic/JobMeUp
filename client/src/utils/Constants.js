@@ -32,6 +32,8 @@ export const routes = {
     SKILLS_EDIT: '/skills/edit/:skillId',
     BENEFITS_NEW: '/benefits/new',
     BENEFITS_EDIT: '/benefits/edit/:benefitId',
+    CATEGORIES_NEW: '/categories/new',
+    CATEGORIES_EDIT: '/categories/edit/:categoryId',
 };
 
 export const roles = {

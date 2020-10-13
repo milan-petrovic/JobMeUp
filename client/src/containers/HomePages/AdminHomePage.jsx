@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { UserContext } from '../../services/UserContext';
 import { deleteSkill, getAllSkills } from '../../services/SkillsService';
 import { deleteBenefit, getAllBenefits } from '../../services/BenefitsService';
-import { getAllCategories } from '../../services/CategoryService';
+import { deleteCategory, getAllCategories } from '../../services/CategoryService';
 import { EditButton } from '../../components/Buttons/EditButton';
 import { DeleteButton } from '../../components/Buttons/DeleteButton';
 import { AddButton } from '../../components/Buttons/AddButton';
@@ -69,28 +69,8 @@ export const AdminHomePage = () => {
                 </div>
                 
                 <div className="admin-homepage__row">
-                <div className="admin-homepage__row__child">
-                    <div className="admin-homepage__section-title">
-                            <h4>Categories</h4>
-                            <AddButton />
-                    </div>                        
-                    <table className="admin-homepage__table-container">
-                            <tr>
-                                <th>Name</th>
-                                <th>Description</th>
-                                <th>Actions</th>
-                            </tr>
-                            {categories.map((category, index) => 
-                            <tr key={index}>
-                                <td>{category.name}</td>
-                                <td>{category.description}</td>
-                                <td>
-                                    <EditButton />
-                                    <DeleteButton />
-                                </td>
-                            </tr>
-                            )}
-                    </table>
+                    <div className="admin-homepage__row__child">
+                        <CategoriesSection categories={categories} getAllCategories={getCategories} />
                     </div>
                     <div className="admin-homepage__row__child">
                          <div className="admin-homepage__section-title">
@@ -218,6 +198,62 @@ const BenefitSection = ({ benefits, getAllBenefits}) => {
                                 <td>
                                     <EditButton handleClick={() => history.push(`/benefits/edit/${benefit.id}`)}/>
                                     <DeleteButton handleClick={() => handleOpenDialog(benefit)}/>
+                                </td>
+                            </tr>
+                            )}
+                    </table>
+        </>
+    );
+}
+
+const CategoriesSection = ({ categories, getAllCategories}) => {
+    const history = useHistory();
+    const { user, authenticated } = useContext(UserContext);
+    const [showDeleteDialog, setShowDeleteDialog] = useState({showDialog: false, category: null});
+
+    const handleCloseDialog = () => {
+        setShowDeleteDialog({showDialog: false, category: null});
+    };
+
+    const handleOpenDialog = (category) => {
+        setShowDeleteDialog({showDialog: true, category: category});
+    };
+
+    const handleDelete = (categoryId) => {
+        if (user && authenticated) {
+            deleteCategory(categoryId, user.token).then(response => {
+                getAllCategories();
+                handleCloseDialog();
+            }).catch(error => console.log(error));
+        }
+    }
+
+    return (
+        <>
+        { showDeleteDialog && showDeleteDialog.showDialog ?
+            <Dialog
+             title="Delete category confirmation"
+             content={`Are you sure that you want to delete ${showDeleteDialog.category.name}`}
+             handleOnClose={() => handleCloseDialog()}
+             handleOnConfirm={() => handleDelete(showDeleteDialog.category.id)}
+            /> : <></> }
+             <div className="admin-homepage__section-title">
+                            <h4>Categories</h4>
+                            <AddButton handleClick={() => history.push(routes.CATEGORIES_NEW)}/>
+                    </div>                        
+                    <table className="admin-homepage__table-container">
+                            <tr>
+                                <th>Name</th>
+                                <th>Description</th>
+                                <th>Actions</th>
+                            </tr>
+                            {categories.map((category, index) => 
+                            <tr key={index}>
+                                <td>{category.name}</td>
+                                <td>{category.description}</td>
+                                <td>
+                                    <EditButton handleClick={() => history.push(`/categories/edit/${category.id}`)}/>
+                                    <DeleteButton handleClick={() => handleOpenDialog(category)}/>
                                 </td>
                             </tr>
                             )}

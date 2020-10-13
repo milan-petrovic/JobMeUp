@@ -57,7 +57,7 @@ export const Navbar = () => {
             } else if (user && user.role === roles.ADMIN) {
                 return (
                     <ul className="header__links">
-                        <li style={{ fontWeight: 'bold'}}>
+                        <li style={{ fontWeight: 'bold', color: '#1b6ca8'}}>
                             Hello, {user.username}
                         </li>
                         <li onClick={() => handleLogout()}>Logout</li>

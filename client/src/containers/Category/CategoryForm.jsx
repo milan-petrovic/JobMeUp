@@ -1,18 +1,18 @@
-import { Field, Form, Formik } from 'formik';
 import React, { useContext, useEffect, useState } from 'react';
 import { useHistory, useRouteMatch } from 'react-router-dom';
-import * as Yup from 'yup';
-import { SubmitButton } from '../../components/Buttons/SubmitButton';
-import { InputField } from '../../components/InputForm/InputField';
-import { InputFormContainer } from '../../components/InputForm/InputFormContainer';
-import { InputFormHeading } from '../../components/InputForm/InputFormHeading';
-import { InputTextArea } from '../../components/InputForm/InputTextArea';
-import { Logo } from '../../components/Logo/Logo';
-import { getBenefitById, postBenefit, putBenefit } from '../../services/BenefitsService';
 import { UserContext } from '../../services/UserContext';
 import { EMPTY_INITIAL_FIELD, requiredMessage, routes } from '../../utils/Constants';
+import * as Yup from 'yup';
+import { Field, Form, Formik } from 'formik';
+import { postCategory, getCategoryById, putCategory } from '../../services/CategoryService';
+import { SubmitButton } from '../../components/Buttons/SubmitButton';
+import { InputFormContainer } from '../../components/InputForm/InputFormContainer';
+import { InputField } from '../../components/InputForm/InputField';
+import { InputTextArea } from '../../components/InputForm/InputTextArea';
+import { InputFormHeading } from '../../components/InputForm/InputFormHeading';
+import { Logo } from '../../components/Logo/Logo';
 
-export const BenefitForm = () => {
+export const CategoryForm = () => {
     const { user, authenticated } = useContext(UserContext);
     const history = useHistory();
 
@@ -29,11 +29,11 @@ export const BenefitForm = () => {
     const handleOnSubmit = (values, formikHelpers) => {
         if (user && authenticated && user.token) {
             if (values.id != null) {
-                putBenefit(values, user.token).then(response => {
+                putCategory(values, user.token).then(response => {
                     history.push(routes.ADMIN_HOMEPAGE);
                 }).catch(error => console.log(error));
             } else {
-                postBenefit(values, user.token).then(response => {
+                postCategory(values, user.token).then(response => {
                     history.push(routes.ADMIN_HOMEPAGE);
                 }).catch(error => console.log(error));
             }
@@ -42,29 +42,29 @@ export const BenefitForm = () => {
 
     return (
         <div className="input-form">
-        <Formik
-            initialValues={initialValues}
-            validateOnChange={false}
-            validateOnBlur={true}
-            validationSchema={validationSchema}
-            onSubmit={(values, formikHelpers) => handleOnSubmit(values, formikHelpers)}>
-            {(formikProps) => (
-                <InnerForm {...formikProps} />
-            )}
-        </Formik>
-</div>
+            <Formik
+                initialValues={initialValues}
+                validateOnChange={false}
+                validateOnBlur={true}
+                validationSchema={validationSchema}
+                onSubmit={(values, formikHelpers) => handleOnSubmit(values, formikHelpers)}>
+                {(formikProps) => (
+                    <InnerForm {...formikProps} />
+                )}
+            </Formik>
+        </div>
     );
 };
 
 const InnerForm = ({ setValues }) => {
     const [editing, setEditing] = useState(false);
-    const matchId = useRouteMatch(routes.BENEFITS_EDIT)?.params.benefitId;
+    const matchId = useRouteMatch(routes.CATEGORIES_EDIT)?.params.categoryId;
     const { user, authenticated } = useContext(UserContext); 
 
     useEffect(() => {
         if (matchId) {
             if (user && authenticated && user.token) {
-                getBenefitById(matchId, user.token).then(response => {
+                getCategoryById(matchId, user.token).then(response => {
                     const { data } = response;
                     setValues({...data});
                     setEditing(true);
@@ -76,12 +76,12 @@ const InnerForm = ({ setValues }) => {
     return (
         <>
             <Logo fontSize="36px" />
-                <InputFormHeading>{editing ? 'Edit benefit' : 'Add a new benefit'}</InputFormHeading>
+                <InputFormHeading>{editing ? 'Edit category' : 'Add a new category'}</InputFormHeading>
                 <InputFormContainer width="500px">
                     <Form>
                         <Field as={InputField} name="name" id="name" placeholder="Name" />
                         <Field as={InputTextArea} name="description" id="description" placeholder="Description" rows={5} />
-                        <SubmitButton>{editing ? 'Edit benefit' : 'Submit benefit'}</SubmitButton>
+                        <SubmitButton>{editing ? 'Edit category' : 'Submit category'}</SubmitButton>
                     </Form>
             </InputFormContainer>
         </>
