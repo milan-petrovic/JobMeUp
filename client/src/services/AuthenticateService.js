@@ -7,3 +7,7 @@ export const loginAsEmployee = (requestData) => {
 export const loginAsCompany = (requestData) => {
     return axiosInstance.post('/authenticate/company', requestData);
 };
+
+export const loginAsAdmin = (requestData) => {
+    return axiosInstance.post('/authenticate/admin', requestData);
+}

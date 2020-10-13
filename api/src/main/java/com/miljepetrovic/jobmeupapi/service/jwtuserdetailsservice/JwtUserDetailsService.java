@@ -9,11 +9,14 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import com.miljepetrovic.jobmeupapi.dto.admin.AdminDto;
+import com.miljepetrovic.jobmeupapi.dto.admin.AdminMapper;
 import com.miljepetrovic.jobmeupapi.dto.company.CompanyDto;
 import com.miljepetrovic.jobmeupapi.dto.company.CompanyMapper;
 import com.miljepetrovic.jobmeupapi.dto.employee.EmployeeDto;
 import com.miljepetrovic.jobmeupapi.dto.employee.EmployeeMapper;
 import com.miljepetrovic.jobmeupapi.exception.NonExistingException;
+import com.miljepetrovic.jobmeupapi.model.Admin;
 import com.miljepetrovic.jobmeupapi.model.Company;
 import com.miljepetrovic.jobmeupapi.model.Employee;
 import com.miljepetrovic.jobmeupapi.model.RegisteredUser;
@@ -30,14 +33,16 @@ public class JwtUserDetailsService implements UserDetailsService {
     private final AdminRepository adminRepository;
     private final EmployeeMapper employeeMapper;
     private final CompanyMapper companyMapper;
+    private final AdminMapper adminMapper;
     private final RegisteredUserRepository registeredUserRepository;
 
-    public JwtUserDetailsService(EmployeeRepository employeeRepository, CompanyRepository companyRepository, AdminRepository adminRepository, EmployeeMapper employeeMapper, CompanyMapper companyMapper, RegisteredUserRepository registeredUserRepository) {
+    public JwtUserDetailsService(EmployeeRepository employeeRepository, CompanyRepository companyRepository, AdminRepository adminRepository, EmployeeMapper employeeMapper, CompanyMapper companyMapper, AdminMapper adminMapper, RegisteredUserRepository registeredUserRepository) {
         this.employeeRepository = employeeRepository;
         this.companyRepository = companyRepository;
         this.adminRepository = adminRepository;
         this.employeeMapper = employeeMapper;
         this.companyMapper = companyMapper;
+        this.adminMapper = adminMapper;
         this.registeredUserRepository = registeredUserRepository;
     }
 
@@ -63,6 +68,15 @@ public class JwtUserDetailsService implements UserDetailsService {
             return companyMapper.entityToDto(companyByEmail.get());
         } else {
             throw new NonExistingException(("Company not found with email: " + email));
+        }
+    }
+
+    public AdminDto loadAdminByEmail(String email) throws NonExistingException {
+        Optional<Admin> adminOptional = adminRepository.findByEmail(email);
+        if (adminOptional.isPresent()) {
+            return adminMapper.entityToDto(adminOptional.get());
+        } else {
+            throw new NonExistingException("Admin not found with email: " + email);
         }
     }
 }

@@ -10,6 +10,7 @@ export const routes = {
     EMPLOYEE_BY_ID: '/profile/:id',
     LOGIN: '/login/:role',
     LOGIN_EMPLOYEE: '/login/employee',
+    LOGIN_ADMIN: "/admin/login",
     LOGIN_COMPANY: '/login/company',
     COMPANY_REGISTER: '/company/register',
     COMPANY_EDIT: '/company/edit/:companyId',
@@ -26,6 +27,11 @@ export const routes = {
     JOB_OFFER_CONTAINER_COMPANY: '/company/job-offers',
     CONTRACTS_CONTAINER_EMPLOYEE: '/employee/contracts',
     CONTRACTS_CONTAINER_COMPANY: '/company/contracts',
+    ADMIN_HOMEPAGE: '/admin',
+    SKILLS_NEW: '/skills/new',
+    SKILLS_EDIT: '/skills/edit/:skillId',
+    BENEFITS_NEW: '/benefits/new',
+    BENEFITS_EDIT: '/benefits/edit/:benefitId',
 };
 
 export const roles = {

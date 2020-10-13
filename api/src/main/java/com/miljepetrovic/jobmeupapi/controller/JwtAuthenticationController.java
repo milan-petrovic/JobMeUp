@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.miljepetrovic.jobmeupapi.dto.admin.AdminDto;
 import com.miljepetrovic.jobmeupapi.dto.authentication.JwtRequestDto;
 import com.miljepetrovic.jobmeupapi.dto.authentication.JwtResponseDto;
 import com.miljepetrovic.jobmeupapi.dto.company.CompanyDto;
@@ -61,6 +62,19 @@ public class JwtAuthenticationController {
             userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
         }
         final String token = jwtTokenUtil.generateTokenForCompany(companyDto, userDetails);
+        return ResponseEntity.ok(new JwtResponseDto(token));
+    }
+
+    @PostMapping(value = "/admin")
+    public ResponseEntity<?> createAuthenticationTokenAdmin(@RequestBody JwtRequestDto authenticationRequest) throws Exception {
+        authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
+        UserDetails userDetails = null;
+        AdminDto adminDto = userDetailsService.loadAdminByEmail(authenticationRequest.getUsername());
+
+        if (adminDto != null) {
+            userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
+        }
+        final String token = jwtTokenUtil.generateTokenForAdmin(adminDto, userDetails);
         return ResponseEntity.ok(new JwtResponseDto(token));
     }
 

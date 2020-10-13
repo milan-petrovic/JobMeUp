@@ -1,0 +1,54 @@
+@import 'variables';
+
+.admin-homepage {
+    display: flex;
+    flex-direction: column;
+
+    .admin-homepage__row {
+        display: flex;
+        flex-direction: row;
+
+        .admin-homepage__row__child {
+            flex: 1;
+            margin-right: 16px;
+
+            .admin-homepage__section-title {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: space-between;
+
+                h4 {
+                    font-size: 18px;
+                    color: $darkBlue;
+                    font-weight: 500;
+                }
+            }
+
+            .admin-homepage__table-container {
+                width: 100%;
+                box-sizing: border-box;
+                border-radius: 8px;
+                background-color: #fafafa;
+                box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.34);
+                padding: 16px;
+                margin-bottom: 32px;
+
+                th,
+                td {
+                    text-align: left;
+                    padding: 8px;
+                }
+
+                th {
+                    font-weight: 500;
+                    color: $darkBlue;
+                }
+
+                td {
+                    font-size: 12px;
+                }
+            }
+        }
+    }
+}

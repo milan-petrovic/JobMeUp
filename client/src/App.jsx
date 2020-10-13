@@ -2,6 +2,8 @@ import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { Navbar } from './components/Navbar/Navbar';
 import { PrivateRoute } from './components/PrivateRoute/PrivateRoute';
+import { SkillForm } from './components/Skills/SkillForm';
+import { BenefitForm } from './containers/Benefit/BenefitForm';
 import { CompanyForm } from './containers/Company/CompanyForm';
 import { ContractsContainer } from './containers/ContractsContainer/ContractsContainer';
 import { EducationForm } from './containers/Education/EducationForm';
@@ -9,11 +11,13 @@ import { EmployeeEditProfile } from './containers/EmployeeProfile/EmployeeEditPr
 import { EmployeeProfile } from './containers/EmployeeProfile/EmployeeProfile';
 import { EmployeeRegister } from './containers/EmployeeProfile/EmployeeRegister';
 import { EmploymentForm } from './containers/Employment/EmploymentForm';
+import { AdminHomePage } from './containers/HomePages/AdminHomePage';
 import { CompanyHomePage } from './containers/HomePages/CompanyHomePage';
 import { EmployeeHomePage } from './containers/HomePages/EmployeeHomePage';
 import { HomePage } from './containers/HomePages/HomePage';
 import { JobOfferForm } from './containers/JobOffer/JobOfferForm';
 import { JobOffersContainer } from './containers/JobOffer/JobOffersContainer';
+import { AdminLoginPage } from './containers/LoginPage/AdminLoginPage';
 import { LoginPage } from './containers/LoginPage/LoginPage';
 import { ProjectForm } from './containers/Project/ProjectForm';
 import { UserContextProvider } from './services/UserContext';
@@ -28,9 +32,11 @@ function App() {
                     <Switch>
                         <Route path={routes.HOME} component={HomePage} exact />
                         <Route path={routes.LOGIN} component={LoginPage} exact />
+                        <Route path={routes.LOGIN_ADMIN} component={AdminLoginPage} exact />
                         <Route path={routes.COMPANY_REGISTER} component={CompanyForm} exact />
                         <Route path={routes.EMPLOYEE_REGISTER} component={EmployeeRegister} exact />
                         <PrivateRoute path={routes.EMPLOYEE_HOME} component={EmployeeHomePage} exact />
+                        <PrivateRoute path={routes.ADMIN_HOMEPAGE} component={AdminHomePage} exact />
                         <PrivateRoute path={routes.COMPANY_EDIT} component={CompanyForm} exact />
                         <PrivateRoute path={routes.COMPANY_HOME} component={CompanyHomePage} exact />
                         <PrivateRoute path={routes.JOB_OFFER_NEW} component={JobOfferForm} exact />
@@ -46,6 +52,10 @@ function App() {
                         <PrivateRoute path={routes.JOB_OFFER_CONTAINER_COMPANY} component={JobOffersContainer} exact />
                         <PrivateRoute path={routes.CONTRACTS_CONTAINER_EMPLOYEE} component={ContractsContainer} exact />
                         <PrivateRoute path={routes.CONTRACTS_CONTAINER_COMPANY} component={ContractsContainer} exact />
+                        <PrivateRoute path={routes.SKILLS_NEW} component={SkillForm} exact />
+                        <PrivateRoute path={routes.SKILLS_EDIT} component={SkillForm} exact />
+                        <PrivateRoute path={routes.BENEFITS_NEW} component={BenefitForm} exact />
+                        <PrivateRoute path={routes.BENEFITS_EDIT} component={BenefitForm} exact />
                     </Switch>
                 </div>
             </BrowserRouter>

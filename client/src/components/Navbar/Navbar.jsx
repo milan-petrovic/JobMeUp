@@ -18,8 +18,10 @@ export const Navbar = () => {
         if (user) {
             if (user.role === roles.EMPLOYEE) {
                 return routes.EMPLOYEE_HOME;
-            } else {
+            } else if (user.role === roles.COMPANY){
                 return routes.COMPANY_HOME;
+            } else {
+                return routes.ADMIN_HOMEPAGE;
             }
         } else {
             return routes.HOME;
@@ -40,7 +42,7 @@ export const Navbar = () => {
                         <li onClick={() => handleLogout()}>Logout</li>
                     </ul>
                 );
-            } else {
+            } else if (user && user.role === roles.COMPANY) {
                 return (
                     <ul className="header__links">
                         <li>
@@ -48,6 +50,15 @@ export const Navbar = () => {
                         </li>
                         <li>
                             <Link to={routes.CONTRACTS_CONTAINER_COMPANY}>Contracts</Link>
+                        </li>
+                        <li onClick={() => handleLogout()}>Logout</li>
+                    </ul>
+                );
+            } else if (user && user.role === roles.ADMIN) {
+                return (
+                    <ul className="header__links">
+                        <li style={{ fontWeight: 'bold'}}>
+                            Hello, {user.username}
                         </li>
                         <li onClick={() => handleLogout()}>Logout</li>
                     </ul>
