@@ -117,7 +117,7 @@
         .employee-details__voteup_button {
             display: flex;
             flex-direction: row;
-            margin-top: 50px;
+            margin-top: auto;
             justify-content: center;
             align-items: center;
             &:hover {
@@ -171,6 +171,7 @@
             font-weight: bold;
             text-align: center;
             visibility: hidden;
+            margin: auto;
         }
     }
 

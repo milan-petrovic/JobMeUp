@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { Navbar } from './components/Navbar/Navbar';
 import { PrivateRoute } from './components/PrivateRoute/PrivateRoute';
 import { SkillForm } from './components/Skills/SkillForm';
+import { AdminForm } from './containers/Admin/AdminForm';
 import { BenefitForm } from './containers/Benefit/BenefitForm';
 import { CategoryForm } from './containers/Category/CategoryForm';
 import { CompanyForm } from './containers/Company/CompanyForm';
@@ -59,6 +60,7 @@ function App() {
                         <PrivateRoute path={routes.BENEFITS_EDIT} component={BenefitForm} exact />
                         <PrivateRoute path={routes.CATEGORIES_NEW} component={CategoryForm} exact />
                         <PrivateRoute path={routes.CATEGORIES_EDIT} component={CategoryForm} exact />
+                        <PrivateRoute path={routes.ADMIN_NEW} component={AdminForm} exact />
                     </Switch>
                 </div>
             </BrowserRouter>

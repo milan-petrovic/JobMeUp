@@ -73,22 +73,7 @@ export const AdminHomePage = () => {
                         <CategoriesSection categories={categories} getAllCategories={getCategories} />
                     </div>
                     <div className="admin-homepage__row__child">
-                         <div className="admin-homepage__section-title">
-                            <h4>Admins</h4>
-                            <AddButton />
-                         </div>                        
-                        <table className="admin-homepage__table-container">
-                                <tr>
-                                    <th>E-mail</th>
-                                    <th>Username</th>
-                                </tr>
-                                {admins.map((admin, index) => 
-                                <tr key={index}>
-                                    <td>{admin.email}</td>
-                                    <td>{admin.username}</td>
-                                </tr>
-                                )}
-                        </table>
+                         <AdminsSection admins={admins} />
                     </div>
                 </div>
             </div> }
@@ -261,3 +246,28 @@ const CategoriesSection = ({ categories, getAllCategories}) => {
         </>
     );
 }
+
+const AdminsSection = ({ admins }) => {
+    const history = useHistory();
+
+    return(
+        <>
+            <div className="admin-homepage__section-title">
+                <h4>Admins</h4>
+                <AddButton handleClick={() => history.push(routes.ADMIN_NEW)}/>
+            </div>                        
+            <table className="admin-homepage__table-container">
+                    <tr>
+                        <th>E-mail</th>
+                        <th>Username</th>
+                    </tr>
+                    {admins.map((admin, index) => 
+                    <tr key={index}>
+                        <td>{admin.email}</td>
+                        <td>{admin.username}</td>
+                    </tr>
+                    )}
+            </table>
+        </>
+    );
+};

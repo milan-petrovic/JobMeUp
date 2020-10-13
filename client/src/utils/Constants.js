@@ -34,6 +34,7 @@ export const routes = {
     BENEFITS_EDIT: '/benefits/edit/:benefitId',
     CATEGORIES_NEW: '/categories/new',
     CATEGORIES_EDIT: '/categories/edit/:categoryId',
+    ADMIN_NEW: '/admins/new',
 };
 
 export const roles = {
